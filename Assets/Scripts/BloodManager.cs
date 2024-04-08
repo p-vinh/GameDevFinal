@@ -17,29 +17,29 @@ public class BloodManager : MonoBehaviour
     void Start()
     {
         // The player manager will be a singleton that holds the player's blood type
-        playerBloodType = PlayerManager.Instance.playerBloodType;
+        // playerBloodType = PlayerManager.Instance.playerBloodType;
     }
 
     void Update()
     {
         float random = Random.Range(0.0f, 1.0f);
 
-        foreach (KeyValuePair<string, float> bloodTypeDropPercentage in bloodTypeDropPercentages)
-        {
-            if (random < bloodTypeDropPercentage.Value)
-            {
-                if (playerBloodType == bloodTypeDropPercentage.Key)
-                {
-                    Debug.Log("Player got blood type " + playerBloodType);
-                }
-                else
-                {
-                    Debug.Log("Player did not get blood type " + playerBloodType);
-                }
-                break;
-            }
-            random -= bloodTypeDropPercentage.Value;
-        }        
+        // foreach (KeyValuePair<string, float> bloodTypeDropPercentage in bloodTypeDropPercentages)
+        // {
+        //     if (random < bloodTypeDropPercentage.Value)
+        //     {
+        //         if (playerBloodType == bloodTypeDropPercentage.Key)
+        //         {
+        //             Debug.Log("Player got blood type " + playerBloodType);
+        //         }
+        //         else
+        //         {
+        //             Debug.Log("Player did not get blood type " + playerBloodType);
+        //         }
+        //         break;
+        //     }
+        //     random -= bloodTypeDropPercentage.Value;
+        // }        
 
 
     }
