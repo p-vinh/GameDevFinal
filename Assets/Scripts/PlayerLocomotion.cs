@@ -14,7 +14,7 @@ public class PlayerLocomotion : MonoBehaviour
     private float m_PlayerRotationSpeed = 100f;
 
     private InputsManager m_InputsManager;
-     
+
     [SerializeField]
     private Rigidbody m_Rigidbody;
 
@@ -29,7 +29,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         m_Camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         m_InputsManager = GetComponent<InputsManager>();
-        m_Rigidbody = GetComponent<Rigidbody>();    
+        m_Rigidbody = GetComponent<Rigidbody>();
     }
 
     public void PlayerMovement()
@@ -64,20 +64,22 @@ public class PlayerLocomotion : MonoBehaviour
         return vector;
     }
 
-    public void RotateTowardsMouse() 
+    public void RotateTowardsMouse()
     {
-        Vector3 targetDirection = new Vector3(m_InputsManager._MousePosition.x, 0, m_InputsManager._MousePosition.y);
-        if (targetDirection.magnitude > 0.1f) 
+        Ray ray = m_Camera.ScreenPointToRay(m_InputsManager._MousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
         {
-            targetDirection = m_Camera.transform.TransformDirection(targetDirection);  
+            Vector3 targetDirection = hit.point - transform.position;
             targetDirection.y = 0;
 
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * m_PlayerRotationSpeed);
         }
-    } 
+    }
 
-    public void UpdateCrosshairPosition() 
+    public void UpdateCrosshairPosition()
     {
         Ray ray = m_Camera.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0));
         RaycastHit raycastHit;

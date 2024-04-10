@@ -15,7 +15,7 @@ namespace PlayerController.InputsManager
         [SerializeField]
         private Vector2 m_MousePosition = Vector2.zero;
 
-        public Vector3 _MousePosition
+        public Vector2 _MousePosition
         {
             get { return m_MousePosition; }
             private set { m_MousePosition = value; }
