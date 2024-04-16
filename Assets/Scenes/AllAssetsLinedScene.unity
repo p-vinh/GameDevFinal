@@ -14494,6 +14494,7 @@ GameObject:
   - component: {fileID: 9099099296181044025}
   - component: {fileID: 9099099296181044027}
   - component: {fileID: 9099099296181044028}
+  - component: {fileID: 9099099296181044029}
   m_Layer: 0
   m_Name: Rio
   m_TagString: Untagged
@@ -15129,6 +15130,18 @@ MonoBehaviour:
   - m_Rig: {fileID: 691283832}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &9099099296181044029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8434589221239429516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54691b1548cadc428b41d87e4958271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9118911479504361677
 GameObject:
   m_ObjectHideFlags: 0
