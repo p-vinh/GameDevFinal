@@ -6,6 +6,10 @@ namespace BlankStudio.Constants
 {
     public class Constants
     {
+        public PlayerState playerState { get; set;}
+        public WeaponType weaponType { get; set; }
+        public AnimationNames animationNames { get; set; }
+
         public enum PlayerState
         {
             Idle,
@@ -28,6 +32,8 @@ namespace BlankStudio.Constants
             FlameThrower
         }
 
+        // We should make this a dictionary that holds the stats. Currently it is seperated into two classes
+        // One for the weapon type and one for the weapon stats
         public enum WeaponType
         {
             Gun,

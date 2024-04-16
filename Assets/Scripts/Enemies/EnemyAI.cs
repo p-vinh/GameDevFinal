@@ -24,7 +24,8 @@ public abstract class EnemyAI : MonoBehaviour
 
     protected virtual void Start()
     {
-        Stats = new EnemyStats(100f, 10f, 5f);
+        bloodManager = FindObjectOfType<BloodManager>();
+        Stats = new EnemyStats(100f, 10f, 5f); // Default stats for all enemies
     }
 
     protected virtual void Update()

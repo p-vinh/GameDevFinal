@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using BlankStudio.Constants;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 
@@ -33,12 +35,14 @@ public class PlayerStats : MonoBehaviour
         O
     }
 
+
     public BloodType bloodType { get; private set;}
     public static PlayerStats Instance { get; private set; }
     public float Health { get; set; }
     public float MaxHealth { get; private set; }
     public float MovementSpeed { get; private set; }
     public Weapon CurrentWeapon { get; private set; }
+    public Constants.WeaponType CurrentWeaponType { get; private set; }
 
     private void Awake()
     {
@@ -59,6 +63,7 @@ public class PlayerStats : MonoBehaviour
         MaxHealth = 100;
         MovementSpeed = 10;
         bloodType = BloodType.A; // Difficulty setting
+        CurrentWeaponType = Constants.WeaponType.Sword;
         CurrentWeapon = new Weapon("Sword", 10f, 2f, 1f);
     }
 

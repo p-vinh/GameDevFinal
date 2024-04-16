@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf47cd2bdca164a4aaf5c25051c1b146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodManager: {fileID: 0}
   drainAmount: 1
   approachSpeed: 2
   backAwaySpeed: 3
