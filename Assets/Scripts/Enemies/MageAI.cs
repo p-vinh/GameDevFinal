@@ -33,6 +33,7 @@ public class MageAI : EnemyAI
 
     protected override void Start()
     {
+        bloodManager = FindObjectOfType<BloodManager>();
         Stats = new EnemyStats(100, drainAmount, 5);
         player = GameObject.FindGameObjectWithTag("Player");
         state = State.Idle;
