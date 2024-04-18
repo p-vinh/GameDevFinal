@@ -7,6 +7,7 @@ public class HumanAI : MonoBehaviour {
     // This will have basic Human AI
     // Unity Editor Variables
     private NavMeshAgent mesh;
+    private Transform enemy;
     private Transform player;
     private Animator animator;
     private Animator playerAnimator;
@@ -20,11 +21,8 @@ public class HumanAI : MonoBehaviour {
     public float sightRange = 10.0f; //can be changed for Juggernaut
     public float attackRange = 2.0f; //can be changed for each type of soldier (or attacks if we want)
     public int health = 100; //can be changed for each type of soldier
-    public const int constHealth = 100; //must be the same as health
-
-    // Constants
-    private const int maxHealth = (int)constHealth;
-    private const int halfHealth = (int)(maxHealth / 2);
+    private  int maxHealth = health;
+    private int halfHealth = maxHealth / 2;
 
     // Damage Variables
     public int punchDamage = 5; // basic soldier attack
@@ -45,6 +43,7 @@ public class HumanAI : MonoBehaviour {
     void Start() {
         soldierType = GameObject.Tag;
         mesh = GetComponent<NavMeshAgent>();
+        enemy = GetComponent<Transform>();
         player = GameObject.Find("Player").transform;
         animator = GetComponent<Animator>();
         playerAnimator = player.GetComponent<Animator>();
@@ -69,8 +68,7 @@ public class HumanAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // Always Look at Player
-        transform.LookAt(player);
+        // TODO: Always look at player ?
 
         // Phase 2 AI
         if (health == halfHealth) {
@@ -95,7 +93,7 @@ public class HumanAI : MonoBehaviour {
 
         // Attack Player if in attack range
         if (checkAttackRange()) {
-            AttackPlayer(damage);
+            AttackPlayer(animator, damage);
         }//end if
     }//end Update()
 
@@ -119,18 +117,16 @@ public class HumanAI : MonoBehaviour {
     void MoveToPlayer() {
         if (Vector3.Distance(transform.position, player.position) <= sightRange) {
             mesh.SetDestination(player.position);
-            transform.LookAt(player);
         }//end if
     }//end moveToPlayer()
 
     // Attack Player if in range
-    void AttackPlayer(string attackAnimation, int damage) {
+    void AttackPlayer(Animator animator, int damage) {
         //attack player
         mesh.SetDestination(transform.position);
-        transform.LookAt(player);
 
         if (Vector3.Distance(transform.position, player.position) <= attackRange) {
-            animator.SetTrigger(attackAnimation);
+            animator.SetTrigger(animation);
             canTakeDamage = true;
 
             player.GetComponent<Player>().TakeDamage(damage);
@@ -191,7 +187,7 @@ public class HumanAI : MonoBehaviour {
 
         // Special Attack
         if (checkAttackRange()) {
-            AttackPlayer(damage);
+            AttackPlayer(animator, damage);
             Debug.Log("Special Attack");
         }//end if
     }//end PhaseTwo()
