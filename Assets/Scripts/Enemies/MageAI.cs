@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MageAI : MonoBehaviour
+public class MageAI : EnemyAI
 {
     public float drainAmount = 1.0f;
     public float approachSpeed = 2.0f;
@@ -11,6 +11,7 @@ public class MageAI : MonoBehaviour
     public SphereCollider tooCloseRangeCollider;
     public SphereCollider approachRangeCollider;
     public LayerMask playerLayer;
+    private LineRenderer lineRenderer;
 
     private enum State
     {
@@ -28,15 +29,19 @@ public class MageAI : MonoBehaviour
     public Vector3 roamDirection;
     public Vector3 lastKnownPlayerPosition;
 
-    void Start()
+    public override string EnemyType => "Mage";
+
+    protected override void Start()
     {
+        Stats = new EnemyStats(100, drainAmount, 5);
         player = GameObject.FindGameObjectWithTag("Player");
         state = State.Idle;
         playerLayer = LayerMask.GetMask("Player");
+        lineRenderer = GetComponent<LineRenderer>();
         stateTimer = 0.0f;
     }
 
-    void Update()
+    protected override void Update()
     {
         stateTimer += Time.deltaTime;
 
@@ -94,18 +99,7 @@ public class MageAI : MonoBehaviour
                 }
                 break;
             case State.Attack:
-                if (tooCloseRangeCollider.bounds.Contains(player.transform.position))
-                {
-                    state = State.BackingAway;
-                }
-                else if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
-                {
-                    state = State.Idle;
-                }
-                else
-                {
-                    // PlayerManager.Instance.playerHealth -= drainAmount;
-                }
+                Attack();
                 break;
             case State.BackingAway:
                 if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
@@ -119,4 +113,62 @@ public class MageAI : MonoBehaviour
                 break;
         }
     }
+
+    public override void Attack()
+    {
+        Debug.Log("Mage attacks with damage: " + Stats.Damage);
+        if (tooCloseRangeCollider.bounds.Contains(player.transform.position))
+        {
+            state = State.BackingAway;
+            lineRenderer.enabled = false;
+        }
+        else if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
+        {
+            state = State.Idle;
+            lineRenderer.enabled = false;
+        }
+        else
+        {
+            PlayerStats.Instance.Health -= drainAmount;
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, player.transform.position);
+        }
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        Stats.Health -= damage;
+        Debug.Log("Mage takes damage. Current health: " + Stats.Health);
+        if (Stats.Health <= 0)
+        {
+            Die();
+        }
+    }
+
+    protected override void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            PlayerStats.Instance.Health -= Stats.Damage;
+        }
+
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+        }
+
+        if (other.gameObject.CompareTag("Projectile"))
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+        }
+    }
+
+    public override void Die()
+    {
+        Debug.Log("Mage dies");
+        base.Die(); // Call the base class method for blood drop logic
+        Destroy(gameObject);
+    }
+
 }
