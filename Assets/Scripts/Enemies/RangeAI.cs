@@ -9,11 +9,14 @@ public class RangeAI : EnemyAI
     public Transform player;
     public GameObject enemyBullet;
     public Transform spawnPoint;
+    Animator anim;
+    public Animator bowAnim;
 
     //Temporary variables, change the stats of enemy
     public int health;
     public float damage;
     public float speed;
+    
     //Attacking Variables
     public float fireDelaySeconds;
     public bool canFire = true;
@@ -36,54 +39,81 @@ public class RangeAI : EnemyAI
     {
         bloodManager = FindObjectOfType<BloodManager>();
         Stats = new EnemyStats(health, damage, speed);
-        player = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         state = State.Idle;
         enemy = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
-        playerInSightRange = Vector3.Distance(player.position, transform.position) <= sightRange;
+        playerInSightRange = Vector3.Distance(player.position, transform.position) < sightRange;
         playerinAttackRange = Vector3.Distance(player.position, transform.position) <= attackRange;
 
         if(playerInSightRange && !playerinAttackRange) ChasePlayer();
         if(playerInSightRange && playerinAttackRange) AttackPlayer();
+        if(!playerInSightRange && !playerinAttackRange) StopEnemy();
        
     }
 
     private void ChasePlayer()
     {
+        enemy.isStopped = false;
+        bowAnim.SetBool("walking",true);
+        anim.SetBool("Walking",true);
+        anim.SetBool("Attacking",false);
+        bowAnim.SetBool("attacking",false);
         state = State.Chase;
         enemy.SetDestination(player.position);
+    }
+
+    private void StopEnemy()
+    {
+        enemy.isStopped = true;
+        state = State.Idle;
+        anim.SetBool("Walking", false);
+        bowAnim.SetBool("walking",false);
     }
 
     private void AttackPlayer()
     {
         state = State.Attack;
-        print("Attack!");
+        anim.SetBool("Attacking",true);
+        bowAnim.SetBool("attacking",true);
 
         //Enemy doesn't move when in attack range
-        enemy.SetDestination(transform.position);
         transform.LookAt(player);
+        enemy.SetDestination(transform.position);
 
         if(canFire)
         {
+            
+            if(!anim.GetBool("Walking") && anim.GetBool("Attacking"))
+            {
+                //Attack
+                GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, Quaternion.identity) as GameObject;
+                Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
+                rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
 
-            //Attack
-            GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, Quaternion.identity) as GameObject;
-            Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
+                Destroy(bulletObj, 4f);
 
-            Destroy(bulletObj, 4f);
-
-            canFire = false;
-            Invoke(nameof(ResetAttack), fireDelaySeconds);
+                canFire = false;
+                Invoke(nameof(ResetAttack), fireDelaySeconds);
+            }
         }
     }
 
     private void ResetAttack()
     {
         canFire = true;
+    }
+
+     protected override void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Projectile"))
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+        }
     }
 
     void OnDrawGizmosSelected()
