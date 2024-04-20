@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangeAI : MonoBehaviour
+public class RangeAI : EnemyAI
 {
     public NavMeshAgent enemy;
     public Transform player;
     public GameObject enemyBullet;
-    public int enemyHealth;
     public Transform spawnPoint;
 
+    //Temporary variables, change the stats of enemy
+    public int health;
+    public float damage;
+    public float speed;
     //Attacking Variables
     public float fireDelaySeconds;
     public bool canFire = true;
@@ -19,10 +22,22 @@ public class RangeAI : MonoBehaviour
     //State Varables
     public float sightRange, attackRange;
     public bool playerInSightRange, playerinAttackRange;
+    public override string EnemyType => "Range";
 
+    //Private Varables
+    private enum State
+    {
+        Chase,
+        Idle,
+        Attack
+    }
+    private State state;
     private void Awake()
     {
+        bloodManager = FindObjectOfType<BloodManager>();
+        Stats = new EnemyStats(health, damage, speed);
         player = GameObject.Find("Player").transform;
+        state = State.Idle;
         enemy = GetComponent<NavMeshAgent>();
     }
 
@@ -38,11 +53,13 @@ public class RangeAI : MonoBehaviour
 
     private void ChasePlayer()
     {
+        state = State.Chase;
         enemy.SetDestination(player.position);
     }
 
     private void AttackPlayer()
     {
+        state = State.Attack;
         print("Attack!");
 
         //Enemy doesn't move when in attack range
