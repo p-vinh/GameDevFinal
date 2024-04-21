@@ -47,8 +47,8 @@ public class RangeAI : EnemyAI
 
     private void FixedUpdate()
     {
-        playerInSightRange = Vector3.Distance(player.position, transform.position) < sightRange;
-        playerinAttackRange = Vector3.Distance(player.position, transform.position) <= attackRange;
+        playerInSightRange = Vector3.Distance(player.position, transform.position) <= sightRange;
+        playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
 
         if(playerInSightRange && !playerinAttackRange) ChasePlayer();
         if(playerInSightRange && playerinAttackRange) AttackPlayer();
@@ -87,19 +87,15 @@ public class RangeAI : EnemyAI
 
         if(canFire)
         {
-            
-            if(!anim.GetBool("Walking") && anim.GetBool("Attacking"))
-            {
-                //Attack
-                GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, Quaternion.identity) as GameObject;
-                Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
-                rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
+            //Attack
+            GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, Quaternion.identity) as GameObject;
+            Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
 
-                Destroy(bulletObj, 4f);
+            Destroy(bulletObj, 4f);
 
-                canFire = false;
-                Invoke(nameof(ResetAttack), fireDelaySeconds);
-            }
+            canFire = false;
+            Invoke(nameof(ResetAttack), fireDelaySeconds);
         }
     }
 
