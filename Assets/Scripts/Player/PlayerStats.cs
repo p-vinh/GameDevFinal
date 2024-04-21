@@ -69,6 +69,17 @@ public class PlayerStats : MonoBehaviour
 
     void Update()
     {
+        if (Health <= 0)
+        {
+            Die();
+        }
+    }
 
+    public void Die()
+    {
+        Debug.Log("Player dies");
+        // Play death animation
+        // Show game over screen
+        Destroy(gameObject);
     }
 }
