@@ -4,34 +4,36 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class GeneralSoldierAI : MonoBehaviour {
-    // This will have basic Human AI
     // Unity Editor Variables
     private NavMeshAgent mesh;
     private Transform enemy;
     private Transform player;
-    private Animator animator;
-    private Animator playerAnimator;
-    private GameObject shield;
-    private GameObject sword;
-    public GameObject soldierType; //set based on Tag
+    private PlayerController playerController;
+    //private Animator animator;
+    //private Animator playerAnimator;
+    //private GameObject shield;
+    //private GameObject sword;
 
     // Variables
-    public float speed = 5.0f; //can be changed for each type of soldier
+    public float speed = 3.5f; //can be changed for each type of soldier
+    public float attackSpeed = 10.0f; //can be changed for each type of soldier
     public float increasedSpeed = 10.0f; //can be changed for each type of soldier
-    public float sightRange = 10.0f; //can be changed for Juggernaut
-    public float attackRange = 2.0f; //can be changed for each type of soldier (or attacks if we want)
+    public float sightRange = 8.0f; //can be changed for Juggernaut
+    public float attackRange = 1.0f; //can be changed for each type of soldier (or attacks if we want)
     public int health = 100; //can be changed for each type of soldier
-    private  int maxHealth = health;
+    public static int maxHealth = 100;
     private int halfHealth = maxHealth / 2;
 
     // Damage Variables
-    public int swordDamage = 10; // general soldier attack
-    public int specialDamage = 30; // general soldier special attack
-    public int swordPhaseTwoSwordDamage = 20; // general soldier phase 2 attack
+    public int swordDamage = 5; // general soldier attack
+    public int specialDamage = 15; // general soldier special attack
+    public int swordPhaseTwoSwordDamage = 10; // general soldier phase 2 attack
 
     // Boolean Variables
-    private bool canProtectWithShield = false;
+    private bool canProtectWithShield = true;
     private bool canTakeDamage = true;
+    private bool isAttaching = false;
+    private bool canMove = true;
 
 
     // Setup Variables
@@ -39,41 +41,53 @@ public class GeneralSoldierAI : MonoBehaviour {
         mesh = GetComponent<NavMeshAgent>();
         enemy = GetComponent<Transform>();
         player = GameObject.Find("Player").transform;
-        animator = GetComponent<Animator>();
-        playerAnimator = player.GetComponent<Animator>();
+        playerController = player.GetComponent<PlayerController>();
+        //animator = GetComponent<Animator>();
+        //playerAnimator = player.GetComponent<Animator>();
         mesh.speed = speed;
-        shield = GetComponentInChildren("Shield");
-        sword = GetComponentInChildren("Sword");
-        canProtectWithShield = true;
+        //shield = GetComponentInChildren("Shield");
+        //sword = GetComponentInChildren("Sword");
+        //canProtectWithShield = true;
     }//end Start()
 
     // Update is called once per frame
     void Update() {
         // TODO: Always look at player ?
-        enemy.LookAt(player.position);
+        //enemy.LookAt(player.position);
+        checkSightRange();
+        checkAttackRange();
+
+        if (checkSightRange()) {
+            canTakeDamage = true; // Drop Sheild
+        }//end if
 
         // Phase 2 AI
         if (health == halfHealth) {
-            PhaseTwo(specialDamage);
+            PhaseTwo();
         }//end if
 
         // Move to Player if in sight range
-        if (checkSightRange()) {
-            MoveToPlayer();
-        }//end if
-
-        // Protect with Shield
-        if (canProtectWithShield) { // && Player Possition Requirement
-            ProtectWithShield();
+        if (checkSightRange() && !checkAttackRange()) {
+            // TODO: Test for when you want the enemy to move to the player (At start or Set player out of sight range)
+            if (canMove)
+                MoveToPlayer();
         }//end if
 
         // Attack Player if in attack range
-        if (checkAttackRange()) {
+        if (checkSightRange() && checkAttackRange()) {
+            mesh.SetDestination(enemy.position); // Stop moving
             if (health <= halfHealth) {
                 AttackPlayer(swordPhaseTwoSwordDamage);
+                canMove = true;
             } else {
                 AttackPlayer(swordDamage);
-            }//end if
+                canMove = true;
+            }//end if-else
+        }//end if
+
+        // Protect with Shield
+        if (canProtectWithShield && checkSightRange()) { // && Player Position Requirement
+            ProtectWithShield();
         }//end if
     }//end Update()
 
@@ -95,31 +109,37 @@ public class GeneralSoldierAI : MonoBehaviour {
     // Universal Soldier AI Methods //
     // Move to Player AI
     void MoveToPlayer() {
-        if (Vector3.Distance(transform.position, player.position) <= sightRange) {
+        if (checkSightRange() && !checkAttackRange()) {
             mesh.SetDestination(player.position);
-            enemy.LookAt(player.position);
+            //enemy.LookAt(player.position);
         }//end if
     }//end moveToPlayer()
 
     // Attack Player if in range
-    void AttackPlayer(ing damage) {
-        //attack player
-        mesh.SetDestination(transform.position);
-        enemy.LookAt(player.position);
+    void AttackPlayer(int damage) {
+        canMove = false;
+        canTakeDamage = true; // Drop Sheild
+        mesh.SetDestination(enemy.position); // Stop moving
+        //enemy.LookAt(player.position);
 
-        if (Vector3.Distance(transform.position, player.position) <= attackRange) {
-            animator.SetTrigger("SwordAttack");
-            canTakeDamage = true;
+        if (checkAttackRange()) {
+            //animator.SetTrigger("SwordAttack");
 
-            player.GetComponent<Player>().TakeDamage(damage);
+            playerController.TakeDamage(damage);
+            Debug.Log("General Soldier Attack Player");
         }//end if
-        Debug.Log("Human Enemy Attacking Player");
     }//end attackPlayer()
 
     // Take Damage if sheild is down
-    void EnemyTakeDamage(int damage) {
+    public void EnemyTakeDamage(int damage) {
         if (canTakeDamage) {
-            health -= damage;
+            if (health >= damage) {
+                health -= damage;
+            } else {
+                health = 0;
+            }//end if
+            Debug.Log("General Soldier Health: " + health);
+
             if (health <= 0) {
                 Destroy(gameObject);
             }//end if
@@ -133,45 +153,39 @@ public class GeneralSoldierAI : MonoBehaviour {
         canTakeDamage = false;
 
         // Shield Animation
-        animator.SetTrigger("ProtectWithShield");
-
+        //animator.SetTrigger("ProtectWithShield");
         Debug.Log("Protect With Shield");
     }//end ProtectWithShield()
     
     // Phase 2 AI for General Soldier //
     // Remove General Soldier Shield
     void RemoveShield() {
-        if (soldierType == "GeneralSoldierEnemy") {
-            if (halfHealth == health) {
-                animator.SetTrigger("RemoveShield");
+        if (halfHealth == health) {
+            //animator.SetTrigger("RemoveShield");
 
-                Destroy(shield);
-                canProtectWithShield = false;
-                canTakeDamage = true;
-            }//end if
+            //Destroy(shield);
+            Debug.Log("Shield Removed");
+            canProtectWithShield = false;
+            canTakeDamage = true;
         }//end if
     }//end RemoveShield()
 
-    // Phase 2 AI for General Soldier and Juggernaut //
-
-    // Controls Phase 2 Start for General Soldier and Juggernaut
+    // Controls Phase 2
     void PhaseTwo() {
-        // If General Soldier, Remove Shield
+        // Break Shield
         RemoveShield();
 
         // Increase Speed
         mesh.speed = increasedSpeed;
         
         // Move to Player
-        while (checkAttackRange() == false && checkSightRange() == true) {
+        while (checkAttackRange() == false || enemy.position != player.position) {
             mesh.SetDestination(player.position);
-            enemy.LookAt(player.position);
+            //enemy.LookAt(player.position);
         }//end while
 
         // Special Attack
-        if (checkAttackRange()) {
-            AttackPlayer(specialDamage);
-            Debug.Log("Special Attack");
-        }//end if
+        AttackPlayer(specialDamage);
+        Debug.Log("Special Attack");
     }//end PhaseTwo()
 }//end GeneralSoldierAI
