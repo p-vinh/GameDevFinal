@@ -126,7 +126,7 @@ public class HumanAI : MonoBehaviour {
         mesh.SetDestination(transform.position);
 
         if (Vector3.Distance(transform.position, player.position) <= attackRange) {
-            animator.SetTrigger(animation);
+            animator.SetTrigger(GetComponent<Animation>());
             canTakeDamage = true;
 
             player.GetComponent<Player>().TakeDamage(damage);

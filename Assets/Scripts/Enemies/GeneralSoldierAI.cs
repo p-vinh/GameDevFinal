@@ -8,7 +8,7 @@ public class GeneralSoldierAI : MonoBehaviour {
     private NavMeshAgent mesh;
     private Transform enemy;
     private Transform player;
-    private PlayerController playerController;
+    private PlayerStats playerController;
     //private Animator animator;
     //private Animator playerAnimator;
     //private GameObject shield;
@@ -41,7 +41,7 @@ public class GeneralSoldierAI : MonoBehaviour {
         mesh = GetComponent<NavMeshAgent>();
         enemy = GetComponent<Transform>();
         player = GameObject.Find("Player").transform;
-        playerController = player.GetComponent<PlayerController>();
+        playerController = player.GetComponent<PlayerStats>();
         //animator = GetComponent<Animator>();
         //playerAnimator = player.GetComponent<Animator>();
         mesh.speed = speed;

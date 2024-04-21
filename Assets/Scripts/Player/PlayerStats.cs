@@ -67,6 +67,21 @@ public class PlayerStats : MonoBehaviour
         CurrentWeapon = new Weapon("Sword", 10f, 2f, 1f);
     }
 
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
+        if (Health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Player has died");
+        Destroy(gameObject);
+    }
+
     void Update()
     {
 
