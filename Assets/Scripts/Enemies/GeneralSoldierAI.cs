@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+//using PlayerController;
 
 public class GeneralSoldierAI : MonoBehaviour {
     // Unity Editor Variables
     private NavMeshAgent mesh;
     private Transform enemy;
     private Transform player;
-    private PlayerStats playerController;
     //private Animator animator;
     //private Animator playerAnimator;
     //private GameObject shield;
@@ -32,7 +32,7 @@ public class GeneralSoldierAI : MonoBehaviour {
     // Boolean Variables
     private bool canProtectWithShield = true;
     private bool canTakeDamage = true;
-    private bool isAttaching = false;
+    //private bool isAttaching = false;
     private bool canMove = true;
 
 
@@ -41,7 +41,6 @@ public class GeneralSoldierAI : MonoBehaviour {
         mesh = GetComponent<NavMeshAgent>();
         enemy = GetComponent<Transform>();
         player = GameObject.Find("Player").transform;
-        playerController = player.GetComponent<PlayerStats>();
         //animator = GetComponent<Animator>();
         //playerAnimator = player.GetComponent<Animator>();
         mesh.speed = speed;
@@ -125,7 +124,7 @@ public class GeneralSoldierAI : MonoBehaviour {
         if (checkAttackRange()) {
             //animator.SetTrigger("SwordAttack");
 
-            playerController.TakeDamage(damage);
+            //player.TakeDamage(damage);
             Debug.Log("General Soldier Attack Player");
         }//end if
     }//end attackPlayer()
@@ -188,4 +187,12 @@ public class GeneralSoldierAI : MonoBehaviour {
         AttackPlayer(specialDamage);
         Debug.Log("Special Attack");
     }//end PhaseTwo()
+
+    // For testing purposes
+    void OnDrawGizmosSelected() {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }//end OnDrawGizmosSelected()
 }//end GeneralSoldierAI
