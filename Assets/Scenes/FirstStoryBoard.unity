@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myVideoPlayer: {fileID: 786831371}
-  transitionSceneName: SecondStoryBoard
+  transitionSceneName: TutorialLevel
 --- !u!1 &803579501
 GameObject:
   m_ObjectHideFlags: 0
