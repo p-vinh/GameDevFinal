@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Projectile
   - Weapon
+  - Interact
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Interact
   - 
   - 
   - 
