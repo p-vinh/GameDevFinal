@@ -2,35 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-//using PlayerController;
 
 public class GeneralSoldierAI : MonoBehaviour {
     // Unity Editor Variables
     private NavMeshAgent mesh;
     private Transform enemy;
     private Transform player;
+    private PlayerController playerController;
     //private Animator animator;
     //private Animator playerAnimator;
     //private GameObject shield;
-    //private GameObject sword;
+    private Collider sword;
 
     // Variables
-    public float speed = 3.5f; //can be changed for each type of soldier
-    public float attackSpeed = 10.0f; //can be changed for each type of soldier
-    public float increasedSpeed = 10.0f; //can be changed for each type of soldier
-    public float sightRange = 8.0f; //can be changed for Juggernaut
-    public float attackRange = 1.0f; //can be changed for each type of soldier (or attacks if we want)
-    public int health = 100; //can be changed for each type of soldier
+    public float speed = 3.5f;
+    public float attackSpeed = 10.0f;
+    public float protectDuration = 10.0f; 
+    public float downtime = 5.0f; // Should be smaller
+    public float sightRange = 8.0f; 
+    public float attackRange = 3.0f; // Check this based on how close the sword needs to be to hit the player
+    public int health = 100;
     public static int maxHealth = 100;
-    private int halfHealth = maxHealth / 2;
 
     // Damage Variables
     public int swordDamage = 5; // general soldier attack
-    public int specialDamage = 15; // general soldier special attack
-    public int swordPhaseTwoSwordDamage = 10; // general soldier phase 2 attack
 
     // Boolean Variables
-    private bool canProtectWithShield = true;
     private bool canTakeDamage = true;
     //private bool isAttaching = false;
     private bool canMove = true;
@@ -41,52 +38,39 @@ public class GeneralSoldierAI : MonoBehaviour {
         mesh = GetComponent<NavMeshAgent>();
         enemy = GetComponent<Transform>();
         player = GameObject.Find("Player").transform;
+        playerController = player.GetComponent<PlayerController>();
         //animator = GetComponent<Animator>();
         //playerAnimator = player.GetComponent<Animator>();
         mesh.speed = speed;
         //shield = GetComponentInChildren("Shield");
-        //sword = GetComponentInChildren("Sword");
-        //canProtectWithShield = true;
+        //sword = GetComponentInChildren("Sword").GetComponent<Collider>();
     }//end Start()
 
     // Update is called once per frame
     void Update() {
-        // TODO: Always look at player ?
-        //enemy.LookAt(player.position);
-        checkSightRange();
         checkAttackRange();
 
-        if (checkSightRange()) {
-            canTakeDamage = true; // Drop Sheild
-        }//end if
-
-        // Phase 2 AI
-        if (health == halfHealth) {
-            PhaseTwo();
+        if (checkSightRange() && !canTakeDamage) {
+            canTakeDamage = true; // Drop Shield
         }//end if
 
         // Move to Player if in sight range
-        if (checkSightRange() && !checkAttackRange()) {
-            // TODO: Test for when you want the enemy to move to the player (At start or Set player out of sight range)
-            if (canMove)
+        if (checkSightRange() && !checkAttackRange() && !isAttacking && !canTakeDamage) {
+            if (canMove) {
                 MoveToPlayer();
-        }//end if
-
-        // Attack Player if in attack range
-        if (checkSightRange() && checkAttackRange()) {
-            mesh.SetDestination(enemy.position); // Stop moving
-            if (health <= halfHealth) {
-                AttackPlayer(swordPhaseTwoSwordDamage);
-                canMove = true;
-            } else {
-                AttackPlayer(swordDamage);
-                canMove = true;
-            }//end if-else
+            }//end if
         }//end if
 
         // Protect with Shield
-        if (canProtectWithShield && checkSightRange()) { // && Player Position Requirement
-            ProtectWithShield();
+        if (checkSightRange() && canTakeDamage) { // && Player Position Requirement
+            ProtectWithShield(); // Start the ShieldRoutine coroutine
+        }//end if
+
+        // Attack Player if in attack range
+        if (checkSightRange() && checkAttackRange() && !isAttacking && !canTakeDamage) {
+            mesh.SetDestination(enemy.position); // Stop moving
+            StartCoroutine(AttackPlayer(swordDamage));
+            //isAttacking = true;
         }//end if
     }//end Update()
 
@@ -115,19 +99,53 @@ public class GeneralSoldierAI : MonoBehaviour {
     }//end moveToPlayer()
 
     // Attack Player if in range
-    void AttackPlayer(int damage) {
-        canMove = false;
+    IEnumerator AttackPlayer(int damage) {
+        //canMove = false;
         canTakeDamage = true; // Drop Sheild
         mesh.SetDestination(enemy.position); // Stop moving
         //enemy.LookAt(player.position);
 
+        // TODO: Set up the attack animation with the sword and if the sword object hits the player then and only then the player takes damage
         if (checkAttackRange()) {
             //animator.SetTrigger("SwordAttack");
+            
+            yield return new WaitForSeconds(attackSpeed);
+            // if sword hits player then player takes damage
+            // if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
+            //     playerController.TakeDamage(damage);
+            // }//end if
 
-            //player.TakeDamage(damage);
             Debug.Log("General Soldier Attack Player");
         }//end if
     }//end attackPlayer()
+
+    // Protect with Shield Coroutine (handels time and downtime)
+    IEnumerator ShieldRoutine(float protectDuration, float downtime) {
+        while (true) {
+            // Protect with Shield
+            canTakeDamage = false;
+            Debug.Log("Protect With Shield");
+
+            // Shield Animation
+            //animator.SetTrigger("ProtectWithShield");
+
+            // Wait for protectDuration seconds
+            yield return new WaitForSeconds(protectDuration);
+
+            // Stop protecting with Shield
+            canTakeDamage = true;
+            Debug.Log("Stop Protecting With Shield");
+
+            // Wait for downtime seconds
+            yield return new WaitForSeconds(downtime);
+        }//end while
+    }//end ShieldRoutine()
+
+    // Protect with Shield
+    void ProtectWithShield() {
+        // Start the ShieldRoutine coroutine with 5 seconds of protection and 2 seconds of downtime
+        StartCoroutine(ShieldRoutine(5f, 2f));
+    }//end ProtectWithShield()
 
     // Take Damage if sheild is down
     public void EnemyTakeDamage(int damage) {
@@ -145,54 +163,10 @@ public class GeneralSoldierAI : MonoBehaviour {
         }//end if
     }//end EnemyTakeDamage()
 
-    // General Soldier AI and Juggernaut AI //
-    // Protect with Shield
-    void ProtectWithShield() {
-        // Protect with Shield
-        canTakeDamage = false;
-
-        // Shield Animation
-        //animator.SetTrigger("ProtectWithShield");
-        Debug.Log("Protect With Shield");
-    }//end ProtectWithShield()
-    
-    // Phase 2 AI for General Soldier //
-    // Remove General Soldier Shield
-    void RemoveShield() {
-        if (halfHealth == health) {
-            //animator.SetTrigger("RemoveShield");
-
-            //Destroy(shield);
-            Debug.Log("Shield Removed");
-            canProtectWithShield = false;
-            canTakeDamage = true;
-        }//end if
-    }//end RemoveShield()
-
-    // Controls Phase 2
-    void PhaseTwo() {
-        // Break Shield
-        RemoveShield();
-
-        // Increase Speed
-        mesh.speed = increasedSpeed;
-        
-        // Move to Player
-        while (checkAttackRange() == false || enemy.position != player.position) {
-            mesh.SetDestination(player.position);
-            //enemy.LookAt(player.position);
-        }//end while
-
-        // Special Attack
-        AttackPlayer(specialDamage);
-        Debug.Log("Special Attack");
-    }//end PhaseTwo()
-
-    // For testing purposes
     void OnDrawGizmosSelected() {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
-    }//end OnDrawGizmosSelected()
+    }
 }//end GeneralSoldierAI

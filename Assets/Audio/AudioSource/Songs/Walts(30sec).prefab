@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5559924301423297066}
   - component: {fileID: 6788315788590821330}
+  - component: {fileID: 6247293340391209721}
   m_Layer: 0
   m_Name: Walts(30sec)
   m_TagString: Untagged
@@ -128,3 +129,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6247293340391209721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9172883531319205062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba0bba05ede14135bc16a2805f581a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  playTime: 27.5
