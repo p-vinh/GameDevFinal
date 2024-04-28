@@ -88,7 +88,7 @@ public class RangeAI : EnemyAI
         if(canFire)
         {
             //Attack
-            GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, Quaternion.identity) as GameObject;
+            GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, player.rotation) as GameObject;
             Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
 
