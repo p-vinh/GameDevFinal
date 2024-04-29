@@ -10,7 +10,6 @@ public class RangeAI : EnemyAI
     public GameObject enemyBullet;
     public Transform spawnPoint;
     Animator anim;
-    public Animator bowAnim;
 
     //Temporary variables, change the stats of enemy
     public int health;
@@ -59,10 +58,8 @@ public class RangeAI : EnemyAI
     private void ChasePlayer()
     {
         enemy.isStopped = false;
-        bowAnim.SetBool("walking",true);
         anim.SetBool("Walking",true);
         anim.SetBool("Attacking",false);
-        bowAnim.SetBool("attacking",false);
         state = State.Chase;
         enemy.SetDestination(player.position);
     }
@@ -72,14 +69,12 @@ public class RangeAI : EnemyAI
         enemy.isStopped = true;
         state = State.Idle;
         anim.SetBool("Walking", false);
-        bowAnim.SetBool("walking",false);
     }
 
     private void AttackPlayer()
     {
         state = State.Attack;
         anim.SetBool("Attacking",true);
-        bowAnim.SetBool("attacking",true);
 
         //Enemy doesn't move when in attack range
         transform.LookAt(player);
@@ -87,8 +82,11 @@ public class RangeAI : EnemyAI
 
         if(canFire)
         {
+            Vector3 direction = (player.position - spawnPoint.transform.position).normalized;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
             //Attack
-            GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, player.rotation) as GameObject;
+            GameObject bulletObj = Instantiate(enemyBullet, spawnPoint.transform.position, rotation) as GameObject;
             Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
 

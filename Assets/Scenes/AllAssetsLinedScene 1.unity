@@ -5226,13 +5226,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1574389770, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.141
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574389770, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.807
+      objectReference: {fileID: 0}
+    - target: {fileID: 1574389770, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.782
+      objectReference: {fileID: 0}
     - target: {fileID: 1791733837, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
       propertyPath: sightRange
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1791733837, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
       propertyPath: attackRange
-      value: 9
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791733839, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
+      propertyPath: m_Speed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4628704415572638858, guid: 93a7ee673dcb52d4e8d0ede26de72600,
         type: 3}
