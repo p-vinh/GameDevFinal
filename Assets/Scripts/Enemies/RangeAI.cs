@@ -34,6 +34,7 @@ public class RangeAI : EnemyAI
         Attack
     }
     private State state;
+    private bool canWalk = true;
     private void Awake()
     {
         bloodManager = FindObjectOfType<BloodManager>();
@@ -49,7 +50,7 @@ public class RangeAI : EnemyAI
         playerInSightRange = Vector3.Distance(player.position, transform.position) <= sightRange;
         playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
 
-        if(playerInSightRange && !playerinAttackRange) ChasePlayer();
+        if(playerInSightRange && !playerinAttackRange && canWalk) ChasePlayer();
         if(playerInSightRange && playerinAttackRange) AttackPlayer();
         if(!playerInSightRange && !playerinAttackRange) StopEnemy();
        
@@ -73,6 +74,7 @@ public class RangeAI : EnemyAI
 
     private void AttackPlayer()
     {
+        canWalk = false;
         state = State.Attack;
         anim.SetBool("Attacking",true);
 
@@ -95,6 +97,11 @@ public class RangeAI : EnemyAI
             canFire = false;
             Invoke(nameof(ResetAttack), fireDelaySeconds);
         }
+    }
+
+    public void changeCanWalk()
+    {
+        canWalk = true;
     }
 
     private void ResetAttack()
