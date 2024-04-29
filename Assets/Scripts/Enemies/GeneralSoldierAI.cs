@@ -15,20 +15,20 @@ public class GeneralSoldierAI : MonoBehaviour {
     private Collider sword;
 
     // Variables
-    public float speed = 3.5f;
-    public float attackSpeed = 10.0f;
-    public float protectDuration = 10.0f; 
-    public float downtime = 5.0f; // Should be smaller
+    public float speed = 2f;
+    public float attackSpeed = 50.0f; 
+    public float downtime = 30.0f;
     public float sightRange = 8.0f; 
     public float attackRange = 3.0f; // Check this based on how close the sword needs to be to hit the player
     public int health = 100;
     public static int maxHealth = 100;
+    private float distanceToPlayer;
 
     // Damage Variables
     public int swordDamage = 5; // general soldier attack
 
     // Boolean Variables
-    private bool canTakeDamage = true;
+    //private bool canTakeDamage = true;
     //private bool isAttaching = false;
     private bool canMove = true;
 
@@ -48,118 +48,102 @@ public class GeneralSoldierAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        checkAttackRange();
-
-        if (checkSightRange() && !canTakeDamage) {
-            canTakeDamage = true; // Drop Shield
-        }//end if
+        distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         // Move to Player if in sight range
-        if (checkSightRange() && !checkAttackRange() && !isAttacking && !canTakeDamage) {
-            if (canMove) {
+        if (canMove) {
+            if (distanceToPlayer <= sightRange && distanceToPlayer > attackRange) {
                 MoveToPlayer();
-            }//end if
-        }//end if
-
-        // Protect with Shield
-        if (checkSightRange() && canTakeDamage) { // && Player Position Requirement
-            ProtectWithShield(); // Start the ShieldRoutine coroutine
-        }//end if
-
-        // Attack Player if in attack range
-        if (checkSightRange() && checkAttackRange() && !isAttacking && !canTakeDamage) {
-            mesh.SetDestination(enemy.position); // Stop moving
-            StartCoroutine(AttackPlayer(swordDamage));
-            //isAttacking = true;
-        }//end if
+            } else if (distanceToPlayer <= attackRange) {
+                mesh.SetDestination(enemy.position); // Stop moving
+                StartCoroutine(AttackPlayer(swordDamage));
+                canMove = false;
+            }//end else-if
+        } else if (distanceToPlayer > attackRange) {
+            canMove = true;
+        }//end else-if
     }//end Update()
-
-    // Boolean Helper Methods //
-    bool checkSightRange() {
-        if (Vector3.Distance(transform.position, player.position) <= sightRange) {
-            return true;
-        }//end if
-        return false;
-    }//end checkSightRange()
-
-    bool checkAttackRange() {
-        if (Vector3.Distance(transform.position, player.position) <= attackRange) {
-            return true;
-        }//end if
-        return false;
-    }//end checkAttackRange()
 
     // Universal Soldier AI Methods //
     // Move to Player AI
     void MoveToPlayer() {
-        if (checkSightRange() && !checkAttackRange()) {
-            mesh.SetDestination(player.position);
-            //enemy.LookAt(player.position);
-        }//end if
+        mesh.SetDestination(player.position);
     }//end moveToPlayer()
 
     // Attack Player if in range
     IEnumerator AttackPlayer(int damage) {
-        //canMove = false;
-        canTakeDamage = true; // Drop Sheild
-        mesh.SetDestination(enemy.position); // Stop moving
-        //enemy.LookAt(player.position);
-
         // TODO: Set up the attack animation with the sword and if the sword object hits the player then and only then the player takes damage
-        if (checkAttackRange()) {
-            //animator.SetTrigger("SwordAttack");
-            
-            yield return new WaitForSeconds(attackSpeed);
-            // if sword hits player then player takes damage
-            // if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
-            //     playerController.TakeDamage(damage);
-            // }//end if
+        //animator.SetTrigger("SwordAttack");
 
+        if (distanceToPlayer <= attackRange) {
             Debug.Log("General Soldier Attack Player");
+            //playerController.TakeDamage(damage);
         }//end if
+        
+        yield return new WaitForSeconds(attackSpeed);
+        // If sword hits player then player takes damage
+        // if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
+        //     playerController.TakeDamage(damage);
+        // }//end if
     }//end attackPlayer()
 
-    // Protect with Shield Coroutine (handels time and downtime)
-    IEnumerator ShieldRoutine(float protectDuration, float downtime) {
-        while (true) {
-            // Protect with Shield
-            canTakeDamage = false;
-            Debug.Log("Protect With Shield");
+    // This is a fake method so I cancolapse commented code while working on the other methods
+    void shield() {
+        // Boolean Helper Methods //
+        // bool checkSightRange() {
+        //     if (Vector3.Distance(transform.position, player.position) <= sightRange) {
+        //         return true;
+        //     }//end if
+        //     return false;
+        // }//end checkSightRange()
 
-            // Shield Animation
-            //animator.SetTrigger("ProtectWithShield");
+        // bool checkAttackRange() {
+        //     if (Vector3.Distance(transform.position, player.position) <= attackRange) {
+        //         return true;
+        //     }//end if
+        //     return false;
+        // }//end checkAttackRange()
 
-            // Wait for protectDuration seconds
-            yield return new WaitForSeconds(protectDuration);
+        // Protect with Shield Coroutine (handels time and downtime)
+        // IEnumerator ShieldRoutine(float protectDuration, float downtime) {
+        //     while (true) {
+        //         // Protect with Shield
+        //         canTakeDamage = false;
+        //         Debug.Log("Protect With Shield");
 
-            // Stop protecting with Shield
-            canTakeDamage = true;
-            Debug.Log("Stop Protecting With Shield");
+        //         // Shield Animation
+        //         //animator.SetTrigger("ProtectWithShield");
 
-            // Wait for downtime seconds
-            yield return new WaitForSeconds(downtime);
-        }//end while
-    }//end ShieldRoutine()
+        //         // Wait for protectDuration seconds
+        //         yield return new WaitForSeconds(protectDuration);
 
-    // Protect with Shield
-    void ProtectWithShield() {
-        // Start the ShieldRoutine coroutine with 5 seconds of protection and 2 seconds of downtime
-        StartCoroutine(ShieldRoutine(5f, 2f));
-    }//end ProtectWithShield()
+        //         // Stop protecting with Shield
+        //         canTakeDamage = true;
+        //         Debug.Log("Stop Protecting With Shield");
 
+        //         // Wait for downtime seconds
+        //         yield return new WaitForSeconds(downtime);
+        //     }//end while
+        // }//end ShieldRoutine()
+
+        // Protect with Shield
+        // void ProtectWithShield() {
+        //     // Start the ShieldRoutine coroutine with 5 seconds of protection and 2 seconds of downtime
+        //     StartCoroutine(ShieldRoutine(5f, 2f));
+        // }//end ProtectWithShield()
+    }
+    
     // Take Damage if sheild is down
     public void EnemyTakeDamage(int damage) {
-        if (canTakeDamage) {
-            if (health >= damage) {
-                health -= damage;
-            } else {
-                health = 0;
-            }//end if
-            Debug.Log("General Soldier Health: " + health);
+        if (health >= damage) {
+            health -= damage;
+        } else {
+            health = 0;
+        }//end if-else
+        Debug.Log("General Soldier Health: " + health);
 
-            if (health <= 0) {
-                Destroy(gameObject);
-            }//end if
+        if (health <= 0) {
+            Destroy(gameObject);
         }//end if
     }//end EnemyTakeDamage()
 
@@ -168,5 +152,5 @@ public class GeneralSoldierAI : MonoBehaviour {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
+    }//end OnDrawGizmosSelected()
 }//end GeneralSoldierAI
