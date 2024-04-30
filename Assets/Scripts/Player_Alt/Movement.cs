@@ -68,8 +68,8 @@ public class Movement : MonoBehaviour
             //If has sword, call this function here
 
         }
-        
 
+        
     }
 
     // Update is called once per frame
