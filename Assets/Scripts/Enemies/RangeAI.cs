@@ -70,6 +70,8 @@ public class RangeAI : EnemyAI
         enemy.isStopped = true;
         state = State.Idle;
         anim.SetBool("Walking", false);
+        anim.SetBool("Attacking", false);
+        
     }
 
     private void AttackPlayer()
@@ -81,7 +83,7 @@ public class RangeAI : EnemyAI
         //Enemy doesn't move when in attack range
         transform.LookAt(player);
         enemy.SetDestination(transform.position);
-
+        
         if(canFire)
         {
             Vector3 direction = (player.position - spawnPoint.transform.position).normalized;
