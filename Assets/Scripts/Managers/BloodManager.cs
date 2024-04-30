@@ -29,6 +29,7 @@ public class BloodManager : MonoBehaviour
                 if (playerBloodType == bloodTypeDropPercentage.Key)
                 {
                     Debug.Log("Enemy dropped blood type " + playerBloodType);
+                    //Instatiate blood drop
                 }
                 else
                 {
