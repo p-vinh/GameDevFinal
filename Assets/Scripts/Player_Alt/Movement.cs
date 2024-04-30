@@ -10,6 +10,8 @@ public class Movement : MonoBehaviour
     Animator anim;
     Vector3 lookPos;
     public bool carryGun;
+    public bool carrySword;
+    private bool attackAnimDone = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +49,18 @@ public class Movement : MonoBehaviour
         }
         anim.SetBool("Shift",isShiftKeyDown);
 
+        if(Input.GetMouseButtonDown(0))
+        {
+            //If has gun, call this function here
+            if(carryGun)
+            {
+                attackGun();
+            }
+            //If has sword, call this function here
+
+        }
+        
+
     }
 
     // Update is called once per frame
@@ -55,10 +69,34 @@ public class Movement : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal") * speed;
         float vertical = Input.GetAxisRaw("Vertical") * speed;
 
-        rigidBody.velocity = new Vector3(horizontal,0,vertical);
+        if(attackAnimDone)
+        {
+            rigidBody.velocity = new Vector3(horizontal,0,vertical);
+        }
 
         anim.SetFloat("Forward",vertical);
         anim.SetFloat("Turn",horizontal);
        
+    }
+
+    void attackGun()
+    {
+        if(attackAnimDone)
+        {
+            attackAnimDone = false;
+            anim.SetBool("Attack",true);
+        }
+        
+    }
+
+    void attackSword()
+    {
+
+    }
+
+    void finishedAttackAnim()
+    {
+        anim.SetBool("Attack",false);
+        attackAnimDone = true;
     }
 }
