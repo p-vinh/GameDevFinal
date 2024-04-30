@@ -44,6 +44,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""db586a59-7f37-4abb-96b3-1236e45a97bf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -233,6 +242,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""LookAt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56cdfa9b-afdb-4f68-974d-e667c2148182"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -243,6 +263,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerController = asset.FindActionMap("PlayerController", throwIfNotFound: true);
         m_PlayerController_Movement = m_PlayerController.FindAction("Movement", throwIfNotFound: true);
         m_PlayerController_LookAt = m_PlayerController.FindAction("LookAt", throwIfNotFound: true);
+        m_PlayerController_MouseButton = m_PlayerController.FindAction("MouseButton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,12 +325,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IPlayerControllerActions m_PlayerControllerActionsCallbackInterface;
     private readonly InputAction m_PlayerController_Movement;
     private readonly InputAction m_PlayerController_LookAt;
+    private readonly InputAction m_PlayerController_MouseButton;
     public struct PlayerControllerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerControllerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerController_Movement;
         public InputAction @LookAt => m_Wrapper.m_PlayerController_LookAt;
+        public InputAction @MouseButton => m_Wrapper.m_PlayerController_MouseButton;
         public InputActionMap Get() { return m_Wrapper.m_PlayerController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -325,6 +348,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @LookAt.started -= m_Wrapper.m_PlayerControllerActionsCallbackInterface.OnLookAt;
                 @LookAt.performed -= m_Wrapper.m_PlayerControllerActionsCallbackInterface.OnLookAt;
                 @LookAt.canceled -= m_Wrapper.m_PlayerControllerActionsCallbackInterface.OnLookAt;
+                @MouseButton.started -= m_Wrapper.m_PlayerControllerActionsCallbackInterface.OnMouseButton;
+                @MouseButton.performed -= m_Wrapper.m_PlayerControllerActionsCallbackInterface.OnMouseButton;
+                @MouseButton.canceled -= m_Wrapper.m_PlayerControllerActionsCallbackInterface.OnMouseButton;
             }
             m_Wrapper.m_PlayerControllerActionsCallbackInterface = instance;
             if (instance != null)
@@ -335,6 +361,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @LookAt.started += instance.OnLookAt;
                 @LookAt.performed += instance.OnLookAt;
                 @LookAt.canceled += instance.OnLookAt;
+                @MouseButton.started += instance.OnMouseButton;
+                @MouseButton.performed += instance.OnMouseButton;
+                @MouseButton.canceled += instance.OnMouseButton;
             }
         }
     }
@@ -343,5 +372,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnLookAt(InputAction.CallbackContext context);
+        void OnMouseButton(InputAction.CallbackContext context);
     }
 }
