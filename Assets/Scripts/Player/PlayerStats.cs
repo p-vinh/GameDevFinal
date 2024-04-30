@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BlankStudio.Constants;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 // We can seperate the weapoon class so we can have a heirarchy of classes for different types of weapons
@@ -36,13 +37,14 @@ public class PlayerStats : MonoBehaviour
     }
 
 
-    public BloodType bloodType { get; private set;}
+    public BloodType bloodType { get; private set; }
     public static PlayerStats Instance { get; private set; }
     public float Health { get; set; }
     public float MaxHealth { get; private set; }
     public float MovementSpeed { get; private set; }
     public Weapon CurrentWeapon { get; private set; }
     public Constants.WeaponType CurrentWeaponType { get; private set; }
+    public Vector3 LastDoorEntered { get; set; }
 
     private void Awake()
     {
@@ -75,11 +77,20 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void ResetStats()
+    {
+        Health = MaxHealth;
+        CurrentWeapon = new Weapon("Sword", 10f, 2f, 1f);
+        CurrentWeaponType = Constants.WeaponType.Sword;
+    }
+
+
     public void Die()
     {
         Debug.Log("Player dies");
         // Play death animation
         // Show game over screen
+        SceneManager.LoadScene("GameOver");
         Destroy(gameObject);
     }
 }

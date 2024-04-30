@@ -9,6 +9,7 @@ TagManager:
   - Projectile
   - Weapon
   - Interact
+  - SacrificeRoom
   layers:
   - Default
   - TransparentFX

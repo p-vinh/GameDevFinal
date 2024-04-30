@@ -13,9 +13,9 @@ public class CameraManager : MonoBehaviour
     //[SerializeField]
     //private float m_PivotAngle = 0f;
 
-   /* [SerializeField]
-    private float m_CameraSensitivity = 0f;*/
-     
+    /* [SerializeField]
+     private float m_CameraSensitivity = 0f;*/
+
     // Idle Offset  -0.35, 0, 4.25
     [SerializeField]
     private Vector3 m_CameraOffset = Vector3.zero;
@@ -34,7 +34,17 @@ public class CameraManager : MonoBehaviour
     private void FollowTarget()
     {
         Vector3 newPosition = new Vector3(m_Follow.position.x + m_CameraOffset.x, m_Follow.position.y + m_CameraOffset.y, m_Follow.position.z + m_CameraOffset.z);
-        transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref m_CameraVelicity,  m_CameraSpeed);
+        float distance = Vector3.Distance(transform.position, newPosition);
+
+        if (distance > 5f) // Will snap to the player if the distance is greater than 5
+        {
+            transform.position = newPosition;
+        }
+        else
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref m_CameraVelicity, m_CameraSpeed);
+
+        }
     }
 
 }
