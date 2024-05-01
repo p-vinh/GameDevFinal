@@ -5,20 +5,21 @@ using UnityEngine;
 public class Blood : MonoBehaviour
 {
     [SerializeField] private float healthAmount = 10.0f;
+
     void Start()
     {
-        
+        Destroy(gameObject, 10.0f);
     }
-
     void Update()
     {
         
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
+            Debug.Log("Player healed for " + healthAmount + " health.");
             PlayerStats.Instance.Health += healthAmount;
             Destroy(gameObject);
         }

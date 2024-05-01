@@ -10,7 +10,9 @@ public class MageAI : EnemyAI
     public SphereCollider drainRangeCollider;
     public SphereCollider tooCloseRangeCollider;
     public SphereCollider approachRangeCollider;
+    private Rigidbody rb;
     public LayerMask playerLayer;
+    public Animator m_Animator;
     private LineRenderer lineRenderer;
 
     private enum State
@@ -29,17 +31,26 @@ public class MageAI : EnemyAI
     public Vector3 roamDirection;
     public Vector3 lastKnownPlayerPosition;
 
+    int Horizontal = 0;
+    int Vertical = 0;
+
     public override string EnemyType => "Mage";
 
     protected override void Start()
     {
         bloodManager = FindObjectOfType<BloodManager>();
+        m_Animator = GetComponent<Animator>();
         Stats = new EnemyStats(10, drainAmount, 5);
         player = GameObject.FindGameObjectWithTag("Player");
         state = State.Idle;
         playerLayer = LayerMask.GetMask("Player");
         lineRenderer = GetComponent<LineRenderer>();
+        rb = GetComponent<Rigidbody>();
         stateTimer = 0.0f;
+
+        Horizontal = Animator.StringToHash("Horizontal");
+        Vertical = Animator.StringToHash("Vertical");
+
     }
 
     protected override void Update()
@@ -60,6 +71,8 @@ public class MageAI : EnemyAI
                     state = State.Approach;
                     lastKnownPlayerPosition = player.transform.position;
                 }
+
+                UpdateAnimationValue(0, 0);
                 break;
             case State.Roaming:
                 if (stateTimer >= 3f)
@@ -82,8 +95,16 @@ public class MageAI : EnemyAI
                             lastKnownPlayerPosition = Vector3.zero;
                     }
                     else
-                        transform.position += roamDirection * approachSpeed * Time.deltaTime;
+                        rb.velocity = roamDirection * approachSpeed;
                 }
+
+                if (roamDirection != Vector3.zero)
+                {
+                    Quaternion toRotation = Quaternion.LookRotation(roamDirection, Vector3.up);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
+                }
+
+                UpdateAnimationValue(roamDirection.x, roamDirection.z);
                 break;
             case State.Approach:
                 if (Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
@@ -98,19 +119,45 @@ public class MageAI : EnemyAI
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, approachSpeed * Time.deltaTime);
                     lastKnownPlayerPosition = player.transform.position;
                 }
+
+                Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+
+                if (directionToPlayer != Vector3.zero)
+                {
+                    Quaternion toRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
+                }
+                UpdateAnimationValue(directionToPlayer.x, directionToPlayer.z);
                 break;
             case State.Attack:
+                Vector3 attackDirectionToPlayer = (player.transform.position - transform.position).normalized;
+                if (attackDirectionToPlayer != Vector3.zero)
+                {
+                    Quaternion toRotation = Quaternion.LookRotation(attackDirectionToPlayer, Vector3.up);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 10 * Time.deltaTime);
+                }
+                rb.velocity = Vector3.zero;
                 Attack();
+                UpdateAnimationValue(0, 0);
+                m_Animator.SetBool("Attack", true);
                 break;
             case State.BackingAway:
+                Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
+
                 if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
                 {
                     state = State.Attack;
                 }
                 else
+                    rb.velocity = directionAwayFromPlayer * -backAwaySpeed;
+
+                if (directionAwayFromPlayer != Vector3.zero)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -backAwaySpeed * Time.deltaTime);
+                    Quaternion toRotation = Quaternion.LookRotation(directionAwayFromPlayer, Vector3.up);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, backAwaySpeed * Time.deltaTime);
                 }
+
+                UpdateAnimationValue(directionAwayFromPlayer.x, directionAwayFromPlayer.z);
                 break;
         }
     }
@@ -143,7 +190,7 @@ public class MageAI : EnemyAI
         Debug.Log("Mage takes damage. Current health: " + Stats.Health);
         if (Stats.Health <= 0)
         {
-            Die();
+            m_Animator.SetTrigger("Death");
         }
     }
 
@@ -153,6 +200,7 @@ public class MageAI : EnemyAI
         {
             PlayerStats.Instance.Health -= Stats.Damage;
             TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+
         }
 
         if (other.gameObject.CompareTag("Wall"))
@@ -169,8 +217,17 @@ public class MageAI : EnemyAI
     public override void Die()
     {
         Debug.Log("Mage dies");
-        base.Die(); // Call the base class method for blood drop logic
+        base.Die();
         Destroy(gameObject);
     }
 
+    public void UpdateAnimationValue(float horizontalValue, float verticalValue)
+    {
+        m_Animator.SetBool("Attack", false);
+        float time = 0.1f;
+        float clampedHorizontal = Mathf.Clamp(horizontalValue, -1f, 1f);
+        float clampedVertical = Mathf.Clamp(verticalValue, -1f, 1f);
+        m_Animator.SetFloat(Horizontal, clampedHorizontal, time, Time.deltaTime);
+        m_Animator.SetFloat(Vertical, clampedVertical, time, Time.deltaTime);
+    }
 }
