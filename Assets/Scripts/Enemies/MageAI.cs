@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MageAI : EnemyAI
 {
     public float drainAmount = 1.0f;
     public float approachSpeed = 2.0f;
     public float backAwaySpeed = 3.0f;
-    public SphereCollider drainRangeCollider;
-    public SphereCollider tooCloseRangeCollider;
-    public SphereCollider approachRangeCollider;
+    private NavMeshAgent navMeshAgent;
     private Rigidbody rb;
     public LayerMask playerLayer;
     public Animator m_Animator;
@@ -40,12 +39,14 @@ public class MageAI : EnemyAI
     {
         bloodManager = FindObjectOfType<BloodManager>();
         m_Animator = GetComponent<Animator>();
-        Stats = new EnemyStats(10, drainAmount, 5);
         player = GameObject.FindGameObjectWithTag("Player");
-        state = State.Idle;
         playerLayer = LayerMask.GetMask("Player");
         lineRenderer = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+
+        Stats = new EnemyStats(10, drainAmount, 5);
+        state = State.Idle;
         stateTimer = 0.0f;
 
         Horizontal = Animator.StringToHash("Horizontal");
@@ -66,7 +67,7 @@ public class MageAI : EnemyAI
                     stateTimer = 0f;
                     roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
                 }
-                else if (Physics.CheckSphere(transform.position, approachRangeCollider.radius, playerLayer))
+                else if (Physics.CheckSphere(transform.position, 9f, playerLayer))
                 {
                     state = State.Approach;
                     lastKnownPlayerPosition = player.transform.position;
@@ -80,7 +81,7 @@ public class MageAI : EnemyAI
                     state = State.Idle;
                     stateTimer = 0f;
                 }
-                else if (Physics.CheckSphere(transform.position, approachRangeCollider.radius, playerLayer))
+                else if (Physics.CheckSphere(transform.position, 10f, playerLayer))
                 {
                     state = State.Approach;
                     lastKnownPlayerPosition = player.transform.position;
@@ -89,13 +90,12 @@ public class MageAI : EnemyAI
                 {
                     if (lastKnownPlayerPosition != Vector3.zero)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, lastKnownPlayerPosition, approachSpeed * Time.deltaTime);
-
-                        if (transform.position == lastKnownPlayerPosition)
+                        navMeshAgent.SetDestination(lastKnownPlayerPosition);
+                        if (Vector3.Distance(navMeshAgent.destination, transform.position) <= navMeshAgent.stoppingDistance)
                             lastKnownPlayerPosition = Vector3.zero;
                     }
                     else
-                        rb.velocity = roamDirection * approachSpeed;
+                        navMeshAgent.SetDestination(transform.position + roamDirection * approachSpeed);
                 }
 
                 if (roamDirection != Vector3.zero)
@@ -107,16 +107,16 @@ public class MageAI : EnemyAI
                 UpdateAnimationValue(roamDirection.x, roamDirection.z);
                 break;
             case State.Approach:
-                if (Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
+                if (Physics.CheckSphere(transform.position, 7f, playerLayer))
                 {
                     state = State.Attack;
                     lastKnownPlayerPosition = player.transform.position;
                 }
-                else if (!Physics.CheckSphere(transform.position, approachRangeCollider.radius, playerLayer))
+                else if (!Physics.CheckSphere(transform.position, 9f, playerLayer))
                     state = State.Idle;
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, approachSpeed * Time.deltaTime);
+                    navMeshAgent.SetDestination(player.transform.position);
                     lastKnownPlayerPosition = player.transform.position;
                 }
 
@@ -127,6 +127,7 @@ public class MageAI : EnemyAI
                     Quaternion toRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
                     transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
                 }
+
                 UpdateAnimationValue(directionToPlayer.x, directionToPlayer.z);
                 break;
             case State.Attack:
@@ -138,18 +139,19 @@ public class MageAI : EnemyAI
                 }
                 rb.velocity = Vector3.zero;
                 Attack();
+                navMeshAgent.isStopped = true;
                 UpdateAnimationValue(0, 0);
                 m_Animator.SetBool("Attack", true);
                 break;
             case State.BackingAway:
                 Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
 
-                if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
+                if (!Physics.CheckSphere(transform.position, 7f, playerLayer))
                 {
                     state = State.Attack;
                 }
                 else
-                    rb.velocity = directionAwayFromPlayer * -backAwaySpeed;
+                    navMeshAgent.SetDestination(transform.position - (player.transform.position - transform.position).normalized * backAwaySpeed);
 
                 if (directionAwayFromPlayer != Vector3.zero)
                 {
@@ -159,18 +161,22 @@ public class MageAI : EnemyAI
 
                 UpdateAnimationValue(directionAwayFromPlayer.x, directionAwayFromPlayer.z);
                 break;
+            default:
+                navMeshAgent.isStopped = false;
+                break;
         }
     }
 
     public override void Attack()
     {
         Debug.Log("Mage attacks with damage: " + Stats.Damage);
-        if (tooCloseRangeCollider.bounds.Contains(player.transform.position))
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceToPlayer <= 3f)
         {
             state = State.BackingAway;
             lineRenderer.enabled = false;
         }
-        else if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
+        else if (!Physics.CheckSphere(transform.position, 7f, playerLayer))
         {
             state = State.Idle;
             lineRenderer.enabled = false;

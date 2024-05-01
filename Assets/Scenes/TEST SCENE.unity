@@ -122,7 +122,35 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: c7d21bd74d9ddd5469d21eff1f382994, type: 2}
+--- !u!1 &46546102 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
+    type: 3}
+  m_PrefabInstance: {fileID: 229919606}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &46546109
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46546102}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 10.853409
+  m_Speed: 4
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 3
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0.34
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &229919606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -191,6 +219,21 @@ PrefabInstance:
       value: PT_Plague_Doctor
       objectReference: {fileID: 0}
     - target: {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8640843360650201060, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8822577759555140862, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970164795582502366, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1007,7 +1050,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &2010973776
 MeshCollider:
