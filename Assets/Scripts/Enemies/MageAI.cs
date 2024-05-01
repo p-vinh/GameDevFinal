@@ -13,6 +13,7 @@ public class MageAI : EnemyAI
     public LayerMask playerLayer;
     public Animator m_Animator;
     private LineRenderer lineRenderer;
+    private bool isDead = false;
 
     private enum State
     {
@@ -194,8 +195,9 @@ public class MageAI : EnemyAI
     {
         Stats.Health -= damage;
         Debug.Log("Mage takes damage. Current health: " + Stats.Health);
-        if (Stats.Health <= 0)
+        if (Stats.Health <= 0 && !isDead)
         {
+            isDead = true;
             m_Animator.SetTrigger("Death");
         }
     }
