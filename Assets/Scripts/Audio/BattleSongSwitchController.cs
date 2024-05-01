@@ -25,7 +25,7 @@ public class BattleSongSwitchController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // If left click on door
+        // If Player clicks on the door // TODO: Make sure this will work with the player's mouse click
         if (tag == "Interact" && Input.GetMouseButtonDown(0)) {
             // Check if the last played audio source is the maze audio source
             if (lastPlayed == srcMaze) {
