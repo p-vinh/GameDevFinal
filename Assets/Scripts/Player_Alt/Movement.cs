@@ -28,14 +28,14 @@ public class Movement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         m_InputsManager = GetComponent<InputsManager>();
-        anim.SetBool("hasSword",!carryGun); //If player is carrying sword, animation will follow sword animations related
+        anim.SetBool("carryGun",carryGun); 
 
-        if(!carryGun)
+        if(!carryGun) //Has sword
         {
             gun.SetActive(false);
             sword.SetActive(true);
         }
-        else
+        else //Has gun
         {
             gun.SetActive(true);
             sword.SetActive(false);
@@ -44,45 +44,48 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        bool isShiftKeyDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-
-        //Point a ray from mouse to camera, use this to rotate player to look at mouse
-        //print(m_InputsManager._MousePosition);
-        Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit,100))
+        if(GameObject.FindWithTag("MainCamera") != null)
         {
-            Vector3 targetDirection = hit.point - transform.position;
-            targetDirection.y = 0;
+            bool isShiftKeyDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
-            transform.LookAt(transform.position + targetDirection, Vector3.up);
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * m_PlayerRotationSpeed);
-        }
+            //Point a ray from mouse to camera, use this to rotate player to look at mouse
+            //print(m_InputsManager._MousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
+            RaycastHit hit;
 
-        //If sprint mode, change anim to run
-        if(isShiftKeyDown)
-        {
-            speed = 5;
-        }
-        else
-        {
-            speed = 3;
-        }
-        anim.SetBool("Shift",isShiftKeyDown);
-
-        if(Input.GetMouseButton(0))
-        {
-            //If has gun, call this function here
-            if(carryGun)
+            if (Physics.Raycast(ray, out hit,100))
             {
-                attackGun();
-            }
-            else //If has sword, call this function here
-            {
-                attackSword();
+                Vector3 targetDirection = hit.point - transform.position;
+                targetDirection.y = 0;
+
+                transform.LookAt(transform.position + targetDirection, Vector3.up);
+                //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * m_PlayerRotationSpeed);
             }
 
+            //If sprint mode, change anim to run
+            if(isShiftKeyDown)
+            {
+                speed = 5;
+            }
+            else
+            {
+                speed = 3;
+            }
+            anim.SetBool("Shift",isShiftKeyDown);
+
+            if(Input.GetMouseButton(0))
+            {
+                //If has gun, call this function here
+                if(carryGun)
+                {
+                    attackGun();
+                }
+                else //If has sword, call this function here
+                {
+                    attackSword();
+                }
+
+            }
         }
         
 
@@ -134,6 +137,7 @@ public class Movement : MonoBehaviour
         anim.SetBool("Attack",false);
         attackAnimDone = true;
     }
+
 
     private Vector3 CalculateDirection()
     {
