@@ -10,8 +10,9 @@ public class Movement : MonoBehaviour
     public float speed = 4;
     Animator anim;
     Vector3 lookPos;
+    public GameObject gun;
+    public GameObject sword;
     public bool carryGun;
-    public bool carrySword;
     private bool attackAnimDone = true;
 
 
@@ -27,6 +28,18 @@ public class Movement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         m_InputsManager = GetComponent<InputsManager>();
+        anim.SetBool("hasSword",!carryGun); //If player is carrying sword, animation will follow sword animations related
+
+        if(!carryGun)
+        {
+            gun.SetActive(false);
+            sword.SetActive(true);
+        }
+        else
+        {
+            gun.SetActive(true);
+            sword.SetActive(false);
+        }
     }
 
     void Update()
@@ -58,14 +71,17 @@ public class Movement : MonoBehaviour
         }
         anim.SetBool("Shift",isShiftKeyDown);
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0))
         {
             //If has gun, call this function here
             if(carryGun)
             {
                 attackGun();
             }
-            //If has sword, call this function here
+            else //If has sword, call this function here
+            {
+                attackSword();
+            }
 
         }
 
@@ -80,10 +96,16 @@ public class Movement : MonoBehaviour
 
         m_InputsManager.HandleInputs();
 
-        if(attackAnimDone)
-        {
+       if(attackAnimDone && !carryGun)
+       {
             rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput*speed, 0, m_InputsManager._VerticalInput * speed);
-        }
+       }
+
+       if(carryGun)
+       {
+            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput*speed, 0, m_InputsManager._VerticalInput * speed);
+       }
+        
 
         anim.SetFloat("Forward",m_InputsManager._HorizontalInput);
         anim.SetFloat("Turn",m_InputsManager._VerticalInput);
@@ -92,17 +114,19 @@ public class Movement : MonoBehaviour
 
     void attackGun()
     {
-        if(attackAnimDone)
-        {
-            attackAnimDone = false;
-            anim.SetBool("Attack",true);
-        }
+       
+        attackAnimDone = false;
+        anim.SetBool("Attack",true);
         
     }
 
     void attackSword()
     {
-
+        if(attackAnimDone)
+        {
+            attackAnimDone = false;
+            anim.SetBool("Attack",true);
+        }
     }
 
     void finishedAttackAnim()
