@@ -238,6 +238,18 @@ MonoBehaviour:
   carryGun: 0
   m_Camera: {fileID: 0}
   m_InputsManager: {fileID: 126265454}
+--- !u!114 &-1636839424632691310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3918858020621784607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54691b1548cadc428b41d87e4958271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6250917521194859853 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: 4d324e0a920798c43a59be49f478fa57,

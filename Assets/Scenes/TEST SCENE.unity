@@ -190,6 +190,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Plague_Doctor
       objectReference: {fileID: 0}
+    - target: {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
 --- !u!1 &304551498
@@ -326,39 +331,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 48.249, y: 5.537, z: 1.904}
---- !u!1 &437849459 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3918858020621784607, guid: 636ad359efebbbe44940facee3c4c50e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1806908496}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &437849460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 437849459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57ab1512c0fc1ec49a3fbfa4cf63376c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Movement: {x: 0, y: 0}
-  m_MousePosition: {x: 0, y: 0}
-  m_MouseClick: 0
---- !u!114 &437849466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 437849459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54691b1548cadc428b41d87e4958271, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &437849471 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4407128716844092581, guid: 636ad359efebbbe44940facee3c4c50e,
@@ -425,7 +397,7 @@ PrefabInstance:
     - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
       propertyPath: m_InputsManager
       value: 
-      objectReference: {fileID: 437849460}
+      objectReference: {fileID: 0}
     - target: {fileID: 92838076589961390, guid: 636ad359efebbbe44940facee3c4c50e,
         type: 3}
       propertyPath: m_Layer

@@ -16,7 +16,7 @@ namespace PlayerController.InputsManager
         private Vector2 m_MousePosition = Vector2.zero;
 
         [SerializeField]
-        private bool m_MouseClick = false;
+        private bool m_MouseClick;
 
         public Vector2 _MousePosition
         {
@@ -59,7 +59,7 @@ namespace PlayerController.InputsManager
                 m_PlayerControls = new PlayerControls();
                 m_PlayerControls.PlayerController.Movement.performed += i => m_Movement = i.ReadValue<Vector2>();
                 m_PlayerControls.PlayerController.LookAt.performed += i => m_MousePosition = i.ReadValue<Vector2>();
-                m_PlayerControls.PlayerController.MouseButton.performed += i => m_MouseClick = i.ReadValue<bool>();
+                m_PlayerControls.PlayerController.MouseButton.performed += i => m_MouseClick = i.ReadValueAsButton();
             }
             m_PlayerControls.Enable(); 
         }
@@ -73,6 +73,7 @@ namespace PlayerController.InputsManager
         {
             m_VerticalInput = m_Movement.y;
             m_HorizontalInput= m_Movement.x;
+            m_MouseClick = m_PlayerControls.PlayerController.MouseButton.triggered;
         }
     }
 }
