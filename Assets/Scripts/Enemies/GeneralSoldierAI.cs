@@ -3,47 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GeneralSoldierAI : MonoBehaviour {
+public class GeneralSoldierAI : EnemyAI {
     // Unity Editor Variables
     private NavMeshAgent mesh;
     private Transform enemy;
     private Transform player;
-    //private PlayerController playerController;
-    //private Animator animator;
-    //private Animator playerAnimator;
-    //private GameObject shield;
-    private Collider sword;
+    private Animator animator;
+    private BoxCollider sword;
 
-    // Variables
-    public float speed = 2f;
-    public float attackSpeed = 50.0f; 
-    public float downtime = 30.0f;
+    // State Variables
+    private enum State {
+        Idle,
+        Approach,
+        Attack,
+        Cooldown
+    }//end enum-State
+    private State state;
+
+    // Public Variables
+    public float health = 100.0f;
+    public float swordDamage = 5.0f; // general soldier attack
+    public float speed = 2.0f;
+    public float attackSpeed = 5.0f;
     public float sightRange = 8.0f; 
     public float attackRange = 3.0f; // Check this based on how close the sword needs to be to hit the player
-    public int health = 100;
-    public static int maxHealth = 100;
+    public override string EnemyType => "General Soldier";
     private float distanceToPlayer;
-
-    // Damage Variables
-    public int swordDamage = 5; // general soldier attack
-
-    // Boolean Variables
-    //private bool canTakeDamage = true;
-    //private bool isAttaching = false;
     private bool canMove = true;
 
 
     // Setup Variables
     void Start() {
+        // Set up the enemy stats
+        bloodManager = FindObjectOfType<BloodManager>();
+        Stats = new EnemyStats(health, swordDamage, speed);
+        // Set up the enemy AI
         mesh = GetComponent<NavMeshAgent>();
-        enemy = GetComponent<Transform>();
-        player = GameObject.Find("Player").transform;
-        //playerController = player.GetComponent<PlayerController>();
-        //animator = GetComponent<Animator>();
-        //playerAnimator = player.GetComponent<Animator>();
         mesh.speed = speed;
-        //shield = GetComponentInChildren("Shield");
-        //sword = GetComponentInChildren("Sword").GetComponent<Collider>();
+        enemy = GetComponent<Transform>();
+        // Get other game objects
+        player = FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
+        sword = GetComponentInChildren("Sword").GetComponent<Collider>();
     }//end Start()
 
     // Update is called once per frame
@@ -51,41 +52,43 @@ public class GeneralSoldierAI : MonoBehaviour {
         distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         // Move to Player if in sight range
-        if (canMove) {
+       //if (canMove) {
             if (distanceToPlayer <= sightRange && distanceToPlayer > attackRange) {
                 MoveToPlayer();
             } else if (distanceToPlayer <= attackRange) {
                 mesh.SetDestination(enemy.position); // Stop moving
-                StartCoroutine(AttackPlayer(swordDamage));
-                canMove = false;
+                AttackPlayer(swordDamage);
             }//end else-if
-        } else if (distanceToPlayer > attackRange) {
-            canMove = true;
-        }//end else-if
+        //} else if (distanceToPlayer > attackRange) {
+          //  canMove = true;
+        //}//end else-if
     }//end Update()
 
     // Universal Soldier AI Methods //
     // Move to Player AI
     void MoveToPlayer() {
         mesh.SetDestination(player.position);
-    }//end moveToPlayer()
+    }//end MoveToPlayer()
 
     // Attack Player if in range
-    IEnumerator AttackPlayer(int damage) {
+    void AttackPlayer(int damage) {
         // TODO: Set up the attack animation with the sword and if the sword object hits the player then and only then the player takes damage
-        //animator.SetTrigger("SwordAttack");
+        canMove = false;
 
         if (distanceToPlayer <= attackRange) {
+            animator.SetBool("Attack", true);
+
             Debug.Log("General Soldier Attack Player");
-            //playerController.TakeDamage(damage);
+            if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
+                PlayerStats.Instance.TakeDamage(damage);
+            }//end if
         }//end if
-        
-        yield return new WaitForSeconds(attackSpeed);
-        // If sword hits player then player takes damage
-        // if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
-        //     playerController.TakeDamage(damage);
-        // }//end if
-    }//end attackPlayer()
+    }//end AttackPlayer()
+
+    void changeCanMove() {
+        canMove = true;
+        Debug.Log("Can Move: " + canMove);
+    }//end changeCanMove()
 
     // This is a fake method so I cancolapse commented code while working on the other methods
     void shield() {
