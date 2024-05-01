@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 2fa72ebf1cc0057458c62f8d30145b97
+guid: 1fa38b7be24eb18488f723c897a1d69f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - bloodDropPrefab: {fileID: 6539491922197301465, guid: d54fa391a3f38ee40ac3e17408691951,
-      type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -6,19 +6,22 @@ public class BloodManager : MonoBehaviour
 {
     private Dictionary<string, float> bloodTypeDropPercentages = new Dictionary<string, float>
     {
-        { "A", 0.42f },
+        { "A", 100f },
         { "B", 0.11f },
         { "AB", 0.04f },
         { "O", 0.43f }
     };
 
     private string playerBloodType;
+
+    [SerializeField] private GameObject bloodDropPrefab;
+
     void Start()
     {
         playerBloodType = PlayerStats.Instance.bloodType.ToString();
     }
 
-    public void OnEnemyDeath()
+    public void OnEnemyDeath(Transform enemyTransform)
     {
         float random = Random.Range(0.0f, 1.0f);
 
@@ -29,7 +32,7 @@ public class BloodManager : MonoBehaviour
                 if (playerBloodType == bloodTypeDropPercentage.Key)
                 {
                     Debug.Log("Enemy dropped blood type " + playerBloodType);
-                    //Instatiate blood drop
+                    Instantiate(bloodDropPrefab, enemyTransform.position, Quaternion.identity);
                 }
                 else
                 {

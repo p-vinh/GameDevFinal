@@ -193,12 +193,12 @@ PrefabInstance:
     - target: {fileID: 8827407977079520187, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
         type: 3}
       propertyPath: drainAmount
-      value: 0.01
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8827407977079520187, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
         type: 3}
       propertyPath: backAwaySpeed
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
@@ -235,6 +235,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b54691b1548cadc428b41d87e4958271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &437849471 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4407128716844092581, guid: 636ad359efebbbe44940facee3c4c50e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1806908496}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &621185765
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fa72ebf1cc0057458c62f8d30145b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodDropPrefab: {fileID: 6539491922197301465, guid: d54fa391a3f38ee40ac3e17408691951,
+    type: 3}
 --- !u!4 &621185767
 Transform:
   m_ObjectHideFlags: 0
@@ -291,6 +299,7 @@ GameObject:
   - component: {fileID: 1433219930}
   - component: {fileID: 1433219929}
   - component: {fileID: 1433219932}
+  - component: {fileID: 1433219933}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -397,6 +406,21 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1433219933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433219928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266eff2ab90f75248a51b7623e8d1aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Follow: {fileID: 437849471}
+  m_CameraSpeed: 1
+  m_CameraOffset: {x: 0, y: 1.05, z: 0}
 --- !u!1 &1557295338 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
@@ -423,7 +447,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: b6c6c12778742f74587225971bba2556, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1201,8 +1225,8 @@ Transform:
   m_GameObject: {fileID: 2010973775}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.736, y: -0.0513, z: 40.1909}
-  m_LocalScale: {x: 1.6451, y: 1.6451, z: 1.6451}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 6.24, y: 6.24, z: 6.24}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4

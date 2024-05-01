@@ -69,6 +69,6 @@ public abstract class EnemyAI : MonoBehaviour
 
     public virtual void Die()
     {
-        bloodManager.OnEnemyDeath();
+        bloodManager.OnEnemyDeath(gameObject.transform);
     }
 }

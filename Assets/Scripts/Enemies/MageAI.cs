@@ -152,6 +152,7 @@ public class MageAI : EnemyAI
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerStats.Instance.Health -= Stats.Damage;
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
 
         if (other.gameObject.CompareTag("Wall"))
