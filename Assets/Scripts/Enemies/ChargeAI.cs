@@ -60,9 +60,9 @@ public class ChargeAI : EnemyAI
     private void ChooseNewRoamingTarget()
     {
         // Define roaming area
-        Vector3 minRoamPoint = new Vector3(-10f, transform.position.y, -10f);
-        Vector3 maxRoamPoint = new Vector3(10f, transform.position.y, 10f);
-
+        Vector3 minRoamPoint = new Vector3(transform.position.x - 10f, transform.position.y, transform.position.z - 10f);
+        Vector3 maxRoamPoint = new Vector3(transform.position.x + 10f, transform.position.y, transform.position.z + 10f);
+        
         // Choose random target position
         targetPosition = new Vector3(
             Random.Range(minRoamPoint.x, maxRoamPoint.x),
@@ -174,6 +174,7 @@ public class ChargeAI : EnemyAI
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            Attack();
             PlayerStats.Instance.Health -= Stats.Damage;
         }
 
