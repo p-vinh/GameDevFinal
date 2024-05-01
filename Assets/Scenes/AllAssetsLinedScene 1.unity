@@ -790,32 +790,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0000017, y: 2.0000014, z: 0.2504617}
   m_Center: {x: 0.0396578, y: 0.030119002, z: -0.00010997057}
---- !u!1 &126265448 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3918858020621784607, guid: 636ad359efebbbe44940facee3c4c50e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1172235992}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &126265453 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4407128716844092581, guid: 636ad359efebbbe44940facee3c4c50e,
     type: 3}
   m_PrefabInstance: {fileID: 1172235992}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &126265454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 126265448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57ab1512c0fc1ec49a3fbfa4cf63376c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Movement: {x: 0, y: 0}
-  m_MousePosition: {x: 0, y: 0}
 --- !u!1 &201809038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2558,12 +2538,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 758816008}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &774914465 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4489677677522035259, guid: 636ad359efebbbe44940facee3c4c50e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1172235992}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &806209570
 GameObject:
   m_ObjectHideFlags: 0
@@ -3515,6 +3489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Movement: {x: 0, y: 0}
   m_MousePosition: {x: 0, y: 0}
+  m_MouseClick: 0
 --- !u!1 &990615121
 GameObject:
   m_ObjectHideFlags: 0
@@ -4051,26 +4026,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: gun
-      value: 
-      objectReference: {fileID: 1350053704}
-    - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: sword
-      value: 
-      objectReference: {fileID: 774914465}
-    - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: carryGun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: carrySword
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: m_InputsManager
-      value: 
-      objectReference: {fileID: 126265454}
     - target: {fileID: 3918858020621784607, guid: 636ad359efebbbe44940facee3c4c50e,
         type: 3}
       propertyPath: m_Name
@@ -4952,12 +4907,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331992008}
   m_Mesh: {fileID: 7859229998326796067, guid: 761f086b8ea3d3b498c848051eb930a8, type: 3}
---- !u!1 &1350053704 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3918858019567555886, guid: 636ad359efebbbe44940facee3c4c50e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1172235992}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1375865495
 PrefabInstance:
   m_ObjectHideFlags: 0
