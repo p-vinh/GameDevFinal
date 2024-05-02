@@ -5,7 +5,7 @@ using PlayerController.InputsManager;
 
 public class Movement : MonoBehaviour
 {
-    
+
     Rigidbody rigidBody;
     public float speed = 4;
     Animator anim;
@@ -13,12 +13,13 @@ public class Movement : MonoBehaviour
     public GameObject sword;
     public bool carryGun;
     private bool attackAnimDone = true;
-
+    private BoxCollider swordCollider;
+    private Gun gunScript;
 
     //Added input manager 
     public Camera m_Camera = null;
     public InputsManager m_InputsManager;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,9 +27,11 @@ public class Movement : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         m_InputsManager = GetComponent<InputsManager>();
-        anim.SetBool("hasSword",!carryGun); //If player is carrying sword, animation will follow sword animations related
+        swordCollider = sword.GetComponent<BoxCollider>();
+        gunScript = gun.GetComponent<Gun>();
+        anim.SetBool("hasSword", !carryGun); //If player is carrying sword, animation will follow sword animations related
 
-        if(!carryGun)
+        if (!carryGun)
         {
             gun.SetActive(false);
             sword.SetActive(true);
@@ -47,7 +50,7 @@ public class Movement : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit,100))
+        if (Physics.Raycast(ray, out hit, 100))
         {
             Vector3 targetDirection = hit.point - transform.position;
             targetDirection.y = 0;
@@ -56,10 +59,10 @@ public class Movement : MonoBehaviour
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * m_PlayerRotationSpeed);
         }
 
-        if(m_InputsManager._MouseLeftClick)
+        if (m_InputsManager._MouseLeftClick)
         {
             //If has gun, call this function here
-            if(carryGun)
+            if (carryGun)
             {
                 attackGun();
             }
@@ -70,7 +73,7 @@ public class Movement : MonoBehaviour
 
         }
 
-        
+
     }
 
     // Update is called once per frame
@@ -81,43 +84,45 @@ public class Movement : MonoBehaviour
 
         m_InputsManager.HandleInputs();
 
-       if(attackAnimDone && !carryGun)
-       {
+        if (attackAnimDone && !carryGun)
+        {
             rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * speed, 0, m_InputsManager._VerticalInput * speed);
-       }
+        }
 
-       if(carryGun)
-       {
+        if (carryGun)
+        {
             rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * speed, 0, m_InputsManager._VerticalInput * speed);
-       }
-        
+        }
 
-        anim.SetFloat("Forward",m_InputsManager._HorizontalInput);
-        anim.SetFloat("Turn",m_InputsManager._VerticalInput);
-       
+
+        anim.SetFloat("Forward", m_InputsManager._HorizontalInput);
+        anim.SetFloat("Turn", m_InputsManager._VerticalInput);
+
     }
 
     void attackGun()
     {
-       
+        gunScript.Shoot();
         attackAnimDone = false;
-        anim.SetBool("Attack",true);
-        
+        anim.SetBool("Attack", true);
+
     }
 
     void attackSword()
     {
-        if(attackAnimDone)
+        if (attackAnimDone)
         {
             attackAnimDone = false;
-            anim.SetBool("Attack",true);
+            swordCollider.enabled = true;
+            anim.SetBool("Attack", true);
         }
     }
 
     void finishedAttackAnim()
     {
-        anim.SetBool("Attack",false);
+        anim.SetBool("Attack", false);
         attackAnimDone = true;
+        swordCollider.enabled = false;
     }
 
     private Vector3 CalculateDirection()

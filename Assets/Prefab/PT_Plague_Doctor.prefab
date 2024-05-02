@@ -338,6 +338,7 @@ GameObject:
   - component: {fileID: 8827407977079520187}
   - component: {fileID: 645186914283810419}
   - component: {fileID: 1557295350}
+  - component: {fileID: 46546109}
   m_Layer: 7
   m_Name: PT_Plague_Doctor
   m_TagString: Untagged
@@ -409,15 +410,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodManager: {fileID: 0}
-  drainAmount: 0
-  approachSpeed: 2
-  backAwaySpeed: 0
+  drainAmount: 0.001
+  approachSpeed: 7
+  backAwaySpeed: 7
+  attackRange: 7
+  backAwayRange: 4
+  approachRange: 10
   playerLayer:
     serializedVersion: 2
     m_Bits: 1048576
-  m_Animator: {fileID: 0}
-  roamDirection: {x: 0, y: 0, z: 0}
-  lastKnownPlayerPosition: {x: 0, y: 0, z: 0}
 --- !u!54 &645186914283810419
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -477,7 +478,6 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -533,6 +533,28 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!195 &46546109
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2153424671892267527}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 10.853409
+  m_Speed: 10
+  m_Acceleration: 20
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0.34
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &2387961271193671103
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,13 +5,21 @@ using UnityEngine.AI;
 
 public class MageAI : EnemyAI
 {
+    #region Variables
+    [Header("Mage Stats")]
     public float drainAmount = 1.0f;
     public float approachSpeed = 2.0f;
     public float backAwaySpeed = 3.0f;
+
+    [Header("Ranges")]
+    public float attackRange = 7.0f;
+    public float backAwayRange = 3f;
+    public float approachRange = 20f;
+
     private NavMeshAgent navMeshAgent;
     private Rigidbody rb;
     public LayerMask playerLayer;
-    public Animator m_Animator;
+    private Animator m_Animator;
     private LineRenderer lineRenderer;
     private bool isDead = false;
 
@@ -28,13 +36,14 @@ public class MageAI : EnemyAI
 
     private GameObject player;
     private float stateTimer;
-    public Vector3 roamDirection;
-    public Vector3 lastKnownPlayerPosition;
+    private Vector3 roamDirection;
+    private Vector3 lastKnownPlayerPosition;
 
     int Horizontal = 0;
     int Vertical = 0;
 
     public override string EnemyType => "Mage";
+    #endregion
 
     protected override void Start()
     {
@@ -46,7 +55,7 @@ public class MageAI : EnemyAI
         rb = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
-        Stats = new EnemyStats(10, drainAmount, 5);
+        Stats = new EnemyStats(50, drainAmount, 10);
         state = State.Idle;
         stateTimer = 0.0f;
 
@@ -57,18 +66,24 @@ public class MageAI : EnemyAI
 
     protected override void Update()
     {
+        if (isDead) return;
+
         stateTimer += Time.deltaTime;
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
 
         switch (state)
         {
             case State.Idle:
+                navMeshAgent.isStopped = false;
+
                 if (stateTimer >= 3f)
                 {
                     state = State.Roaming;
                     stateTimer = 0f;
                     roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
                 }
-                else if (Physics.CheckSphere(transform.position, 9f, playerLayer))
+                else if (distanceToPlayer <= approachRange)
                 {
                     state = State.Approach;
                     lastKnownPlayerPosition = player.transform.position;
@@ -77,12 +92,14 @@ public class MageAI : EnemyAI
                 UpdateAnimationValue(0, 0);
                 break;
             case State.Roaming:
+                navMeshAgent.isStopped = false;
+
                 if (stateTimer >= 3f)
                 {
                     state = State.Idle;
                     stateTimer = 0f;
                 }
-                else if (Physics.CheckSphere(transform.position, 10f, playerLayer))
+                else if (distanceToPlayer <= approachRange)
                 {
                     state = State.Approach;
                     lastKnownPlayerPosition = player.transform.position;
@@ -91,79 +108,62 @@ public class MageAI : EnemyAI
                 {
                     if (lastKnownPlayerPosition != Vector3.zero)
                     {
+                        navMeshAgent.speed = approachSpeed;
                         navMeshAgent.SetDestination(lastKnownPlayerPosition);
                         if (Vector3.Distance(navMeshAgent.destination, transform.position) <= navMeshAgent.stoppingDistance)
                             lastKnownPlayerPosition = Vector3.zero;
                     }
                     else
-                        navMeshAgent.SetDestination(transform.position + roamDirection * approachSpeed);
+                        navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
                 }
 
-                if (roamDirection != Vector3.zero)
-                {
-                    Quaternion toRotation = Quaternion.LookRotation(roamDirection, Vector3.up);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
-                }
-
+                SetRotation(roamDirection);
                 UpdateAnimationValue(roamDirection.x, roamDirection.z);
                 break;
             case State.Approach:
-                if (Physics.CheckSphere(transform.position, 7f, playerLayer))
+                navMeshAgent.isStopped = false;
+
+                if (distanceToPlayer <= attackRange)
                 {
                     state = State.Attack;
                     lastKnownPlayerPosition = player.transform.position;
                 }
-                else if (!Physics.CheckSphere(transform.position, 9f, playerLayer))
+                else if (distanceToPlayer > approachRange)
                     state = State.Idle;
                 else
                 {
+                    navMeshAgent.speed = approachSpeed;
                     navMeshAgent.SetDestination(player.transform.position);
                     lastKnownPlayerPosition = player.transform.position;
                 }
 
-                Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
 
-                if (directionToPlayer != Vector3.zero)
-                {
-                    Quaternion toRotation = Quaternion.LookRotation(directionToPlayer, Vector3.up);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
-                }
-
+                SetRotation(directionToPlayer);
                 UpdateAnimationValue(directionToPlayer.x, directionToPlayer.z);
                 break;
             case State.Attack:
-                Vector3 attackDirectionToPlayer = (player.transform.position - transform.position).normalized;
-                if (attackDirectionToPlayer != Vector3.zero)
-                {
-                    Quaternion toRotation = Quaternion.LookRotation(attackDirectionToPlayer, Vector3.up);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 10 * Time.deltaTime);
-                }
-                rb.velocity = Vector3.zero;
-                Attack();
+                navMeshAgent.speed = 0;
                 navMeshAgent.isStopped = true;
-                UpdateAnimationValue(0, 0);
+                SetRotation(directionToPlayer);
+                Attack();
                 m_Animator.SetBool("Attack", true);
                 break;
             case State.BackingAway:
+                navMeshAgent.isStopped = false;
                 Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
 
-                if (!Physics.CheckSphere(transform.position, 7f, playerLayer))
+                if (distanceToPlayer > backAwayRange)
                 {
                     state = State.Attack;
                 }
                 else
-                    navMeshAgent.SetDestination(transform.position - (player.transform.position - transform.position).normalized * backAwaySpeed);
-
-                if (directionAwayFromPlayer != Vector3.zero)
                 {
-                    Quaternion toRotation = Quaternion.LookRotation(directionAwayFromPlayer, Vector3.up);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, backAwaySpeed * Time.deltaTime);
+                    navMeshAgent.speed = backAwaySpeed;
+                    navMeshAgent.SetDestination(transform.position - directionToPlayer);
                 }
 
+                SetRotation(directionAwayFromPlayer);
                 UpdateAnimationValue(directionAwayFromPlayer.x, directionAwayFromPlayer.z);
-                break;
-            default:
-                navMeshAgent.isStopped = false;
                 break;
         }
     }
@@ -172,12 +172,12 @@ public class MageAI : EnemyAI
     {
         Debug.Log("Mage attacks with damage: " + Stats.Damage);
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceToPlayer <= 3f)
+        if (distanceToPlayer <= backAwayRange)
         {
             state = State.BackingAway;
             lineRenderer.enabled = false;
         }
-        else if (!Physics.CheckSphere(transform.position, 7f, playerLayer))
+        else if (distanceToPlayer > attackRange)
         {
             state = State.Idle;
             lineRenderer.enabled = false;
@@ -204,22 +204,13 @@ public class MageAI : EnemyAI
 
     protected override void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            PlayerStats.Instance.Health -= Stats.Damage;
-            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
-
-        }
+        base.OnCollisionEnter(other);
 
         if (other.gameObject.CompareTag("Wall"))
         {
             roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
         }
 
-        if (other.gameObject.CompareTag("Projectile"))
-        {
-            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
-        }
     }
 
     public override void Die()
@@ -229,7 +220,7 @@ public class MageAI : EnemyAI
         Destroy(gameObject);
     }
 
-    public void UpdateAnimationValue(float horizontalValue, float verticalValue)
+    private void UpdateAnimationValue(float horizontalValue, float verticalValue)
     {
         m_Animator.SetBool("Attack", false);
         float time = 0.1f;
@@ -237,5 +228,14 @@ public class MageAI : EnemyAI
         float clampedVertical = Mathf.Clamp(verticalValue, -1f, 1f);
         m_Animator.SetFloat(Horizontal, clampedHorizontal, time, Time.deltaTime);
         m_Animator.SetFloat(Vertical, clampedVertical, time, Time.deltaTime);
+    }
+
+    private void SetRotation(Vector3 direction)
+    {
+        if (direction != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
+        }
     }
 }
