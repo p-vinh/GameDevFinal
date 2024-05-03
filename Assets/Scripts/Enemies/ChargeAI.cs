@@ -16,6 +16,7 @@ public class ChargeAI : EnemyAI
 
 
     private ChargeAIState currentState = ChargeAIState.Roaming;
+    private BloodManager bloodManager;
     private Vector3 targetPosition;
     private Vector3 spottedPlayerPosition;
     private GameObject player;
@@ -194,7 +195,6 @@ public class ChargeAI : EnemyAI
         anim.SetTrigger("Die");
         Debug.Log("Charge dies");
         base.Die();
-        bloodManager.OnEnemyDeath();
         Destroy(gameObject);
     }
 }
