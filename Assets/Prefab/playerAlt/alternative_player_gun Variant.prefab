@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4d324e0a920798c43a59be49f478fa57,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.666874
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4d324e0a920798c43a59be49f478fa57,
         type: 3}
@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4d324e0a920798c43a59be49f478fa57,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.4123678
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4d324e0a920798c43a59be49f478fa57,
         type: 3}
@@ -65,7 +65,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4d324e0a920798c43a59be49f478fa57,
         type: 3}
       propertyPath: m_Name
-      value: alternative_player_gun
+      value: alternative_player_gun Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4d324e0a920798c43a59be49f478fa57,
+        type: 3}
+      propertyPath: m_Layer
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4d324e0a920798c43a59be49f478fa57,
         type: 3}
@@ -129,6 +134,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   carryGun: 1
+  carrySword: 0
+  m_Camera: {fileID: 0}
+  m_InputsManager: {fileID: 984398757}
+--- !u!114 &984398757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3918858020621784607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ab1512c0fc1ec49a3fbfa4cf63376c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Movement: {x: 0, y: 0}
+  m_MousePosition: {x: 0, y: 0}
+  m_MouseClick: 0
 --- !u!4 &6250917521194859853 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: 4d324e0a920798c43a59be49f478fa57,
