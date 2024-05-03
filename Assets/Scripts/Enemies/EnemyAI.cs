@@ -18,7 +18,6 @@ public class EnemyStats
 
 public abstract class EnemyAI : MonoBehaviour
 {
-    public EnemyData EnemyData;
     public EnemyStats Stats { get; set; }
     public abstract string EnemyType { get; }
     public BloodManager bloodManager;
