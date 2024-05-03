@@ -42,6 +42,7 @@ public class MageAI : EnemyAI
     int Horizontal = 0;
     int Vertical = 0;
 
+    private AudioSource audioSource;
     public override string EnemyType => "Mage";
     #endregion
 
@@ -54,6 +55,7 @@ public class MageAI : EnemyAI
         lineRenderer = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
 
         Stats = new EnemyStats(50, drainAmount, 10);
         state = State.Idle;
@@ -184,6 +186,7 @@ public class MageAI : EnemyAI
         }
         else
         {
+            audioSource.Play();
             PlayerStats.Instance.Health -= drainAmount;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);
