@@ -15,7 +15,6 @@ public class Movement : MonoBehaviour
     public bool carryGun;
     private bool attackAnimDone = true;
 
-
     //Added input manager 
     public Camera m_Camera = null;
     public InputsManager m_InputsManager;
@@ -115,7 +114,7 @@ public class Movement : MonoBehaviour
 
     void attackSword()
     {
-
+        
     }
 
     void finishedAttackAnim()

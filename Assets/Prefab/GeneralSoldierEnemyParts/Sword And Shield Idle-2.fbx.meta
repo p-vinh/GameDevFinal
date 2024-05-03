@@ -1,0 +1,404 @@
+fileFormatVersion: 2
+guid: 6c16a08917b94475b90dd9c3705ad74c
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: "Avatar creation failed:\n\tCannot find root motion transform
+      'GeneralHumanSoldier'.\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: IdleHuman
+      takeName: mixamo.com
+      internalID: -203655887218126122
+      firstFrame: 0
+      lastFrame: 152
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.135
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Sword And Shield Slash(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PT_Left_Accessories_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: -0.19293545, y: 1.1647497, z: -0.07084849}
+      rotation: {x: -0.14507005, y: 0.98780525, z: 0.050204728, w: -0.025980417}
+      scale: {x: 8.537466, y: 8.537468, z: 8.537465}
+    - name: PT_Right_Accessories_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.17194736, y: 1.1566608, z: -0.03951935}
+      rotation: {x: 0.012895448, y: 0.103926964, z: -0.13473311, w: 0.9853324}
+      scale: {x: 8.537467, y: 8.537467, z: 8.537465}
+    - name: PT_Second_Weapon_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: -0.24649712, y: 1.105704, z: 0.0010808551}
+      rotation: {x: 0.102054626, y: -0.5794096, z: -0.18953285, w: 0.7860959}
+      scale: {x: 8.537467, y: 8.537466, z: 8.537465}
+    - name: PT_Left_Hand_Shield_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.034081858, y: 1.2708946, z: -0.14591672}
+      rotation: {x: -0.20269758, y: 0.12277697, z: 0.5958223, w: 0.76735616}
+      scale: {x: 8.537466, y: 8.537466, z: 8.537466}
+    - name: PT_Left_Hand_Weapon_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.037447102, y: 1.2812201, z: -0.1526823}
+      rotation: {x: -0.11320782, y: -0.062951095, z: -0.8102786, w: 0.5715503}
+      scale: {x: 8.537466, y: 8.537466, z: 8.537466}
+    - name: PT_Long_Bow_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.24289407, y: 1.1169597, z: -0.16202609}
+      rotation: {x: 0.43881842, y: -0.46078074, z: -0.3646772, w: 0.67980146}
+      scale: {x: 8.537466, y: 8.537466, z: 8.537461}
+    - name: PT_Medium_Bow_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.24405456, y: 1.1244671, z: -0.14597581}
+      rotation: {x: 0.42444924, y: -0.49754184, z: -0.38730517, w: 0.6498382}
+      scale: {x: 8.537466, y: 8.53746, z: 8.537467}
+    - name: PT_Quiver_Shield_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.2187705, y: 1.1984619, z: -0.2862966}
+      rotation: {x: 0.4300754, y: 0.60200495, z: 0.39886063, w: 0.54178905}
+      scale: {x: 8.537461, y: 8.537466, z: 8.537465}
+    - name: PT_Right_Hand_Weapon_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.8990375, y: 1.5352093, z: -0.037657242}
+      rotation: {x: 0.8079217, y: -0.5417407, z: 0.19405137, w: 0.12697853}
+      scale: {x: 8.537461, y: 8.537466, z: 8.537468}
+    - name: PT_Weapon_slot
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.21040748, y: 1.1315268, z: 0.074638166}
+      rotation: {x: 0.18028085, y: -0.8107278, z: -0.0877185, w: 0.5500226}
+      scale: {x: 8.537466, y: 8.537466, z: 8.537466}
+    - name: PT_Male_Armor_05_C_gauntlets
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: PT_Male_Armor_01_A_legs
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: PT_Male_Armor_hair_01
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: PT_Male_Armor_head_01
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: PT_Male_Armor_01_A_boots
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: PT_Male_Armor_05_C_body
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: PT_Male_Armor_beard_01
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: PT_Male_Armor_hair_20
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0.003683054, y: 0.0007662964, z: -0.004297478}
+      rotation: {x: 0.0021348498, y: -0.012130682, z: 0.00075365166, w: 0.9999239}
+      scale: {x: 8.537466, y: 8.537467, z: 8.537466}
+    - name: GeneralHumanSoldier
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.6288057, y: 0.77269816, z: -0.069801874, w: 0.051658913}
+      scale: {x: 1.0000002, y: 0.9999999, z: 1.0000002}
+    - name: mixamorig:Hips
+      parentName: Sword And Shield Slash(Clone)
+      position: {x: 0, y: 1.1697326, z: 0.017101694}
+      rotation: {x: 0.0000000032391672, y: -0.000000014369188, z: 0.000000005562577, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1}
+    - name: mixamorig:Spine
+      parentName: mixamorig:Hips
+      position: {x: -0, y: 0.109479204, z: -0.01668954}
+      rotation: {x: -0.07556802, y: -0.000000015379943, z: -0.0000000022724618, w: 0.99714065}
+      scale: {x: 0.9999999, y: 1, z: 1}
+    - name: mixamorig:Spine1
+      parentName: mixamorig:Spine
+      position: {x: -0, y: 0.12920125, z: 8.6133006e-10}
+      rotation: {x: -0.000000059604645, y: 0.000000067033646, z: 0.0000000070590795, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: mixamorig:Spine2
+      parentName: mixamorig:Spine1
+      position: {x: -0, y: 0.14765847, z: 9.145214e-10}
+      rotation: {x: -0.000000014901161, y: -0.000000031819937, z: -0.00000000438516, w: 1}
+      scale: {x: 1, y: 0.99999976, z: 1}
+    - name: mixamorig:LeftShoulder
+      parentName: mixamorig:Spine2
+      position: {x: -0.06740093, y: 0.14359562, z: -0.0050219735}
+      rotation: {x: 0.55051947, y: -0.4305405, z: 0.5923845, w: 0.40080407}
+      scale: {x: 1, y: 1.0000006, z: 1.0000004}
+    - name: mixamorig:LeftArm
+      parentName: mixamorig:LeftShoulder
+      position: {x: -1.6251873e-10, y: 0.14550434, z: 9.1389707e-10}
+      rotation: {x: -0.124656826, y: -0.0043027396, z: -0.004712641, w: 0.99217945}
+      scale: {x: 1.0000011, y: 1.0000013, z: 1.0000013}
+    - name: mixamorig:LeftForeArm
+      parentName: mixamorig:LeftArm
+      position: {x: -0.000000001976483, y: 0.3054452, z: 0.000000004576798}
+      rotation: {x: -0.06410809, y: 0.015871497, z: -0.032668877, w: 0.99728185}
+      scale: {x: 1.0000007, y: 1.0000001, z: 1.0000001}
+    - name: mixamorig:LeftHand
+      parentName: mixamorig:LeftForeArm
+      position: {x: -1.9155703e-10, y: 0.32931787, z: -2.7944214e-10}
+      rotation: {x: 0.034268882, y: -0.0035419124, z: -0.10274803, w: 0.99411064}
+      scale: {x: 1.0000006, y: 1.0000008, z: 1.0000013}
+    - name: mixamorig:LeftHandIndex1
+      parentName: mixamorig:LeftHand
+      position: {x: 0.000000002096736, y: 0.1478434, z: 2.2885205e-10}
+      rotation: {x: 0.054060414, y: 0.010379853, z: 0.058992136, w: 0.99673957}
+      scale: {x: 1.0000004, y: 1.0000011, z: 0.9999993}
+    - name: mixamorig:LeftHandIndex2
+      parentName: mixamorig:LeftHandIndex1
+      position: {x: 5.669265e-11, y: 0.0248753, z: -7.7129864e-10}
+      rotation: {x: -0.037646424, y: -0.000000041909495, z: -0.014699626, w: 0.99918306}
+      scale: {x: 1.0000002, y: 0.99999964, z: 1.000001}
+    - name: mixamorig:LeftHandIndex3
+      parentName: mixamorig:LeftHandIndex2
+      position: {x: -0.0021295138, y: 0.03625479, z: 0.0054538404}
+      rotation: {x: -0.09482753, y: -0.0042134034, z: -0.009018743, w: 0.995444}
+      scale: {x: 1.0000004, y: 1.0000005, z: 0.99999964}
+    - name: mixamorig:LeftHandIndex4
+      parentName: mixamorig:LeftHandIndex3
+      position: {x: -0.0022600938, y: 0.026210645, z: 0.011518684}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightShoulder
+      parentName: mixamorig:Spine2
+      position: {x: 0.06740093, y: 0.14312218, z: -0.0019163566}
+      rotation: {x: -0.56520426, y: -0.41954982, z: 0.58119637, w: -0.40832934}
+      scale: {x: 1, y: 1.0000004, z: 1}
+    - name: mixamorig:RightArm
+      parentName: mixamorig:RightShoulder
+      position: {x: 1.3292004e-10, y: 0.14550434, z: 9.18669e-10}
+      rotation: {x: -0.12343295, y: 0.0041863914, z: 0.018577931, w: 0.9921702}
+      scale: {x: 1.0000007, y: 1.0000008, z: 1.0000005}
+    - name: mixamorig:RightForeArm
+      parentName: mixamorig:RightArm
+      position: {x: 2.6081617e-10, y: 0.3045378, z: -0.0000000030771357}
+      rotation: {x: 0.062451426, y: 0.016179375, z: -0.036049996, w: -0.9972655}
+      scale: {x: 0.99999964, y: 1.0000002, z: 0.99999976}
+    - name: mixamorig:RightHand
+      parentName: mixamorig:RightForeArm
+      position: {x: 0.0000000015282992, y: 0.33087587, z: -4.0899042e-10}
+      rotation: {x: 0.0144772045, y: 0.0012985539, z: 0.089320704, w: 0.9958969}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000005}
+    - name: mixamorig:RightHandIndex1
+      parentName: mixamorig:RightHand
+      position: {x: 0.0000000012822543, y: 0.1364582, z: -2.442225e-10}
+      rotation: {x: 0.059402008, y: -0.005502108, z: -0.056461796, w: 0.9966209}
+      scale: {x: 1, y: 0.9999999, z: 1.0000004}
+    - name: mixamorig:RightHandIndex2
+      parentName: mixamorig:RightHandIndex1
+      position: {x: 1.9839677e-11, y: 0.026291892, z: -9.068669e-10}
+      rotation: {x: -0.056570925, y: -0.000000029336654, z: 0.032129962, w: 0.99788153}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000006}
+    - name: mixamorig:RightHandIndex3
+      parentName: mixamorig:RightHandIndex2
+      position: {x: 0.004226776, y: 0.04073372, z: 0.007441961}
+      rotation: {x: -0.037996016, y: -0.0054743346, z: 0.05154389, w: 0.9979327}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000005}
+    - name: mixamorig:RightHandIndex4
+      parentName: mixamorig:RightHandIndex3
+      position: {x: 0.008733634, y: 0.030574333, z: 0.009685359}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:Neck
+      parentName: mixamorig:Spine2
+      position: {x: -0, y: 0.16611587, z: 0.000000022673948}
+      rotation: {x: 0.07556809, y: -0.000000002254816, z: -0.000000007793788, w: 0.99714065}
+      scale: {x: 1, y: 0.9999998, z: 1}
+    - name: mixamorig:Head
+      parentName: mixamorig:Neck
+      position: {x: -0, y: 0.08576241, z: 0.018275222}
+      rotation: {x: 0.000000007450581, y: -9.730616e-10, z: 0.000000008449783, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: mixamorig:HeadTop_End
+      parentName: mixamorig:Head
+      position: {x: -0, y: 0.29389215, z: 0.06262584}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:RightUpLeg
+      parentName: mixamorig:Hips
+      position: {x: 0.08561961, y: -0.06068573, z: -0.026224723}
+      rotation: {x: 0.0055374, y: 0.124134116, z: 0.9917844, w: -0.030394793}
+      scale: {x: 1.0000012, y: 1.0000011, z: 1.0000001}
+    - name: mixamorig:RightLeg
+      parentName: mixamorig:RightUpLeg
+      position: {x: 0.0000000022580093, y: 0.54202706, z: -0.000000004261271}
+      rotation: {x: -0.34275684, y: -0.056775358, z: -0.020757996, w: 0.9374772}
+      scale: {x: 1.0000004, y: 1.0000004, z: 0.9999999}
+    - name: mixamorig:RightFoot
+      parentName: mixamorig:RightLeg
+      position: {x: -2.070453e-10, y: 0.47657362, z: 0.0000000040958157}
+      rotation: {x: 0.64986944, y: 0.049258735, z: -0.040045545, w: 0.75739}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000004}
+    - name: mixamorig:RightToeBase
+      parentName: mixamorig:RightFoot
+      position: {x: -1.8165e-10, y: 0.21749179, z: -0.000000003530908}
+      rotation: {x: 0.3155071, y: -0.07621103, z: 0.025430717, w: 0.94551593}
+      scale: {x: 1.0000001, y: 1, z: 0.9999995}
+    - name: mixamorig:RightToe_End
+      parentName: mixamorig:RightToeBase
+      position: {x: 8.1495546e-11, y: 0.08518378, z: -8.0284716e-11}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamorig:LeftUpLeg
+      parentName: mixamorig:Hips
+      position: {x: -0.08561961, y: -0.06068573, z: -0.03595431}
+      rotation: {x: -0.005591302, y: 0.12207143, z: 0.99204206, w: 0.030330354}
+      scale: {x: 1.0000006, y: 1.0000005, z: 1.0000001}
+    - name: mixamorig:LeftLeg
+      parentName: mixamorig:LeftUpLeg
+      position: {x: 4.6951115e-10, y: 0.5420092, z: 0.0000000022027442}
+      rotation: {x: -0.33529082, y: 0.05866526, z: 0.020924253, w: 0.9400536}
+      scale: {x: 1.0000005, y: 1.0000007, z: 0.9999999}
+    - name: mixamorig:LeftFoot
+      parentName: mixamorig:LeftLeg
+      position: {x: -0.0000000012787107, y: 0.47352517, z: 0.0000000101085185}
+      rotation: {x: 0.64121133, y: -0.05077863, z: 0.040287104, w: 0.7646218}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000001}
+    - name: mixamorig:LeftToeBase
+      parentName: mixamorig:LeftFoot
+      position: {x: 8.760864e-12, y: 0.21413013, z: 0.000000001153293}
+      rotation: {x: 0.32083377, y: 0.075686745, z: -0.025730047, w: 0.94375587}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000004}
+    - name: mixamorig:LeftToe_End
+      parentName: mixamorig:LeftToeBase
+      position: {x: 2.8173755e-10, y: 0.0840864, z: 1.3882025e-10}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 0.135
+    rootMotionBoneName: GeneralHumanSoldier
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 371f8575d91ec4d3ab392b549a7f1eca, type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

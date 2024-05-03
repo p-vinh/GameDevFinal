@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class BattleSongSwitchController : MonoBehaviour {
     private GameObject door;
-    private string tag;
     private GameObject battleDoor;
     public AudioSource srcMaze;
     public AudioSource srcNight;
     private AudioLoopController audioLoopControllerMaze;
     private AudioLoopController audioLoopControllerNight;
-    private AudioSource srcSacrifice;
+    public AudioSource srcSacrifice;
     private AudioLoopController audioLoopControllerSacrifice;
     // Set a variable to store the last played audio source
-    private AudioSource lastPlayed;
+    public AudioSource lastPlayed;
 
     // Start is called before the first frame update
     void Start() {
         door = GetComponent<GameObject>();
-        tag = door.tag;
         battleDoor = GameObject.FindWithTag("Interact");
         audioLoopControllerMaze = srcMaze.GetComponent<AudioLoopController>();
         audioLoopControllerNight = srcNight.GetComponent<AudioLoopController>();
@@ -29,7 +27,7 @@ public class BattleSongSwitchController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         // If Player clicks on the door // TODO: Make sure this will work with the player's mouse click
-        if (tag == "Interact" && Input.GetMouseButtonDown(0)) {
+        if (door.tag == "Interact" && Input.GetMouseButtonDown(0)) {
             // Check if the last played audio source is the maze audio source
             if (lastPlayed == srcMaze) {
                 // Stop the sacrifice audio source if it is playing

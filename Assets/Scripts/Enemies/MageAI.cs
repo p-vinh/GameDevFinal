@@ -30,6 +30,7 @@ public class MageAI : EnemyAI
     public Vector3 lastKnownPlayerPosition;
 
     public override string EnemyType => "Mage";
+    private AudioSource audioSource; // Code Added by Abby for Audio
 
     protected override void Start()
     {
@@ -40,6 +41,7 @@ public class MageAI : EnemyAI
         playerLayer = LayerMask.GetMask("Player");
         lineRenderer = GetComponent<LineRenderer>();
         stateTimer = 0.0f;
+        audioSource = GetComponent<AudioSource>(); // Code Added by Abby for Audio
     }
 
     protected override void Update()
@@ -130,6 +132,7 @@ public class MageAI : EnemyAI
         }
         else
         {
+            audioSource.Play(); // Code Added by Abby for Audio
             PlayerStats.Instance.Health -= drainAmount;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);
