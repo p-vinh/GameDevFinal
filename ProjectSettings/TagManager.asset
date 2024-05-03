@@ -10,6 +10,8 @@ TagManager:
   - Weapon
   - Interact
   - SacrificeRoom
+  - Item
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - 
   - 
   - Interact
-  - 
+  - Items
   - 
   - 
   - 

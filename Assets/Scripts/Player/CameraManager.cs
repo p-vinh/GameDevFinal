@@ -23,7 +23,7 @@ public class CameraManager : MonoBehaviour
     private Vector3 m_CameraVelicity = Vector3.zero;
     void Start()
     {
-        m_Follow = FindObjectOfType<PlayerManager>().transform;
+        m_Follow = GameObject.FindWithTag("Player").transform;
     }
 
     private void LateUpdate()

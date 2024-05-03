@@ -1,17 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MageAI : EnemyAI
 {
+    #region Variables
+    [Header("Mage Stats")]
     public float drainAmount = 1.0f;
     public float approachSpeed = 2.0f;
     public float backAwaySpeed = 3.0f;
-    public SphereCollider drainRangeCollider;
-    public SphereCollider tooCloseRangeCollider;
-    public SphereCollider approachRangeCollider;
+
+    [Header("Ranges")]
+    public float attackRange = 7.0f;
+    public float backAwayRange = 3f;
+    public float approachRange = 20f;
+
+    private NavMeshAgent navMeshAgent;
+    private Rigidbody rb;
     public LayerMask playerLayer;
+    private Animator m_Animator;
     private LineRenderer lineRenderer;
+    private bool isDead = false;
 
     private enum State
     {
@@ -26,50 +36,72 @@ public class MageAI : EnemyAI
 
     private GameObject player;
     private float stateTimer;
-    public Vector3 roamDirection;
-    public Vector3 lastKnownPlayerPosition;
+    private Vector3 roamDirection;
+    private Vector3 lastKnownPlayerPosition;
 
+    int Horizontal = 0;
+    int Vertical = 0;
+
+    private AudioSource audioSource;
     public override string EnemyType => "Mage";
-    private AudioSource audioSource; // Code Added by Abby for Audio
+    #endregion
 
     protected override void Start()
     {
         bloodManager = FindObjectOfType<BloodManager>();
-        Stats = new EnemyStats(100, drainAmount, 5);
+        m_Animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
-        state = State.Idle;
         playerLayer = LayerMask.GetMask("Player");
         lineRenderer = GetComponent<LineRenderer>();
+        rb = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
+
+        Stats = new EnemyStats(50, drainAmount, 10);
+        state = State.Idle;
         stateTimer = 0.0f;
-        audioSource = GetComponent<AudioSource>(); // Code Added by Abby for Audio
+
+        Horizontal = Animator.StringToHash("Horizontal");
+        Vertical = Animator.StringToHash("Vertical");
+
     }
 
     protected override void Update()
     {
+        if (isDead) return;
+
         stateTimer += Time.deltaTime;
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
 
         switch (state)
         {
             case State.Idle:
+                navMeshAgent.isStopped = false;
+
                 if (stateTimer >= 3f)
                 {
                     state = State.Roaming;
                     stateTimer = 0f;
                     roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
                 }
-                else if (Physics.CheckSphere(transform.position, approachRangeCollider.radius, playerLayer))
+                else if (distanceToPlayer <= approachRange)
                 {
                     state = State.Approach;
                     lastKnownPlayerPosition = player.transform.position;
                 }
+
+                UpdateAnimationValue(0, 0);
                 break;
             case State.Roaming:
+                navMeshAgent.isStopped = false;
+
                 if (stateTimer >= 3f)
                 {
                     state = State.Idle;
                     stateTimer = 0f;
                 }
-                else if (Physics.CheckSphere(transform.position, approachRangeCollider.radius, playerLayer))
+                else if (distanceToPlayer <= approachRange)
                 {
                     state = State.Approach;
                     lastKnownPlayerPosition = player.transform.position;
@@ -78,41 +110,62 @@ public class MageAI : EnemyAI
                 {
                     if (lastKnownPlayerPosition != Vector3.zero)
                     {
-                        transform.position = Vector3.MoveTowards(transform.position, lastKnownPlayerPosition, approachSpeed * Time.deltaTime);
-
-                        if (transform.position == lastKnownPlayerPosition)
+                        navMeshAgent.speed = approachSpeed;
+                        navMeshAgent.SetDestination(lastKnownPlayerPosition);
+                        if (Vector3.Distance(navMeshAgent.destination, transform.position) <= navMeshAgent.stoppingDistance)
                             lastKnownPlayerPosition = Vector3.zero;
                     }
                     else
-                        transform.position += roamDirection * approachSpeed * Time.deltaTime;
+                        navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
                 }
+
+                SetRotation(roamDirection);
+                UpdateAnimationValue(roamDirection.x, roamDirection.z);
                 break;
             case State.Approach:
-                if (Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
+                navMeshAgent.isStopped = false;
+
+                if (distanceToPlayer <= attackRange)
                 {
                     state = State.Attack;
                     lastKnownPlayerPosition = player.transform.position;
                 }
-                else if (!Physics.CheckSphere(transform.position, approachRangeCollider.radius, playerLayer))
+                else if (distanceToPlayer > approachRange)
                     state = State.Idle;
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, approachSpeed * Time.deltaTime);
+                    navMeshAgent.speed = approachSpeed;
+                    navMeshAgent.SetDestination(player.transform.position);
                     lastKnownPlayerPosition = player.transform.position;
                 }
+
+
+                SetRotation(directionToPlayer);
+                UpdateAnimationValue(directionToPlayer.x, directionToPlayer.z);
                 break;
             case State.Attack:
+                navMeshAgent.speed = 0;
+                navMeshAgent.isStopped = true;
+                SetRotation(directionToPlayer);
                 Attack();
+                m_Animator.SetBool("Attack", true);
                 break;
             case State.BackingAway:
-                if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
+                navMeshAgent.isStopped = false;
+                Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
+
+                if (distanceToPlayer > backAwayRange)
                 {
                     state = State.Attack;
                 }
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -backAwaySpeed * Time.deltaTime);
+                    navMeshAgent.speed = backAwaySpeed;
+                    navMeshAgent.SetDestination(transform.position - directionToPlayer);
                 }
+
+                SetRotation(directionAwayFromPlayer);
+                UpdateAnimationValue(directionAwayFromPlayer.x, directionAwayFromPlayer.z);
                 break;
         }
     }
@@ -120,19 +173,20 @@ public class MageAI : EnemyAI
     public override void Attack()
     {
         Debug.Log("Mage attacks with damage: " + Stats.Damage);
-        if (tooCloseRangeCollider.bounds.Contains(player.transform.position))
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceToPlayer <= backAwayRange)
         {
             state = State.BackingAway;
             lineRenderer.enabled = false;
         }
-        else if (!Physics.CheckSphere(transform.position, drainRangeCollider.radius, playerLayer))
+        else if (distanceToPlayer > attackRange)
         {
             state = State.Idle;
             lineRenderer.enabled = false;
         }
         else
         {
-            audioSource.Play(); // Code Added by Abby for Audio
+            audioSource.Play();
             PlayerStats.Instance.Health -= drainAmount;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);
@@ -144,35 +198,47 @@ public class MageAI : EnemyAI
     {
         Stats.Health -= damage;
         Debug.Log("Mage takes damage. Current health: " + Stats.Health);
-        if (Stats.Health <= 0)
+        if (Stats.Health <= 0 && !isDead)
         {
-            Die();
+            isDead = true;
+            m_Animator.SetTrigger("Death");
         }
     }
 
     protected override void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            PlayerStats.Instance.Health -= Stats.Damage;
-        }
+        base.OnCollisionEnter(other);
 
         if (other.gameObject.CompareTag("Wall"))
         {
             roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
         }
 
-        if (other.gameObject.CompareTag("Projectile"))
-        {
-            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
-        }
     }
 
     public override void Die()
     {
         Debug.Log("Mage dies");
-        base.Die(); // Call the base class method for blood drop logic
+        base.Die();
         Destroy(gameObject);
     }
 
+    private void UpdateAnimationValue(float horizontalValue, float verticalValue)
+    {
+        m_Animator.SetBool("Attack", false);
+        float time = 0.1f;
+        float clampedHorizontal = Mathf.Clamp(horizontalValue, -1f, 1f);
+        float clampedVertical = Mathf.Clamp(verticalValue, -1f, 1f);
+        m_Animator.SetFloat(Horizontal, clampedHorizontal, time, Time.deltaTime);
+        m_Animator.SetFloat(Vertical, clampedVertical, time, Time.deltaTime);
+    }
+
+    private void SetRotation(Vector3 direction)
+    {
+        if (direction != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
+        }
+    }
 }

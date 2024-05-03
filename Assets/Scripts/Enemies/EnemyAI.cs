@@ -60,16 +60,10 @@ public abstract class EnemyAI : MonoBehaviour
         {
             // Do something when enemy collides with wall
         }
-
-        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
-        {
-            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
-        }
     }
-
+    
     public virtual void Die()
     {
-        Debug.Log("Enemy dies");
-        bloodManager.OnEnemyDeath();
+        bloodManager.OnEnemyDeath(gameObject.transform);
     }
 }

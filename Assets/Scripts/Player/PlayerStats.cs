@@ -66,7 +66,7 @@ public class PlayerStats : MonoBehaviour
         MovementSpeed = 10;
         bloodType = BloodType.A; // Difficulty setting
         CurrentWeaponType = Constants.WeaponType.Sword;
-        CurrentWeapon = new Weapon("Sword", 10f, 2f, 1f);
+        CurrentWeapon = new Weapon("Sword", 10f, 2f, 0.2f);
     }
 
     void Update()
