@@ -22,10 +22,6 @@ public class GeneralSoldierAI : EnemyAI {
     private State state;
 
     // Public Variables
-    public float health = 100.0f;
-    public float swordDamage = 5.0f; // general soldier attack
-    public float speed = 2.0f;
-    public float attackSpeed = 5.0f;
     public float sightRange = 5.0f; 
     public float attackRange = 2.0f;
     public override Constants.EnemyType Type => Constants.EnemyType.GeneralSoldier;
@@ -36,15 +32,13 @@ public class GeneralSoldierAI : EnemyAI {
     // Setup Variables
     protected override void Start() {
         // Set up the enemy stats
-        bloodManager = FindObjectOfType<BloodManager>();
+        base.Start();
         // Set up the enemy AI
         mesh = GetComponent<NavMeshAgent>();
-        mesh.speed = speed;
+        mesh.speed = Stats.Speed;
         enemy = GetComponent<Transform>();
-        // Get other game objects
         player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
-        // Get the enemies sword collider
         sword = GetComponentInChildren<BoxCollider>();
         state = State.Idle;
     }//end Start()
@@ -94,7 +88,7 @@ public class GeneralSoldierAI : EnemyAI {
 
         Debug.Log("General Soldier Attack Player");
         if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
-            PlayerStats.Instance.Health -= swordDamage;
+            PlayerStats.Instance.Health -= Stats.Damage;
         }//end if
     }//end AttackPlayer()
 
