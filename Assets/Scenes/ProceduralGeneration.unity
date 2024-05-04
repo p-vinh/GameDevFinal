@@ -161,9 +161,12 @@ MonoBehaviour:
   - {fileID: 2838165566634053095, guid: a5c9d5948c434d14b8165e5bdd64466b, type: 3}
   - {fileID: 9134219553964920922, guid: f40179a2ed5514b41abdbbd6c70c5f28, type: 3}
   - {fileID: 4303650603329369047, guid: c4a57d5a40576f045a68b61434db0b7f, type: 3}
+  deadEndRoomPrefabs: []
   spawnRoomPrefab: {fileID: 7112244412733211965, guid: 4ba826ac7c96e794f834825a9ff0b67c,
     type: 3}
   bossRoomPrefab: {fileID: 0}
+  wallPrefab: {fileID: 0}
+  sacrificeDoorPrefab: {fileID: 0}
   numRooms: 10
   minRoomDistance: 0
   roomFails: 50
