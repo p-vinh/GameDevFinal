@@ -12,6 +12,7 @@ public class RoomSpawner : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject sacrificeDoorPrefab;
 
+    public enum CardinalDir { NorthRoomConnection, EastRoomConnection, SouthRoomConnection, WestRoomConnection }
     public int numRooms = 0;
     public float minRoomDistance;
     public int roomFails = 0;
@@ -68,15 +69,6 @@ public class RoomSpawner : MonoBehaviour
             GameObject newRoomConnectionPointGO = newRoomConnectionPoint.gameObject; // The gameObject of the corresponding connection point child
 
             // ================OFFSET CALCULATION================
-            // Get the position of the alignment point relative to the room prefab
-            // Vector3 connectionPointOffset = newRoomConnectionPoint.localPosition;
-            // // Get the position of the old room connection point
-            // Vector3 oldRoomConnectionPointPosition = oldRoomConnectionPoint.transform.position;
-            // // Calculate the new room position by subtracting the connection point offset from the old room connection point position
-            // Vector3 newRoomPosition = oldRoomConnectionPointPosition - connectionPointOffset;
-
-            // // Spawn the room prefab at the aligned position
-            // GameObject newRoom = Instantiate(roomPrefab, newRoomPosition, Quaternion.identity);
             // Get the position of the alignment point in world space
             Vector3 connectionPointOffset = newRoomConnectionPoint.position - roomPrefab.transform.position;
 
@@ -94,7 +86,6 @@ public class RoomSpawner : MonoBehaviour
             Transform newRoomTransform = newRoom.transform.Find("Collider");
             BoxCollider newRoomCollider = newRoomTransform.GetComponentInChildren<BoxCollider>();
 
-            // TODO: May have bugs by checking colliders
             // Check if the new room's collider is overlapping with any of the successfully spawned rooms' colliders
             bool overlap = false;
             foreach (GameObject successfulRoom in successfullySpawnedRooms)
@@ -157,6 +148,7 @@ public class RoomSpawner : MonoBehaviour
         Debug.Log("Successfully Spawned Rooms: " + successfullySpawnedRooms.Count);
 
         SpawnBossRoom();
+        FillUnusedConnections();
         yield return null;
     }
 
@@ -281,29 +273,66 @@ public class RoomSpawner : MonoBehaviour
             // Get the opposite connector
             string oppositeConnectorName = GetOppositeConnectorName(connector);
 
-            // Get opposite connection room from the list
-            // TODO: Change to dead end room prefab/Logic to get the corresponding dead end room
+            // Convert opposite connector name to an enum value
+            CardinalDir oppositeConnectorDir = (CardinalDir)System.Enum.Parse(typeof(CardinalDir), oppositeConnectorName);
+            GameObject deadEndRoom = deadEndRoomPrefabs[(int)oppositeConnectorDir]; // Get the corresponding dead end room
 
-            // if (deadEndRoomConnectionPoint != null)
-            // {
-            //     GameObject deadEndRoomConnectionPointGO = deadEndRoomConnectionPoint.gameObject;
+            Transform newRoomConnectPoints = deadEndRoom.transform.Find("RoomConnectionPoints");
+            Transform deadEndRoomConnectionPoint = newRoomConnectPoints.transform.Find(oppositeConnectorName);
 
-            //     Vector3 connectionPointOffset = deadEndRoomConnectionPoint.position - roomPrefabs[0].transform.position;
-            //     Vector3 connectorPosition = connector.transform.position;
-            //     Vector3 deadEndRoomPosition = connectorPosition - connectionPointOffset;
+            if (deadEndRoomConnectionPoint != null)
+            {
 
-            //     GameObject deadEndRoom = Instantiate(roomPrefabs[0], deadEndRoomPosition, roomPrefabs[0].transform.rotation);
+                Vector3 connectionPointOffset = deadEndRoomConnectionPoint.position - connector.transform.position;
+                Vector3 connectorPosition = connector.transform.position;
+                Vector3 deadEndRoomPosition = connectorPosition - connectionPointOffset;
 
-            //     availableConnectors.Remove(connector);
-            //     AddRoomConnectors(deadEndRoom, deadEndRoomConnectionPointGO);
-            // }
-            // else
-            // {
-            //     // Fill the unused connection with a wall/door
-            //     // GameObject wall = Instantiate(wallPrefab, connector.transform.position, Quaternion.identity);
-            //     // availableConnectors.Remove(connector);
-            // }
+                GameObject room = Instantiate(deadEndRoom, deadEndRoomPosition, deadEndRoom.transform.rotation);
+
+                // Get the box collider of the new room
+                Transform newRoomTransform = room.transform.Find("Collider");
+                BoxCollider newRoomCollider = newRoomTransform.GetComponentInChildren<BoxCollider>();
+
+                bool overlap = false;
+
+                Collider[] hitColliders = Physics.OverlapBox(newRoomCollider.bounds.center, newRoomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("RoomCollider"));
+
+                if (hitColliders.Length > 1)
+                    overlap = true;
+
+                if (overlap)
+                {
+                    DestroyRoom(room);
+                    GenerateDoorWall(connector.transform, connector);
+                }
+
+                availableConnectors.Remove(connector);
+            }
+            else
+            {
+                // Fill the unused connection with a wall/door
+                GenerateDoorWall(connector.transform, connector);
+            }
         }
+    }
+
+    private void GenerateDoorWall(Transform connectionPoint, GameObject connector)
+    {
+        // TODO: Rotate the wall/door to face the correct direction
+        int randomNum = Random.Range(0, 2);
+
+        if (randomNum == 0)
+        {
+            Instantiate(wallPrefab, connectionPoint.transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(sacrificeDoorPrefab, connectionPoint.transform.position, Quaternion.identity);
+        }
+
+        availableConnectors.Remove(connector);
+
+
     }
     private void AddRoomConnectors(GameObject inputRoom, GameObject usedConnector)
     {

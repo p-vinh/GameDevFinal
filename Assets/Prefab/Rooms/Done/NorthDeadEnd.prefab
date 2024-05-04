@@ -1,5 +1,82 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7733504311986551053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2120303665841748774}
+  m_Layer: 0
+  m_Name: RoomConnectionPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2120303665841748774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7733504311986551053}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8445831257612145593}
+  m_Father: {fileID: 8445831257014611121}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7793686632087273159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772815438502385970}
+  - component: {fileID: 659685694436120769}
+  m_Layer: 17
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1772815438502385970
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7793686632087273159}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.64, y: 117.68, z: -125.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8445831257014611121}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &659685694436120769
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7793686632087273159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 11.87, y: 3.5461884, z: 32.877693}
+  m_Center: {x: 0, y: 0, z: 0.28884506}
 --- !u!1 &8445831257014611122
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8445831257014611121}
   m_Layer: 0
-  m_Name: Room_1
+  m_Name: NorthDeadEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,12 +105,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8445831257612145593}
   - {fileID: 8445831257496375249}
   - {fileID: 8445831257708388576}
   - {fileID: 8445831257729112248}
   - {fileID: 8445831257323145543}
   - {fileID: 8445831257377429124}
+  - {fileID: 2120303665841748774}
+  - {fileID: 1772815438502385970}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -82,7 +160,7 @@ Transform:
   - {fileID: 1333214502500751102}
   - {fileID: 8878519226777465621}
   m_Father: {fileID: 8445831257014611121}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8445831257377429125
 GameObject:
@@ -119,7 +197,7 @@ Transform:
   - {fileID: 7144437990598966068}
   - {fileID: 7144437990256511643}
   m_Father: {fileID: 8445831257014611121}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8445831257496375250
 GameObject:
@@ -162,7 +240,7 @@ Transform:
   - {fileID: 3376266225302888026}
   - {fileID: 3376266224363974793}
   m_Father: {fileID: 8445831257014611121}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8445831257612145594
 GameObject:
@@ -174,7 +252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8445831257612145593}
   m_Layer: 0
-  m_Name: EntryPoint_1
+  m_Name: NorthRoomConnection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,12 +265,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8445831257612145594}
-  m_LocalRotation: {x: -0.0036042961, y: 0.98494154, z: -0.1716079, w: -0.020686856}
-  m_LocalPosition: {x: 9.13, y: 117.26, z: -107.49}
+  m_LocalRotation: {x: -0.0000000057054814, y: 0.9914449, z: -0.1305262, w: -0.000000043337433}
+  m_LocalPosition: {x: 9.13, y: 115.56, z: -107.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8445831257014611121}
+  m_Father: {fileID: 2120303665841748774}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8445831257708388577
@@ -250,7 +328,7 @@ Transform:
   - {fileID: 3763225410793243696}
   - {fileID: 3763225411037501900}
   m_Father: {fileID: 8445831257014611121}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8445831257729112249
 GameObject:
@@ -287,7 +365,7 @@ Transform:
   - {fileID: 8078137251814671182}
   - {fileID: 8078137251693269602}
   m_Father: {fileID: 8445831257014611121}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8445831256015824004
 PrefabInstance:

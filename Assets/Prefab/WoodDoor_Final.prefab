@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 220030706691668080}
   - component: {fileID: 2766496927374452572}
   - component: {fileID: 3733942712662233035}
-  - component: {fileID: 7543361772083430757}
+  - component: {fileID: 4671423679020031737}
   m_Layer: 0
   m_Name: Wooden_Door
   m_TagString: Interact
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.111938, y: 1.7059608, z: 0.39067772}
   m_Center: {x: -0.12594536, y: 0.04315396, z: -0.0026246551}
---- !u!114 &7543361772083430757
+--- !u!114 &4671423679020031737
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5233798293758004125}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c19fdeabaa4032438b1327b74cc570a, type: 3}
+  m_Script: {fileID: 11500000, guid: ada6b8d4fa7af6b4aafd54e1f45ced19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 9203155886472415383}
