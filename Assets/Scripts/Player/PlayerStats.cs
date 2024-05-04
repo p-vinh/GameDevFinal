@@ -37,7 +37,7 @@ public class PlayerStats : MonoBehaviour
     }
 
 
-    public BloodType bloodType { get; private set; }
+    public BloodType bloodType { get; set; }
     public static PlayerStats Instance { get; private set; }
     public float Health { get; set; }
     public float MaxHealth { get; private set; }
@@ -64,7 +64,7 @@ public class PlayerStats : MonoBehaviour
         Health = 100;
         MaxHealth = 100;
         MovementSpeed = 10;
-        bloodType = BloodType.A; // Difficulty setting
+        //bloodType = BloodType.A; // Difficulty setting
         CurrentWeaponType = Constants.WeaponType.Sword;
         CurrentWeapon = new Weapon("Sword", 10f, 2f, 0.2f);
     }
