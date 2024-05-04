@@ -80,6 +80,14 @@ public abstract class EnemyAI : MonoBehaviour
         {
             // Do something when enemy collides with wall
         }
+    }  
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+        }
     }
 
     public virtual void Die()
