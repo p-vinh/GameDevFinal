@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BlankStudio.Constants;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,10 +13,11 @@ public class RangeAI : EnemyAI
     Animator anim;
 
     //Temporary variables, change the stats of enemy
+    // TODO Change to scriptable object
     public int health;
     public float damage;
     public float speed;
-    
+
     //Attacking Variables
     public float fireDelaySeconds;
     public bool canFire = true;
@@ -24,7 +26,7 @@ public class RangeAI : EnemyAI
     //State Varables
     public float sightRange, attackRange;
     public bool playerInSightRange, playerinAttackRange;
-    public override string EnemyType => "Range";
+    public override Constants.EnemyType Type => Constants.EnemyType.Ranger;
 
     //Private Varables
     private enum State
@@ -35,14 +37,14 @@ public class RangeAI : EnemyAI
     }
     private State state;
     private bool canWalk = true;
-    private void Awake()
+
+    protected override void Start()
     {
-        bloodManager = FindObjectOfType<BloodManager>();
-        Stats = new EnemyStats(health, damage, speed);
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        state = State.Idle;
+        base.Start();
         enemy = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        state = State.Idle;
     }
 
     private void FixedUpdate()
@@ -50,17 +52,17 @@ public class RangeAI : EnemyAI
         playerInSightRange = Vector3.Distance(player.position, transform.position) <= sightRange;
         playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
 
-        if(playerInSightRange && !playerinAttackRange && canWalk) ChasePlayer();
-        if(playerInSightRange && playerinAttackRange) AttackPlayer();
-        if(!playerInSightRange && !playerinAttackRange) StopEnemy();
-       
+        if (playerInSightRange && !playerinAttackRange && canWalk) ChasePlayer();
+        if (playerInSightRange && playerinAttackRange) AttackPlayer();
+        if (!playerInSightRange && !playerinAttackRange) StopEnemy();
+
     }
 
     private void ChasePlayer()
     {
         enemy.isStopped = false;
-        anim.SetBool("Walking",true);
-        anim.SetBool("Attacking",false);
+        anim.SetBool("Walking", true);
+        anim.SetBool("Attacking", false);
         state = State.Chase;
         enemy.SetDestination(player.position);
     }
@@ -71,20 +73,20 @@ public class RangeAI : EnemyAI
         state = State.Idle;
         anim.SetBool("Walking", false);
         anim.SetBool("Attacking", false);
-        
+
     }
 
     private void AttackPlayer()
     {
         canWalk = false;
         state = State.Attack;
-        anim.SetBool("Attacking",true);
+        anim.SetBool("Attacking", true);
 
         //Enemy doesn't move when in attack range
         transform.LookAt(player);
         enemy.SetDestination(transform.position);
-        
-        if(canFire)
+
+        if (canFire)
         {
             Vector3 direction = (player.position - spawnPoint.transform.position).normalized;
             Quaternion rotation = Quaternion.LookRotation(direction);
@@ -111,9 +113,9 @@ public class RangeAI : EnemyAI
         canFire = true;
     }
 
-     protected override void OnCollisionEnter(Collision other)
+    protected override void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Projectile"))
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
         {
             TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }

@@ -1,15 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using BlankStudio.Constants;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class MageAI : EnemyAI
 {
     #region Variables
-    [Header("Mage Stats")]
-    public float drainAmount = 1.0f;
-    public float approachSpeed = 2.0f;
-    public float backAwaySpeed = 3.0f;
 
     [Header("Ranges")]
     public float attackRange = 7.0f;
@@ -17,7 +14,6 @@ public class MageAI : EnemyAI
     public float approachRange = 20f;
 
     private NavMeshAgent navMeshAgent;
-    private Rigidbody rb;
     public LayerMask playerLayer;
     private Animator m_Animator;
     private LineRenderer lineRenderer;
@@ -43,21 +39,20 @@ public class MageAI : EnemyAI
     int Vertical = 0;
 
     private AudioSource audioSource;
-    public override string EnemyType => "Mage";
+    public override Constants.EnemyType Type => Constants.EnemyType.Mage;
+
     #endregion
 
     protected override void Start()
     {
-        bloodManager = FindObjectOfType<BloodManager>();
+        base.Start();
         m_Animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerLayer = LayerMask.GetMask("Player");
         lineRenderer = GetComponent<LineRenderer>();
-        rb = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
 
-        Stats = new EnemyStats(50, drainAmount, 10);
         state = State.Idle;
         stateTimer = 0.0f;
 
@@ -110,7 +105,7 @@ public class MageAI : EnemyAI
                 {
                     if (lastKnownPlayerPosition != Vector3.zero)
                     {
-                        navMeshAgent.speed = approachSpeed;
+                        navMeshAgent.speed = Stats.Speed;
                         navMeshAgent.SetDestination(lastKnownPlayerPosition);
                         if (Vector3.Distance(navMeshAgent.destination, transform.position) <= navMeshAgent.stoppingDistance)
                             lastKnownPlayerPosition = Vector3.zero;
@@ -134,7 +129,7 @@ public class MageAI : EnemyAI
                     state = State.Idle;
                 else
                 {
-                    navMeshAgent.speed = approachSpeed;
+                    navMeshAgent.speed = Stats.Speed;
                     navMeshAgent.SetDestination(player.transform.position);
                     lastKnownPlayerPosition = player.transform.position;
                 }
@@ -160,7 +155,7 @@ public class MageAI : EnemyAI
                 }
                 else
                 {
-                    navMeshAgent.speed = backAwaySpeed;
+                    navMeshAgent.speed = Stats.Speed;
                     navMeshAgent.SetDestination(transform.position - directionToPlayer);
                 }
 
@@ -170,7 +165,7 @@ public class MageAI : EnemyAI
         }
     }
 
-    public override void Attack()
+    protected override void Attack()
     {
         Debug.Log("Mage attacks with damage: " + Stats.Damage);
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
@@ -187,7 +182,7 @@ public class MageAI : EnemyAI
         else
         {
             audioSource.Play();
-            PlayerStats.Instance.Health -= drainAmount;
+            PlayerStats.Instance.Health -= Stats.Damage;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, player.transform.position);
@@ -238,7 +233,7 @@ public class MageAI : EnemyAI
         if (direction != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, approachSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, Stats.Speed * Time.deltaTime);
         }
     }
 }

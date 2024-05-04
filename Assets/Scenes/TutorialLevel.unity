@@ -5817,6 +5817,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 251968092, guid: 899cf5654b784bd43a4ab7e115e2f785, type: 3}
+      propertyPath: m_InputsManager
+      value: 
+      objectReference: {fileID: 1756393234}
     - target: {fileID: 62144785445129634, guid: 899cf5654b784bd43a4ab7e115e2f785,
         type: 3}
       propertyPath: m_Name
@@ -8960,6 +8964,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1099220019}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1756393233 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 62144785445129634, guid: 899cf5654b784bd43a4ab7e115e2f785,
+    type: 3}
+  m_PrefabInstance: {fileID: 1103475071}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1756393234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756393233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ab1512c0fc1ec49a3fbfa4cf63376c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Movement: {x: 0, y: 0}
+  m_MousePosition: {x: 0, y: 0}
+  m_MouseClick: 0
 --- !u!4 &1772104293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8760688189319195052, guid: f5a42311009a9674fbc37df24a9a3d0c,

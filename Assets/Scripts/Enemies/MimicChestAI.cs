@@ -2,29 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BlankStudio.Constants;
 
 public class MimicChestAI : EnemyAI
 {
     public NavMeshAgent enemy;
     public Transform playerTransform; 
-    public Transform spawnPoint;
 
     public bool playerInSightRange, playerInAttackRange;
     public SphereCollider sightRangeCollider;
     public SphereCollider attackRangeCollider;
     public LayerMask playerLayer;
-    public override string EnemyType => "Mimic";
+    public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;
     private GameObject playerGameObject; 
-    public Vector3 lastPlayerPosition;
-
-    public bool idleHostile;
-    public bool idleResting;
-    public bool attacking;
-    public bool hurting;
-    public bool dead;
-
 
     public enum State
     {
@@ -35,7 +27,7 @@ public class MimicChestAI : EnemyAI
 
     protected override void Start()
     {
-        
+        base.Start();
         playerGameObject = GameObject.FindGameObjectWithTag("Player");
         if (playerGameObject != null)
         {
@@ -47,7 +39,6 @@ public class MimicChestAI : EnemyAI
         }
 
         enemy = GetComponent<NavMeshAgent>();
-        Stats = new EnemyStats(100, 5, 4);
         state = State.IdleResting;
         playerLayer = LayerMask.GetMask("Player");
         animator = GetComponent<Animator>();
@@ -116,7 +107,7 @@ public class MimicChestAI : EnemyAI
         return false;
     }
     
-    public override void Attack()
+    protected override void Attack()
     {
         if (playerTransform != null)
         {

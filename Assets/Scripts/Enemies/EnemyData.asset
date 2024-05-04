@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77a0fc9e75c8c3a4ca200b3d3a059fa5, type: 3}
+  m_Name: EnemyData
+  m_EditorClassIdentifier: 
+  enemiesData:
+    enemyPropertiesList:
+    - m_Health: 200
+      m_Damage: 2
+      m_Speed: 5
+      m_EnemyType: 0
+      m_EnemyPrefab: {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 0.001
+      m_Speed: 4
+      m_EnemyType: 5
+      m_EnemyPrefab: {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 5
+      m_Speed: 2
+      m_EnemyType: 1
+      m_EnemyPrefab: {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 5
+      m_Speed: 4
+      m_EnemyType: 4
+      m_EnemyPrefab: {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 2
+      m_Speed: 4
+      m_EnemyType: 3
+      m_EnemyPrefab: {fileID: 5437998181454276144, guid: 93a7ee673dcb52d4e8d0ede26de72600,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 4
+      m_Speed: 5
+      m_EnemyType: 2
+      m_EnemyPrefab: {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8,
+        type: 3}

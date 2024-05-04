@@ -37,13 +37,13 @@ public class PlayerStats : MonoBehaviour
     }
 
 
-    public BloodType bloodType { get; private set; }
+    public BloodType bloodType { get; set; }
     public static PlayerStats Instance { get; private set; }
     public float Health { get; set; }
     public float MaxHealth { get; private set; }
-    public float MovementSpeed { get; private set; }
+    public float MovementSpeed { get; set; }
     public Weapon CurrentWeapon { get; private set; }
-    public Constants.WeaponType CurrentWeaponType { get; private set; }
+    public Constants.WeaponType CurrentWeaponType { get; set; }
     public Vector3 LastDoorEntered { get; set; }
 
     private void Awake()
@@ -63,8 +63,7 @@ public class PlayerStats : MonoBehaviour
     {
         Health = 100;
         MaxHealth = 100;
-        MovementSpeed = 10;
-        bloodType = BloodType.A; // Difficulty setting
+        MovementSpeed = 4;
         CurrentWeaponType = Constants.WeaponType.Sword;
         CurrentWeapon = new Weapon("Sword", 10f, 2f, 0.2f);
     }
@@ -80,6 +79,7 @@ public class PlayerStats : MonoBehaviour
     public void ResetStats()
     {
         Health = MaxHealth;
+        MovementSpeed = 4;
         CurrentWeapon = new Weapon("Sword", 10f, 2f, 1f);
         CurrentWeaponType = Constants.WeaponType.Sword;
     }

@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 4489677676255662129}
   - component: {fileID: 4489677676254663409}
   - component: {fileID: 393247340343300617}
+  - component: {fileID: 2065695083838151171}
   m_Layer: 20
   m_Name: PT_Sword_01_a
-  m_TagString: Projectile
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4489677676252728369}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1768, y: 1.1768, z: 1.1768}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -93,7 +94,19 @@ BoxCollider:
   m_GameObject: {fileID: 4489677676252728369}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.18078221, y: 0.8053346, z: 0.021986885}
   m_Center: {x: -0.0000014497265, y: -0.32237437, z: 0.0000019337692}
+--- !u!114 &2065695083838151171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4489677676252728369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defe051e66d56334e84e65005469deb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

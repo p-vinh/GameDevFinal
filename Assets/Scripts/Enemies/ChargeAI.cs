@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BlankStudio.Constants;
 
 public class ChargeAI : EnemyAI
 {
-    public override string EnemyType => "ChargeAI";
+    public override Constants.EnemyType Type => Constants.EnemyType.Charger;
 
     // Charge variables
     private float chargeSpeed = 4f;
@@ -16,7 +17,6 @@ public class ChargeAI : EnemyAI
 
 
     private ChargeAIState currentState = ChargeAIState.Roaming;
-    private BloodManager bloodManager;
     private Vector3 targetPosition;
     private Vector3 spottedPlayerPosition;
     private GameObject player;
@@ -32,8 +32,6 @@ public class ChargeAI : EnemyAI
     protected override void Start()
     {
         base.Start();
-        bloodManager = FindObjectOfType<BloodManager>();
-        Stats = new EnemyStats(150.0f, 1.0f, 1f);
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         ChooseNewRoamingTarget();
@@ -151,9 +149,10 @@ public class ChargeAI : EnemyAI
         }
     }
 
-    public override void Attack()
+    protected override void Attack()
     {
-        Debug.Log($"{EnemyType} attacks the player with damage: {Stats.Damage}");
+        Debug.Log($"{Stats.EnemyType} attacks the player with damage: {Stats.Damage}");
+        PlayerStats.Instance.Health -= Stats.Damage;
     }
 
     public override void TakeDamage(float damage)
@@ -162,7 +161,7 @@ public class ChargeAI : EnemyAI
         Stats.Health -= damage;
 
         // Log damage and check if enemy's health is zero or below
-        Debug.Log($"{EnemyType} takes damage. Current health: {Stats.Health}");
+        Debug.Log($"{Stats.EnemyType} takes damage. Current health: {Stats.Health}");
 
         // If health is zero or below, trigger the death sequence
         if (Stats.Health <= 0)

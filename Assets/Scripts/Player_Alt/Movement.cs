@@ -7,11 +7,11 @@ public class Movement : MonoBehaviour
 {
 
     Rigidbody rigidBody;
-    public float speed = 4;
     Animator anim;
     public GameObject gun;
     public GameObject sword;
     public bool carryGun;
+    public float fireDelay;
     private bool attackAnimDone = true;
     private BoxCollider swordCollider;
     private Gun gunScript;
@@ -19,6 +19,7 @@ public class Movement : MonoBehaviour
     //Added input manager 
     public Camera m_Camera = null;
     public InputsManager m_InputsManager;
+    private bool canFire = true; //Adds delay
 
     // Start is called before the first frame update
     void Start()
@@ -29,14 +30,15 @@ public class Movement : MonoBehaviour
         m_InputsManager = GetComponent<InputsManager>();
         swordCollider = sword.GetComponent<BoxCollider>();
         gunScript = gun.GetComponent<Gun>();
-        anim.SetBool("hasSword", !carryGun); //If player is carrying sword, animation will follow sword animations related
+        anim.SetBool("carryGun", carryGun);
 
-        if (!carryGun)
+
+        if (!carryGun) //Has sword
         {
             gun.SetActive(false);
             sword.SetActive(true);
         }
-        else
+        else //Has gun
         {
             gun.SetActive(true);
             sword.SetActive(false);
@@ -45,6 +47,9 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        if (GameObject.FindGameObjectWithTag("MainCamera") == null) return;
+
+        bool isShiftKeyDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         //Point a ray from mouse to camera, use this to rotate player to look at mouse
         //print(m_InputsManager._MousePosition);
         Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
@@ -59,12 +64,27 @@ public class Movement : MonoBehaviour
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * m_PlayerRotationSpeed);
         }
 
-        if (m_InputsManager._MouseLeftClick)
+        //If sprint mode, change anim to run
+        if (isShiftKeyDown)
+        {
+            PlayerStats.Instance.MovementSpeed = 5;
+        }
+        else
+        {
+            PlayerStats.Instance.MovementSpeed = 4;
+        }
+        anim.SetBool("Shift", isShiftKeyDown);
+
+        if (Input.GetMouseButton(0))
         {
             //If has gun, call this function here
             if (carryGun)
             {
-                attackGun();
+                if(canFire)
+                {
+                    canFire = false;
+                    attackGun();
+                }
             }
             else //If has sword, call this function here
             {
@@ -72,6 +92,7 @@ public class Movement : MonoBehaviour
             }
 
         }
+
 
 
     }
@@ -86,12 +107,12 @@ public class Movement : MonoBehaviour
 
         if (attackAnimDone && !carryGun)
         {
-            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * speed, 0, m_InputsManager._VerticalInput * speed);
+            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * PlayerStats.Instance.MovementSpeed, 0, m_InputsManager._VerticalInput * PlayerStats.Instance.MovementSpeed);
         }
 
         if (carryGun)
         {
-            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * speed, 0, m_InputsManager._VerticalInput * speed);
+            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * PlayerStats.Instance.MovementSpeed, 0, m_InputsManager._VerticalInput * PlayerStats.Instance.MovementSpeed);
         }
 
 
@@ -100,12 +121,17 @@ public class Movement : MonoBehaviour
 
     }
 
-    void attackGun()
+    private void attackGun()
     {
-        gunScript.Shoot();
-        attackAnimDone = false;
-        anim.SetBool("Attack", true);
+       gunScript.Shoot();
+       attackAnimDone = false;
+       anim.SetBool("Attack", true);
+       Invoke("restartFire", fireDelay);
+    }
 
+    private void restartFire()
+    {
+        canFire = true;
     }
 
     void attackSword()
@@ -124,6 +150,7 @@ public class Movement : MonoBehaviour
         attackAnimDone = true;
         swordCollider.enabled = false;
     }
+
 
     private Vector3 CalculateDirection()
     {

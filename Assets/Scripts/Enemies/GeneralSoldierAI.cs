@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BlankStudio.Constants;
 
 public class GeneralSoldierAI : EnemyAI {
     // Unity Editor Variables
@@ -21,13 +22,9 @@ public class GeneralSoldierAI : EnemyAI {
     private State state;
 
     // Public Variables
-    public float health = 100.0f;
-    public float swordDamage = 5.0f; // general soldier attack
-    public float speed = 2.0f;
-    public float attackSpeed = 5.0f;
     public float sightRange = 5.0f; 
     public float attackRange = 2.0f;
-    public override string EnemyType => "General Soldier";
+    public override Constants.EnemyType Type => Constants.EnemyType.GeneralSoldier;
     private float distanceToPlayer;
     private bool canMove = true;
 
@@ -35,16 +32,13 @@ public class GeneralSoldierAI : EnemyAI {
     // Setup Variables
     protected override void Start() {
         // Set up the enemy stats
-        bloodManager = FindObjectOfType<BloodManager>();
-        Stats = new EnemyStats(health, swordDamage, speed);
+        base.Start();
         // Set up the enemy AI
         mesh = GetComponent<NavMeshAgent>();
-        mesh.speed = speed;
+        mesh.speed = Stats.Speed;
         enemy = GetComponent<Transform>();
-        // Get other game objects
         player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
-        // Get the enemies sword collider
         sword = GetComponentInChildren<BoxCollider>();
         state = State.Idle;
     }//end Start()
@@ -85,7 +79,7 @@ public class GeneralSoldierAI : EnemyAI {
     }//end StopMoving()
 
     // Attack Player if in range
-    public override void Attack() {
+    protected override void Attack() {
         // TODO: Set up the attack animation with the sword and if the sword object hits the player then and only then the player takes damage
         canMove = false;
 
@@ -94,9 +88,9 @@ public class GeneralSoldierAI : EnemyAI {
 
         Debug.Log("General Soldier Attack Player");
         if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
-            PlayerStats.Instance.Health -= swordDamage;
+            PlayerStats.Instance.Health -= Stats.Damage;
         }//end if
-    }//end AttackPlayer()
+    }//end Attack()
 
     void changeCanMove() {
         canMove = true;

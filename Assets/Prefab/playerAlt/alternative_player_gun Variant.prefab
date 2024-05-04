@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &561606125
+--- !u!1 &1683891977
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 561606126}
+  - component: {fileID: 1683891978}
   m_Layer: 20
   m_Name: BulletPoint
   m_TagString: Untagged
@@ -16,21 +16,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &561606126
+--- !u!4 &1683891978
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561606125}
-  m_LocalRotation: {x: -0.5215403, y: -0.47188842, z: -0.5651703, w: 0.43116078}
-  m_LocalPosition: {x: 0.18575287, y: 1.2961266, z: 0.54528046}
+  m_GameObject: {fileID: 1683891977}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1.37, z: 1.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4407128716844092581}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &1572351498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,40 +38,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6250917521194859853}
     m_Modifications:
-    - target: {fileID: 393247340343300617, guid: 39ec6af3eb8c70848b3da75dbf39628f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4489677676252728369, guid: 39ec6af3eb8c70848b3da75dbf39628f,
         type: 3}
       propertyPath: m_Name
       value: PT_Sword_01_a
       objectReference: {fileID: 0}
-    - target: {fileID: 4489677676252728369, guid: 39ec6af3eb8c70848b3da75dbf39628f,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon
-      objectReference: {fileID: 0}
     - target: {fileID: 4489677676252762129, guid: 39ec6af3eb8c70848b3da75dbf39628f,
         type: 3}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4489677676252762129, guid: 39ec6af3eb8c70848b3da75dbf39628f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.1768
-      objectReference: {fileID: 0}
-    - target: {fileID: 4489677676252762129, guid: 39ec6af3eb8c70848b3da75dbf39628f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.1768
-      objectReference: {fileID: 0}
-    - target: {fileID: 4489677676252762129, guid: 39ec6af3eb8c70848b3da75dbf39628f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.1768
       objectReference: {fileID: 0}
     - target: {fileID: 4489677676252762129, guid: 39ec6af3eb8c70848b3da75dbf39628f,
         type: 3}
@@ -131,18 +106,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1572351498}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2065695083838151171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4489677677522035259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: defe051e66d56334e84e65005469deb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4225499372631567182
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -822,10 +785,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d0f240152ce47141bc7eae7544f863b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
   gun: {fileID: 3918858019567555886}
   sword: {fileID: 4489677677522035259}
   carryGun: 1
+  fireDelay: 0.87
   m_Camera: {fileID: 0}
   m_InputsManager: {fileID: 0}
 --- !u!4 &4407128716844092581 stripped
@@ -934,4 +897,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 2656407052012141360, guid: 97125c7dfdc693549acab91f1fdef59b,
     type: 3}
-  firePoint: {fileID: 561606126}
+  firePoint: {fileID: 1683891978}
