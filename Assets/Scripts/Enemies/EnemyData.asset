@@ -44,3 +44,9 @@ MonoBehaviour:
       m_EnemyType: 3
       m_EnemyPrefab: {fileID: 5437998181454276144, guid: 93a7ee673dcb52d4e8d0ede26de72600,
         type: 3}
+    - m_Health: 100
+      m_Damage: 4
+      m_Speed: 5
+      m_EnemyType: 2
+      m_EnemyPrefab: {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8,
+        type: 3}

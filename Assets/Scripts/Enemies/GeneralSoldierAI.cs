@@ -79,7 +79,7 @@ public class GeneralSoldierAI : EnemyAI {
     }//end StopMoving()
 
     // Attack Player if in range
-    public override void Attack() {
+    protected override void Attack() {
         // TODO: Set up the attack animation with the sword and if the sword object hits the player then and only then the player takes damage
         canMove = false;
 
@@ -90,7 +90,7 @@ public class GeneralSoldierAI : EnemyAI {
         if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) {
             PlayerStats.Instance.Health -= Stats.Damage;
         }//end if
-    }//end AttackPlayer()
+    }//end Attack()
 
     void changeCanMove() {
         canMove = true;

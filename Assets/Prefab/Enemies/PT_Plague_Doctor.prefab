@@ -410,10 +410,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf47cd2bdca164a4aaf5c25051c1b146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: cae6636b58e9b5842aa21b804197cb48, type: 2}
+  Properties:
+    m_Health: 0
+    m_Damage: 0
+    m_Speed: 0
+    m_EnemyType: 6
+    m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
-  drainAmount: 0.001
-  approachSpeed: 7
-  backAwaySpeed: 7
   attackRange: 7
   backAwayRange: 4
   approachRange: 10

@@ -254,12 +254,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671e2f14ef4bd4fd6b746ad44948ceef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: cae6636b58e9b5842aa21b804197cb48, type: 2}
+  Properties:
+    m_Health: 0
+    m_Damage: 0
+    m_Speed: 0
+    m_EnemyType: 6
+    m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
   attackSound: {fileID: 1590575330114241014}
-  health: 100
-  swordDamage: 5
-  speed: 2
-  attackSpeed: 5
   sightRange: 5
   attackRange: 2
 --- !u!1001 &8641850105688371656

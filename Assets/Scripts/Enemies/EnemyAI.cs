@@ -55,7 +55,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     // Define other common methods for all enemies here
 
-    public virtual void Attack()
+    protected virtual void Attack()
     {
         Debug.Log("Enemy attacks with damage: " + Stats.Damage);
     }
@@ -79,6 +79,14 @@ public abstract class EnemyAI : MonoBehaviour
         if (other.gameObject.CompareTag("Wall"))
         {
             // Do something when enemy collides with wall
+        }
+    }  
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
     }
 

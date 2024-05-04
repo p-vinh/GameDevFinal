@@ -42,7 +42,7 @@ public class Door : MonoBehaviour
             
             RaycastHit hit;
             Debug.DrawRay(transform.position, direction, Color.blue, m_MaxDistance); 
-                Debug.Log(Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask));
+                // Debug.Log(Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask));
 
             if (Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask))
             {

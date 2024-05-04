@@ -390,6 +390,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9527908351e6fe44c8875d6a23507d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: cae6636b58e9b5842aa21b804197cb48, type: 2}
+  Properties:
+    m_Health: 0
+    m_Damage: 0
+    m_Speed: 0
+    m_EnemyType: 6
+    m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
 --- !u!54 &8529091099772242318
 Rigidbody:
