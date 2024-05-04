@@ -7,7 +7,6 @@ public class Movement : MonoBehaviour
 {
 
     Rigidbody rigidBody;
-    public float speed = 4;
     Animator anim;
     public GameObject gun;
     public GameObject sword;
@@ -66,11 +65,11 @@ public class Movement : MonoBehaviour
         //If sprint mode, change anim to run
         if (isShiftKeyDown)
         {
-            speed = 5;
+            PlayerStats.Instance.MovementSpeed = 5;
         }
         else
         {
-            speed = 3;
+            PlayerStats.Instance.MovementSpeed = 4;
         }
         anim.SetBool("Shift", isShiftKeyDown);
 
@@ -102,12 +101,12 @@ public class Movement : MonoBehaviour
 
         if (attackAnimDone && !carryGun)
         {
-            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * speed, 0, m_InputsManager._VerticalInput * speed);
+            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * PlayerStats.Instance.MovementSpeed, 0, m_InputsManager._VerticalInput * PlayerStats.Instance.MovementSpeed);
         }
 
         if (carryGun)
         {
-            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * speed, 0, m_InputsManager._VerticalInput * speed);
+            rigidBody.velocity = new Vector3(m_InputsManager._HorizontalInput * PlayerStats.Instance.MovementSpeed, 0, m_InputsManager._VerticalInput * PlayerStats.Instance.MovementSpeed);
         }
 
 

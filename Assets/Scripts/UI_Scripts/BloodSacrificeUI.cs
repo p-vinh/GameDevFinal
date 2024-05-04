@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BlankStudio.Constants;
 
 public class BloodSacrificeUI : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class BloodSacrificeUI : MonoBehaviour
        menuCanvas.SetActive(false);
        player = GameObject.FindGameObjectWithTag("Player");
     }
-    public void increaseAttack()
+    public void increaseRandomStat()
     {
 
     }
@@ -44,11 +45,14 @@ public class BloodSacrificeUI : MonoBehaviour
         {
             gun.SetActive(false);
             sword.SetActive(true);
+            PlayerStats.Instance.CurrentWeaponType = Constants.WeaponType.Sword;
+            
         }
         else
         {
             gun.SetActive(true);
             sword.SetActive(false);
+            PlayerStats.Instance.CurrentWeaponType = Constants.WeaponType.Gun;
         }
 
         anim.SetBool("carryGun",carryGun); 

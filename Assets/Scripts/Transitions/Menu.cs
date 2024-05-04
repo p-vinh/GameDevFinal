@@ -20,7 +20,9 @@ public class Menu : MonoBehaviour
 
     public void Respawn()
     {
-        StartCoroutine(FadeTransition("FirstStoryBoard"));
+        // TODO Reset Player's Stats
+        
+        StartCoroutine(FadeTransition("Dungeon"));
     }
 
     private IEnumerator FadeTransition(string sceneName)
