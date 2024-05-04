@@ -29,14 +29,15 @@ public class Movement : MonoBehaviour
         m_InputsManager = GetComponent<InputsManager>();
         swordCollider = sword.GetComponent<BoxCollider>();
         gunScript = gun.GetComponent<Gun>();
-        anim.SetBool("hasSword", !carryGun); //If player is carrying sword, animation will follow sword animations related
+        anim.SetBool("carryGun", carryGun);
 
-        if (!carryGun)
+
+        if (!carryGun) //Has sword
         {
             gun.SetActive(false);
             sword.SetActive(true);
         }
-        else
+        else //Has gun
         {
             gun.SetActive(true);
             sword.SetActive(false);
@@ -45,6 +46,7 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        bool isShiftKeyDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         //Point a ray from mouse to camera, use this to rotate player to look at mouse
         //print(m_InputsManager._MousePosition);
         Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
@@ -59,7 +61,18 @@ public class Movement : MonoBehaviour
             //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * m_PlayerRotationSpeed);
         }
 
-        if (m_InputsManager._MouseLeftClick)
+        //If sprint mode, change anim to run
+        if (isShiftKeyDown)
+        {
+            speed = 5;
+        }
+        else
+        {
+            speed = 3;
+        }
+        anim.SetBool("Shift", isShiftKeyDown);
+
+        if (Input.GetMouseButton(0))
         {
             //If has gun, call this function here
             if (carryGun)
@@ -72,6 +85,7 @@ public class Movement : MonoBehaviour
             }
 
         }
+
 
 
     }
@@ -124,6 +138,7 @@ public class Movement : MonoBehaviour
         attackAnimDone = true;
         swordCollider.enabled = false;
     }
+
 
     private Vector3 CalculateDirection()
     {
