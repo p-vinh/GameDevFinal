@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesData:
     enemyPropertiesList:
-    - m_Health: 0
-      m_Damage: 0
-      m_Speed: 0
-      m_EnemyType: 
-      m_EnemyPrefab: {fileID: 0}
-    - m_Health: 0
-      m_Damage: 0
-      m_Speed: 0
-      m_EnemyType: 
-      m_EnemyPrefab: {fileID: 0}
+    - m_Health: 200
+      m_Damage: 2
+      m_Speed: 5
+      m_EnemyType: 0
+      m_EnemyPrefab: {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 0.001
+      m_Speed: 4
+      m_EnemyType: 5
+      m_EnemyPrefab: {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
+        type: 3}
