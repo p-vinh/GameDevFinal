@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     public GameObject gun;
     public GameObject sword;
     public bool carryGun;
+    public float fireDelay;
     private bool attackAnimDone = true;
     private BoxCollider swordCollider;
     private Gun gunScript;
@@ -18,6 +19,7 @@ public class Movement : MonoBehaviour
     //Added input manager 
     public Camera m_Camera = null;
     public InputsManager m_InputsManager;
+    private bool canFire = true; //Adds delay
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +80,11 @@ public class Movement : MonoBehaviour
             //If has gun, call this function here
             if (carryGun)
             {
-                attackGun();
+                if(canFire)
+                {
+                    canFire = false;
+                    attackGun();
+                }
             }
             else //If has sword, call this function here
             {
@@ -115,12 +121,17 @@ public class Movement : MonoBehaviour
 
     }
 
-    void attackGun()
+    private void attackGun()
     {
-        gunScript.Shoot();
-        attackAnimDone = false;
-        anim.SetBool("Attack", true);
+       gunScript.Shoot();
+       attackAnimDone = false;
+       anim.SetBool("Attack", true);
+       Invoke("restartFire", fireDelay);
+    }
 
+    private void restartFire()
+    {
+        canFire = true;
     }
 
     void attackSword()
