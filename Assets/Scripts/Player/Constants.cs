@@ -6,9 +6,10 @@ namespace BlankStudio.Constants
 {
     public class Constants
     {
-        public PlayerState playerState { get; set;}
+        public PlayerState playerState { get; set; }
         public WeaponType weaponType { get; set; }
         public AnimationNames animationNames { get; set; }
+        public EnemyType enemyType { get; set; }
 
         public enum PlayerState
         {
@@ -21,14 +22,14 @@ namespace BlankStudio.Constants
 
         public enum AnimationNames
         {
-            Idel_1, 
+            Idel_1,
             Idel_2,
             Idel_3,
-            Death, 
-            Run, 
-            SwordAttack, 
-            GunShoot, 
-            AxeAttack, 
+            Death,
+            Run,
+            SwordAttack,
+            GunShoot,
+            AxeAttack,
             FlameThrower
         }
 
@@ -41,6 +42,17 @@ namespace BlankStudio.Constants
             Axe,
             FlameThrower,
 
+        }
+
+        public enum EnemyType
+        {
+            Charger,
+            GeneralSoldier,
+            Vampire,
+            Ranger,
+            Mimic,
+            Mage,
+            None
         }
     }
 }

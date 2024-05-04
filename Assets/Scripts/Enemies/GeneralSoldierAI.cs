@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BlankStudio.Constants;
 
 public class GeneralSoldierAI : EnemyAI {
     // Unity Editor Variables
@@ -27,7 +28,7 @@ public class GeneralSoldierAI : EnemyAI {
     public float attackSpeed = 5.0f;
     public float sightRange = 5.0f; 
     public float attackRange = 2.0f;
-    public override string EnemyType => "General Soldier";
+    public override Constants.EnemyType Type => Constants.EnemyType.GeneralSoldier;
     private float distanceToPlayer;
     private bool canMove = true;
 
@@ -36,7 +37,6 @@ public class GeneralSoldierAI : EnemyAI {
     protected override void Start() {
         // Set up the enemy stats
         bloodManager = FindObjectOfType<BloodManager>();
-        Stats = new EnemyStats(health, swordDamage, speed);
         // Set up the enemy AI
         mesh = GetComponent<NavMeshAgent>();
         mesh.speed = speed;

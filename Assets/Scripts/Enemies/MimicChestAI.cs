@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BlankStudio.Constants;
 
 public class MimicChestAI : EnemyAI
 {
@@ -13,7 +14,7 @@ public class MimicChestAI : EnemyAI
     public SphereCollider sightRangeCollider;
     public SphereCollider attackRangeCollider;
     public LayerMask playerLayer;
-    public override string EnemyType => "Mimic";
+    public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;
     private GameObject playerGameObject; 
@@ -47,7 +48,7 @@ public class MimicChestAI : EnemyAI
         }
 
         enemy = GetComponent<NavMeshAgent>();
-        Stats = new EnemyStats(100, 5, 4);
+        // Stats = new EnemyStats(100, 5, 4);
         state = State.IdleResting;
         playerLayer = LayerMask.GetMask("Player");
         animator = GetComponent<Animator>();

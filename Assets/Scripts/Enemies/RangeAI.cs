@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BlankStudio.Constants;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,6 +13,7 @@ public class RangeAI : EnemyAI
     Animator anim;
 
     //Temporary variables, change the stats of enemy
+    // TODO Change to scriptable object
     public int health;
     public float damage;
     public float speed;
@@ -24,7 +26,7 @@ public class RangeAI : EnemyAI
     //State Varables
     public float sightRange, attackRange;
     public bool playerInSightRange, playerinAttackRange;
-    public override string EnemyType => "Range";
+    public override Constants.EnemyType Type => Constants.EnemyType.Ranger;
 
     //Private Varables
     private enum State
@@ -38,7 +40,6 @@ public class RangeAI : EnemyAI
     private void Awake()
     {
         bloodManager = FindObjectOfType<BloodManager>();
-        Stats = new EnemyStats(health, damage, speed);
         player = GameObject.FindGameObjectWithTag("Player").transform;
         state = State.Idle;
         enemy = GetComponent<NavMeshAgent>();

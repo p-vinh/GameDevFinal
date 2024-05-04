@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using BlankStudio.Constants;
+
 
 [CreateAssetMenu(fileName = "EnemyData", menuName = "ScriptableObjects/EnemyData", order = 1)]
 public class EnemyData : ScriptableObject
@@ -10,7 +12,7 @@ public class EnemyData : ScriptableObject
         public float Health => m_Health;
         public float Damage => m_Damage;
         public float Speed => m_Speed;
-        public string EnemyType => m_EnemyType;
+        public Constants.EnemyType EnemyType => m_EnemyType;
         public GameObject EnemyPrefab => m_EnemyPrefab;
 
         [SerializeField]
@@ -23,7 +25,7 @@ public class EnemyData : ScriptableObject
         private float m_Speed = 0f;
 
         [SerializeField]
-        private string m_EnemyType = "";
+        private Constants.EnemyType m_EnemyType = Constants.EnemyType.None;
 
         [SerializeField]
         private GameObject m_EnemyPrefab = null;
