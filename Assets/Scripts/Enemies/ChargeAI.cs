@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BlankStudio.Constants;
+using UnityEngine.AI;
 
 public class ChargeAI : EnemyAI
 {
@@ -21,6 +22,9 @@ public class ChargeAI : EnemyAI
     private Vector3 spottedPlayerPosition;
     private GameObject player;
     private Animator anim;
+    private NavMeshAgent navMeshAgent;
+    private float stateTimer;
+    private Vector3 roamDirection;
 
     // Enumeration for enemy state
     private enum ChargeAIState
@@ -31,23 +35,32 @@ public class ChargeAI : EnemyAI
 
     protected override void Start()
     {
-        base.Start();
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
-        ChooseNewRoamingTarget();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.speed = 4;
+        stateTimer = 0.0f;
     }
 
     protected override void Update()
     {
         base.Update();
         // Update cooldown timer
-        chargeCooldownTimer -= Time.deltaTime;
+        stateTimer += Time.deltaTime;
 
         // Handle state transitions
         switch (currentState)
         {
             case ChargeAIState.Roaming:
-                RoamAround();
+
+                if (stateTimer >= 3f)
+                {
+                    stateTimer = 0f;
+                }
+                else
+                {
+                    RoamAround();
+                }
                 CheckForPlayerInRange();
                 break;
             case ChargeAIState.Charging:
@@ -56,48 +69,45 @@ public class ChargeAI : EnemyAI
         }
     }
 
-    private void ChooseNewRoamingTarget()
-    {
-        // Define roaming area
-        Vector3 minRoamPoint = new Vector3(transform.position.x - 10f, transform.position.y, transform.position.z - 10f);
-        Vector3 maxRoamPoint = new Vector3(transform.position.x + 10f, transform.position.y, transform.position.z + 10f);
+    // private void ChooseNewRoamingTarget()
+    // {
+    //     // Define roaming area
+    //     Vector3 minRoamPoint = new Vector3(transform.position.x - 10f, transform.position.y, transform.position.z - 10f);
+    //     Vector3 maxRoamPoint = new Vector3(transform.position.x + 10f, transform.position.y, transform.position.z + 10f);
         
-        // Choose random target position
-        targetPosition = new Vector3(
-            Random.Range(minRoamPoint.x, maxRoamPoint.x),
-            transform.position.y,
-            Random.Range(minRoamPoint.z, maxRoamPoint.z)
-        );
-    }
+    //     // Choose random target position
+    //     targetPosition = new Vector3(
+    //         Random.Range(minRoamPoint.x, maxRoamPoint.x),
+    //         transform.position.y,
+    //         Random.Range(minRoamPoint.z, maxRoamPoint.z)
+    //     );
+    // }
 
     private void RoamAround()
     {
         // Set "Walk" animation trigger
-        anim.SetTrigger("Walk");
+        anim.SetBool("Walk",true);
 
-        // Move towards the target position
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Stats.Speed * Time.deltaTime);
+        Vector3  roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
 
-        // Rotate the enemy to face the direction it is moving in
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        transform.rotation = Quaternion.LookRotation(direction);
+        navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
 
-        // Check if the enemy has reached the target position
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-        {
-            // Start the coroutine to wait for one second before choosing a new roaming target
-            anim.SetTrigger("Idle");
-            StartCoroutine(WaitForNewRoamingTarget());
-        }
+        // // Check if the enemy has reached the target position
+        // if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        // {
+        //     // Start the coroutine to wait for one second before choosing a new roaming target
+        //     anim.SetBool("Idle",true);
+        //     anim.SetBool("Walk",false);
+        //     StartCoroutine(WaitForNewRoamingTarget());
+        // }
     }
 
     // Coroutine to wait for one second before choosing a new roaming target
     private IEnumerator WaitForNewRoamingTarget()
     {
-        anim.SetTrigger("Idle");
+        anim.SetBool("Idle",true);
         // Wait for one second
         yield return new WaitForSeconds(5f);
-        ChooseNewRoamingTarget();
     }
 
     private void CheckForPlayerInRange()
@@ -122,19 +132,20 @@ public class ChargeAI : EnemyAI
     {
         // Move towards player
         Vector3 direction = (spottedPlayerPosition - transform.position).normalized;
-        anim.SetTrigger("Run");
+        anim.SetBool("Run",true);
         transform.rotation = Quaternion.LookRotation(direction);
         transform.position += direction * chargeSpeed * Time.deltaTime;
 
         if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.1f)
         {
             // Set the "Idle" animation trigger to indicate the enemy is idling
-            anim.SetTrigger("Idle");
+            anim.SetBool("Idle",true);
+            anim.SetBool("Run",false);
         
             // Transition back to the Roaming state and start the cooldown timer
             currentState = ChargeAIState.Roaming;
             chargeCooldownTimer = chargeCooldownTime;
-            ChooseNewRoamingTarget();
+            //ChooseNewRoamingTarget();
         }
 
         // Update charge timer
@@ -145,7 +156,7 @@ public class ChargeAI : EnemyAI
         {
             currentState = ChargeAIState.Roaming;
             chargeCooldownTimer = chargeCooldownTime;
-            ChooseNewRoamingTarget();
+            //ChooseNewRoamingTarget();
         }
     }
 
@@ -157,7 +168,7 @@ public class ChargeAI : EnemyAI
 
     public override void TakeDamage(float damage)
     {
-        anim.SetTrigger("GetHit");
+        anim.SetBool("GetHit",true);
         Stats.Health -= damage;
 
         // Log damage and check if enemy's health is zero or below
@@ -180,7 +191,7 @@ public class ChargeAI : EnemyAI
 
         if (other.gameObject.CompareTag("Wall"))
         {
-            ChooseNewRoamingTarget();
+            //ChooseNewRoamingTarget();
         }
 
         if (other.gameObject.CompareTag("Projectile"))
@@ -191,7 +202,7 @@ public class ChargeAI : EnemyAI
 
     public override void Die()
     {
-        anim.SetTrigger("Die");
+        anim.SetBool("Die",true);
         Debug.Log("Charge dies");
         base.Die();
         Destroy(gameObject);
