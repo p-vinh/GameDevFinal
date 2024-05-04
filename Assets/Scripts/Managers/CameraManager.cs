@@ -36,7 +36,7 @@ public class CameraManager : MonoBehaviour
         Vector3 newPosition = new Vector3(m_Follow.position.x + m_CameraOffset.x, m_Follow.position.y + m_CameraOffset.y, m_Follow.position.z + m_CameraOffset.z);
         float distance = Vector3.Distance(transform.position, newPosition);
 
-        if (distance > 5f) // Will snap to the player if the distance is greater than 5
+        if (distance > 8f) // Will snap to the player if the distance is greater than 8
         {
             transform.position = newPosition;
         }

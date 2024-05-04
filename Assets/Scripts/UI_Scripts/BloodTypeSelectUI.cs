@@ -17,8 +17,8 @@ public class BloodTypeSelectUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string title = "";
-        string info = "";
+        // string title = "";
+        // string info = "";
         acceptButton.SetActive(false);
     }
 

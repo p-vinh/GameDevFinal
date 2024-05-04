@@ -46,6 +46,8 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        if (GameObject.FindGameObjectWithTag("MainCamera") == null) return;
+
         bool isShiftKeyDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         //Point a ray from mouse to camera, use this to rotate player to look at mouse
         //print(m_InputsManager._MousePosition);
