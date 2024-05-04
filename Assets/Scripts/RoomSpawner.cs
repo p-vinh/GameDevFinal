@@ -5,9 +5,9 @@ using UnityEngine;
 public class RoomSpawner : MonoBehaviour
 {
     // TODO: Work with team for boss spawn room
-    public GameObject[] roomPrefabs;  // An array of room prefabs to be spawned
+    public GameObject[] roomPrefabs;
     public GameObject spawnRoomPrefab;
-    // public GameObject bossRoomPrefab;
+    public GameObject bossRoomPrefab;
 
     public int numRooms = 0;
     public float minRoomDistance;
@@ -83,7 +83,6 @@ public class RoomSpawner : MonoBehaviour
             // Calculate the new room position by subtracting the connection point offset from the old room connection point position
             Vector3 newRoomPosition = oldRoomConnectionPointPosition - connectionPointOffset;
 
-            // Spawn the room prefab at the aligned position
             GameObject newRoom = Instantiate(roomPrefab, newRoomPosition, roomPrefab.transform.rotation);
 
             // ================COLLIDER OVERLAP CHECK================
@@ -150,27 +149,17 @@ public class RoomSpawner : MonoBehaviour
             // Add the new room's connectors to the available list, except for the one used for connection
             AddRoomConnectors(newRoom, newRoomConnectionPointGO);
 
-            // Set the new room as the old room's neighbor
-            // GameObject oldRoomParent = oldRoomConnectionPoint.transform.root.gameObject;
-            // RoomController oldRoomController = oldRoomParent.GetComponent<RoomController>();
-            // RoomController newRoomController = newRoom.GetComponent<RoomController>();
-            // oldRoomController.AddNeighoringRoom(newRoom);
-            // oldRoomController.AddUnpathedNeighboringRoom(newRoom);
-            // newRoomController.AddNeighoringRoom(oldRoomParent);
-            // newRoomController.AddUnpathedNeighboringRoom(oldRoomParent);
-
             roomFails = 0;
         }
         Debug.Log("Successfully Spawned Rooms: " + successfullySpawnedRooms.Count);
 
-        // SpawnBossRoom();
+        SpawnBossRoom();
         yield return null;
     }
 
-    /*
+
     private void SpawnBossRoom()
     {
-        // Spawn in the remainder of the rooms
         for (int i = 0; i < 1; i++)
         {
             // Select a random room prefab from the array
@@ -183,64 +172,64 @@ public class RoomSpawner : MonoBehaviour
             string oppositeConnectorName = GetOppositeConnectorName(oldRoomBossConnectionPoint); // Name of room
             Transform bossRoomConnectPoints = bRoomPrefab.transform.Find("RoomConnectionPoints");
             Transform bossRoomConnectionPoint = bossRoomConnectPoints.transform.Find(oppositeConnectorName); // The corresponding connection point child
-            GameObject bossRoomConnectionPointGO = bossRoomConnectionPoint.gameObject; // The gameObject of the corresponding connection point child
+            
+            if (bossRoomConnectionPoint == null)
+            {
+                Debug.Log("Opposite Connector Not Found");
+                // If the boss room fails to generate 50 times, skip it
+                if (roomFails > 50)
+                {
+                    Debug.Log("ROOM FAILED TO GENERATE");
+                    roomFails = 0;
+                    continue;
+                }
 
-            // Get the position of the alignment point relative to the room prefab
-            Vector3 connectionPointOffset = bossRoomConnectionPoint.localPosition;
+                i--;
+                roomFails++;
+                continue;
+            }
+
+            GameObject bossRoomConnectionPointGO = bossRoomConnectionPoint.gameObject; 
+
+            // Vector3 connectionPointOffset = bossRoomConnectionPoint.localPosition;
+            // Vector3 oldRoomBossConnectionPointPosition = oldRoomBossConnectionPoint.transform.position;
+            // Vector3 bossRoomPosition = oldRoomBossConnectionPointPosition - connectionPointOffset;
+            // GameObject newBossRoom = Instantiate(bRoomPrefab, bossRoomPosition, Quaternion.identity);
+
+            Vector3 connectionPointOffset = bossRoomConnectionPoint.position - bRoomPrefab.transform.position;
 
             // Get the position of the old room connection point
             Vector3 oldRoomBossConnectionPointPosition = oldRoomBossConnectionPoint.transform.position;
 
-            // Calculate the boss room position by subtracting the connection point offset from the old room connection point position
+            // Calculate the new room position by subtracting the connection point offset from the old room connection point position
             Vector3 bossRoomPosition = oldRoomBossConnectionPointPosition - connectionPointOffset;
-
-            // Spawn the boss room prefab at the aligned position
-            GameObject newBossRoom = Instantiate(bRoomPrefab, bossRoomPosition, Quaternion.identity);
+            GameObject newBossRoom = Instantiate(bRoomPrefab, bossRoomPosition, bRoomPrefab.transform.rotation);
 
             // Get the composite collider of the new boss room
-            CompositeCollider2D bossRoomCollider = null;
-            Transform gridTransform = newBossRoom.transform.Find("Grid");
-            if (gridTransform != null)
-            {
-                Transform roomColliderTransform = gridTransform.Find("RoomGenerationCollider");
-                if (roomColliderTransform != null)
-                {
-                    bossRoomCollider = roomColliderTransform.GetComponent<CompositeCollider2D>();
-                }
-            }
+            Transform newBossRoomTransform = newBossRoom.transform.Find("Collider");
+            BoxCollider bossRoomCollider = newBossRoomTransform.GetComponentInChildren<BoxCollider>();
 
             // Check if the new boss room's collider is overlapping with any of the successfully spawned rooms' colliders
             bool overlap = false;
             foreach (GameObject successfulRoom in successfullySpawnedRooms)
             {
-                CompositeCollider2D successfulRoomCollider = null;
-                gridTransform = successfulRoom.transform.Find("Grid");
-                if (gridTransform != null)
-                {
-                    Transform roomColliderTransform = gridTransform.Find("RoomGenerationCollider");
-                    if (roomColliderTransform != null)
-                    {
-                        successfulRoomCollider = roomColliderTransform.GetComponent<CompositeCollider2D>();
-                    }
-                }
+                Transform transform = successfulRoom.transform.Find("Collider");
+                BoxCollider successfulRoomCollider = transform.GetComponentInChildren<BoxCollider>();
 
                 if (bossRoomCollider != null && successfulRoomCollider != null)
                 {
-                    Vector2 bossRoomMin = bossRoomCollider.bounds.min;
-                    Vector2 bossRoomMax = bossRoomCollider.bounds.max;
-                    Vector2 successfulRoomMin = successfulRoomCollider.bounds.min;
-                    Vector2 successfulRoomMax = successfulRoomCollider.bounds.max;
-
                     // Check if the rooms are too close to each other
-                    float distance = Vector2.Distance(bossRoomCollider.bounds.center, successfulRoomCollider.bounds.center);
+                    float distance = Vector3.Distance(bossRoomCollider.bounds.center, successfulRoomCollider.bounds.center);
                     if (distance < minRoomDistance)
                     {
+                        Debug.Log("Distance: " + distance);
                         overlap = true;
                         break;
                     }
 
-                    if (bossRoomMax.x > successfulRoomMin.x && bossRoomMin.x < successfulRoomMax.x &&
-                        bossRoomMax.y > successfulRoomMin.y && bossRoomMin.y < successfulRoomMax.y)
+                    Collider[] hitColliders = Physics.OverlapBox(bossRoomCollider.bounds.center, bossRoomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("RoomCollider"));
+
+                    if (hitColliders.Length > 1)
                     {
                         overlap = true;
                         break;
@@ -271,25 +260,14 @@ public class RoomSpawner : MonoBehaviour
 
             // Remove the used connector
             availableConnectors.Remove(oldRoomBossConnectionPoint);
-            //availableBossConnectors.Remove(oldRoomConnectionPoint);
 
             // Add the new boss room's connectors to the available list, except for the one used for connection
             AddRoomConnectors(newBossRoom, bossRoomConnectionPointGO);
 
-            // Set the new boss room as the old room's neighbor
-            // GameObject oldRoomParent = oldRoomBossConnectionPoint.transform.root.gameObject;
-            // RoomController oldRoomController = oldRoomParent.GetComponent<RoomController>();
-            // RoomController newRoomController = newBossRoom.GetComponent<RoomController>();
-            // oldRoomController.AddNeighoringRoom(newBossRoom);
-            // oldRoomController.AddUnpathedNeighboringRoom(newBossRoom);
-            // newRoomController.AddNeighoringRoom(oldRoomParent);
-            // newRoomController.AddUnpathedNeighboringRoom(oldRoomParent);
-
-
             roomFails = 0;
         }
     }
-    */
+
 
     private void AddRoomConnectors(GameObject inputRoom, GameObject usedConnector)
     {
@@ -302,7 +280,7 @@ public class RoomSpawner : MonoBehaviour
                 GameObject connectorObject = connector.gameObject;
 
                 availableConnectors.Add(connectorObject);
-                // availableBossConnectors.Add(connectorObject);
+                availableBossConnectors.Add(connectorObject);
             }
         }
     }
@@ -333,16 +311,6 @@ public class RoomSpawner : MonoBehaviour
 
     private void DestroyRoom(GameObject roomToDelete)
     {
-        // Transform gridTransform = roomToDelete.transform.Find("Grid");
-        // Transform roomColliderTransform = gridTransform.transform.Find("RoomGenerationCollider");
-
-        // if (roomColliderTransform != null)
-        // {
-        //     GameObject generationCollider = roomColliderTransform.gameObject;
-        //     // Remove the collider from the A* pathfinding graph
-        //     Destroy(generationCollider);
-        // }
-
         Destroy(roomToDelete);
     }
 }
