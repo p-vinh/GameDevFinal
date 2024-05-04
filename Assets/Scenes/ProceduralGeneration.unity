@@ -153,11 +153,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
-  - {fileID: 9134219553964920922, guid: a5fc7d1927089ec44a62111dd973a25c, type: 3}
+  - {fileID: 4303650603329369047, guid: c4a57d5a40576f045a68b61434db0b7f, type: 3}
   - {fileID: 5147633673202220258, guid: 0addae4a7901cf34291dadc3c9139df2, type: 3}
-  spawnRoomPrefab: {fileID: 5147633673202220258, guid: 0addae4a7901cf34291dadc3c9139df2,
+  - {fileID: 9134219553964920922, guid: f40179a2ed5514b41abdbbd6c70c5f28, type: 3}
+  - {fileID: 9134219553964920922, guid: a5fc7d1927089ec44a62111dd973a25c, type: 3}
+  - {fileID: 7112244412733211965, guid: 4ba826ac7c96e794f834825a9ff0b67c, type: 3}
+  spawnRoomPrefab: {fileID: 7112244412733211965, guid: 4ba826ac7c96e794f834825a9ff0b67c,
     type: 3}
-  numRooms: 20
+  numRooms: 30
   minRoomDistance: 0
   roomFails: 50
   spawnRoomFinalPosition: {x: 0, y: 0, z: 0}
@@ -303,6 +306,7 @@ GameObject:
   - component: {fileID: 1164785933}
   - component: {fileID: 1164785932}
   - component: {fileID: 1164785931}
+  - component: {fileID: 1164785934}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -376,3 +380,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1164785934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164785930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2

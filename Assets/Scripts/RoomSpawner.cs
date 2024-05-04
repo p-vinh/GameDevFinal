@@ -9,7 +9,7 @@ public class RoomSpawner : MonoBehaviour
     public GameObject spawnRoomPrefab;
     // public GameObject bossRoomPrefab;
 
-    public int numRooms = 0;  
+    public int numRooms = 0;
     public float minRoomDistance;
     public int roomFails = 0;
 
@@ -21,10 +21,10 @@ public class RoomSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnRooms();
+        StartCoroutine(SpawnRooms());
     }
 
-    public void SpawnRooms()
+    public IEnumerator SpawnRooms()
     {
         // Spawn the spawn room prefab
         GameObject spawnRoom = Instantiate(spawnRoomPrefab, transform.position, Quaternion.identity);
@@ -45,18 +45,46 @@ public class RoomSpawner : MonoBehaviour
             string oppositeConnectorName = GetOppositeConnectorName(oldRoomConnectionPoint); // Name of room
             Transform newRoomConnectPoints = roomPrefab.transform.Find("RoomConnectionPoints");
             Transform newRoomConnectionPoint = newRoomConnectPoints.transform.Find(oppositeConnectorName); // The corresponding connection point child
+
+            if (newRoomConnectionPoint == null)
+            {
+                Debug.Log("Opposite Connector Not Found");
+                // If the room fails to generate 50 times, skip it
+                if (roomFails > 50)
+                {
+                    Debug.Log("ROOM FAILED TO GENERATE");
+                    roomFails = 0;
+                    continue;
+                }
+
+                i--;
+                roomFails++;
+                continue;
+            }
+
             GameObject newRoomConnectionPointGO = newRoomConnectionPoint.gameObject; // The gameObject of the corresponding connection point child
 
             // ================OFFSET CALCULATION================
             // Get the position of the alignment point relative to the room prefab
-            Vector3 connectionPointOffset = newRoomConnectionPoint.localPosition;
+            // Vector3 connectionPointOffset = newRoomConnectionPoint.localPosition;
+            // // Get the position of the old room connection point
+            // Vector3 oldRoomConnectionPointPosition = oldRoomConnectionPoint.transform.position;
+            // // Calculate the new room position by subtracting the connection point offset from the old room connection point position
+            // Vector3 newRoomPosition = oldRoomConnectionPointPosition - connectionPointOffset;
+
+            // // Spawn the room prefab at the aligned position
+            // GameObject newRoom = Instantiate(roomPrefab, newRoomPosition, Quaternion.identity);
+            // Get the position of the alignment point in world space
+            Vector3 connectionPointOffset = newRoomConnectionPoint.position - roomPrefab.transform.position;
+
             // Get the position of the old room connection point
             Vector3 oldRoomConnectionPointPosition = oldRoomConnectionPoint.transform.position;
+
             // Calculate the new room position by subtracting the connection point offset from the old room connection point position
             Vector3 newRoomPosition = oldRoomConnectionPointPosition - connectionPointOffset;
 
             // Spawn the room prefab at the aligned position
-            GameObject newRoom = Instantiate(roomPrefab, newRoomPosition, Quaternion.identity);
+            GameObject newRoom = Instantiate(roomPrefab, newRoomPosition, roomPrefab.transform.rotation);
 
             // ================COLLIDER OVERLAP CHECK================
 
@@ -100,11 +128,13 @@ public class RoomSpawner : MonoBehaviour
                 if (roomFails > 50)
                 {
                     Debug.Log("ROOM FAILED TO GENERATE");
+                    // yield return new WaitForSeconds(1f);
                     DestroyRoom(newRoom);
                     roomFails = 0;
                     continue;
                 }
 
+                // yield return new WaitForSeconds(1f);
                 DestroyRoom(newRoom);
                 i--;
                 roomFails++;
@@ -134,6 +164,7 @@ public class RoomSpawner : MonoBehaviour
         Debug.Log("Successfully Spawned Rooms: " + successfullySpawnedRooms.Count);
 
         // SpawnBossRoom();
+        yield return null;
     }
 
     /*
