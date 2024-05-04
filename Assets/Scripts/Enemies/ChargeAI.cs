@@ -149,7 +149,7 @@ public class ChargeAI : EnemyAI
         }
     }
 
-    public override void Attack()
+    protected override void Attack()
     {
         Debug.Log($"{Stats.EnemyType} attacks the player with damage: {Stats.Damage}");
         PlayerStats.Instance.Health -= Stats.Damage;

@@ -55,7 +55,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     // Define other common methods for all enemies here
 
-    public virtual void Attack()
+    protected virtual void Attack()
     {
         Debug.Log("Enemy attacks with damage: " + Stats.Damage);
     }
