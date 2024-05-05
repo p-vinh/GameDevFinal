@@ -168,7 +168,7 @@ MonoBehaviour:
   - {fileID: 7871006637237047107, guid: d81e41f61e723e04391c48723e518bd1, type: 3}
   - {fileID: 7871006637237047107, guid: 3fccd9711b19e1b4782f2a59a0309be2, type: 3}
   - {fileID: 7871006637237047107, guid: 179c58130663f8d4e9ba2a41605667e9, type: 3}
-  spawnRoomPrefab: {fileID: 1057582114403237560, guid: 8552efad027372547be3ed2044513030,
+  spawnRoomPrefab: {fileID: 577431114855196775, guid: d7792056b9c06854bb712c30356a804f,
     type: 3}
   bossRoomPrefab: {fileID: 1859474584167183714, guid: cfe8e3af932f8d64bb6f681d832ce324,
     type: 3}
