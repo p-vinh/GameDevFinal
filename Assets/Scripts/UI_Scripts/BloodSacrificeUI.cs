@@ -16,6 +16,8 @@ public class BloodSacrificeUI : MonoBehaviour
     void Start()
     {
        mainCamera = GameObject.FindWithTag("MainCamera") as GameObject;
+       menuCanvas = GameObject.FindWithTag("MenuCanvas") as GameObject;
+       crossHair = GameObject.FindWithTag("CrossHair") as GameObject;
        closeUpCamera.SetActive(false);
        menuCanvas.SetActive(false);
        player = GameObject.FindGameObjectWithTag("Player");
