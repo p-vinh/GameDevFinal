@@ -153,16 +153,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
+  - {fileID: 181946899169584853, guid: 147655876c07ccb4d9a02c9d06caf1ae, type: 3}
   - {fileID: 5079510251565309130, guid: bbb91b3616dcf594babae9533f6eefea, type: 3}
   - {fileID: 6357292995011854030, guid: 34af6e2a31e7de04daa6548dea5ccc1e, type: 3}
-  - {fileID: 8445831257014611122, guid: e4296749ae4de0b499b766508143ffd2, type: 3}
   - {fileID: 9134219553964920922, guid: a5fc7d1927089ec44a62111dd973a25c, type: 3}
+  - {fileID: 8445831257014611122, guid: e4296749ae4de0b499b766508143ffd2, type: 3}
   - {fileID: 5147633673202220258, guid: 0addae4a7901cf34291dadc3c9139df2, type: 3}
   - {fileID: 7112244412733211965, guid: 4ba826ac7c96e794f834825a9ff0b67c, type: 3}
+  - {fileID: 5349713359915185351, guid: 99c6c3866f3f0fc47aa18be5d936f0a3, type: 3}
+  - {fileID: 1859474584167183714, guid: cfe8e3af932f8d64bb6f681d832ce324, type: 3}
+  - {fileID: 7871006637237047107, guid: 179c58130663f8d4e9ba2a41605667e9, type: 3}
   - {fileID: 2838165566634053095, guid: a5c9d5948c434d14b8165e5bdd64466b, type: 3}
   - {fileID: 9134219553964920922, guid: f40179a2ed5514b41abdbbd6c70c5f28, type: 3}
   - {fileID: 4303650603329369047, guid: c4a57d5a40576f045a68b61434db0b7f, type: 3}
-  deadEndRoomPrefabs: []
+  deadEndRoomPrefabs:
+  - {fileID: 8445831257014611122, guid: e4296749ae4de0b499b766508143ffd2, type: 3}
   spawnRoomPrefab: {fileID: 1057582114403237560, guid: 8552efad027372547be3ed2044513030,
     type: 3}
   bossRoomPrefab: {fileID: 5349713359915185351, guid: 99c6c3866f3f0fc47aa18be5d936f0a3,
