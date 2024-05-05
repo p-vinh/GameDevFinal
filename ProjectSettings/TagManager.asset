@@ -12,6 +12,8 @@ TagManager:
   - SacrificeRoom
   - Item
   - Enemy
+  - CrossHair
+  - MenuCanvas
   layers:
   - Default
   - TransparentFX
