@@ -54,5 +54,23 @@ namespace BlankStudio.Constants
             Mage,
             None
         }
+        
+        public enum RoomType
+        {
+            EntryPoint,
+            Room_1,
+            Room_2,
+            Room_3,
+            Room_4,
+            Hallway_1, 
+            Hallway_2,
+            BossEnemy_Room
+        }
+
+        public enum VisitStatus
+        {
+            Visited,
+            NotVisited
+        }
     }
 }
