@@ -288,7 +288,7 @@ public class RoomSpawner : MonoBehaviour
 
             if (deadEndRoomConnectionPoint != null)
             {
-                Vector3 connectionPointOffset = deadEndRoomConnectionPoint.position - connector.transform.parent.position;
+                Vector3 connectionPointOffset = deadEndRoomConnectionPoint.position - deadEndRoom.transform.position;
                 Vector3 connectorPosition = connector.transform.position;
                 Vector3 deadEndRoomPosition = connectorPosition - connectionPointOffset;
 
@@ -303,7 +303,7 @@ public class RoomSpawner : MonoBehaviour
 
                 if (hitColliders.Length > 1)
                 {
-                    // DestroyRoom(room);
+                    DestroyRoom(room);
                     GenerateWall(connector.transform, connector);
                 }
             }
@@ -319,8 +319,8 @@ public class RoomSpawner : MonoBehaviour
 
     private void GenerateWall(Transform connectionPoint, GameObject connector)
     {
-        // TODO: Rotate the wall/door to face the correct direction
-        Instantiate(wallPrefab, connectionPoint.transform.position, Quaternion.identity);
+        Quaternion rotation = connectionPoint.transform.rotation;
+        Instantiate(wallPrefab, connectionPoint.transform.position, rotation);
     }
 
     private void AddRoomConnectors(GameObject inputRoom, GameObject usedConnector)
