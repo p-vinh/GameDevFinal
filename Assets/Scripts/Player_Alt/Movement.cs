@@ -60,15 +60,10 @@ public class Movement : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                if(canFire)
-                {
-                    canFire = false;
-                    attackGun();
-                }
-            }
-            else //If has sword, call this function here
-            {
-                attackSword();
+                Vector3 targetDirection = hit.point - transform.position;
+                targetDirection.y = 0;
+
+                transform.LookAt(transform.position + targetDirection, Vector3.up);
             }
 
             //If sprint mode, change anim to run
@@ -81,20 +76,21 @@ public class Movement : MonoBehaviour
                 PlayerStats.Instance.MovementSpeed = 4;
             }
             anim.SetBool("Shift", isShiftKeyDown);
+        }
 
-            if (Input.GetMouseButton(0))
+
+        if (m_InputsManager._MouseLeftClick)
+        {
+            //If has gun, call this function here
+            if (carryGun && canFire)
             {
-                //If has gun, call this function here
-                if (carryGun)
-                {
-                    attackGun();
-                }
-                else //If has sword, call this function here
-                {
-                    attackSword();
-                }
-
+                attackGun();
             }
+            else //If has sword, call this function here
+            {
+                attackSword();
+            }
+
         }
 
 
@@ -127,10 +123,11 @@ public class Movement : MonoBehaviour
 
     private void attackGun()
     {
-       gunScript.Shoot();
-       attackAnimDone = false;
-       anim.SetBool("Attack", true);
-       Invoke("restartFire", fireDelay);
+        canFire = false;
+        gunScript.Shoot();
+        attackAnimDone = false;
+        anim.SetBool("Attack", true);
+        Invoke("restartFire", fireDelay);
     }
 
     private void restartFire()
