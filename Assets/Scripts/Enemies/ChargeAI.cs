@@ -9,12 +9,11 @@ public class ChargeAI : EnemyAI
     public override Constants.EnemyType Type => Constants.EnemyType.Charger;
 
     // Charge variables
+
     private float chargeSpeed = 4f;
     private float chargeDuration = 3f;
-    private float chargeCooldownTime = 8f;
-    private float chargeCooldownTimer = 0f;
-    private float chargeTimer = 0f;
-    private float chargeRange = 10f;
+    private float chargeTimer = 3f;
+    private float chargeRange = 10f; 
 
 
     private ChargeAIState currentState = ChargeAIState.Roaming;
@@ -30,7 +29,8 @@ public class ChargeAI : EnemyAI
     private enum ChargeAIState
     {
         Roaming,
-        Charging
+        Charging,
+        Idle
     }
 
     protected override void Start()
@@ -51,7 +51,12 @@ public class ChargeAI : EnemyAI
         // Handle state transitions
         switch (currentState)
         {
+            case ChargeAIState.Idle:
+                navMeshAgent.isStopped = true;
+                anim.SetBool("Idle",true);
+                break;
             case ChargeAIState.Roaming:
+                print("Roaming");
 
                 if (stateTimer >= 3f)
                 {
@@ -64,24 +69,11 @@ public class ChargeAI : EnemyAI
                 CheckForPlayerInRange();
                 break;
             case ChargeAIState.Charging:
+                print("Charging");
                 ChargeAtPlayer();
                 break;
         }
     }
-
-    // private void ChooseNewRoamingTarget()
-    // {
-    //     // Define roaming area
-    //     Vector3 minRoamPoint = new Vector3(transform.position.x - 10f, transform.position.y, transform.position.z - 10f);
-    //     Vector3 maxRoamPoint = new Vector3(transform.position.x + 10f, transform.position.y, transform.position.z + 10f);
-        
-    //     // Choose random target position
-    //     targetPosition = new Vector3(
-    //         Random.Range(minRoamPoint.x, maxRoamPoint.x),
-    //         transform.position.y,
-    //         Random.Range(minRoamPoint.z, maxRoamPoint.z)
-    //     );
-    // }
 
     private void RoamAround()
     {
@@ -91,16 +83,8 @@ public class ChargeAI : EnemyAI
         Vector3  roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
 
         navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
-
-        // // Check if the enemy has reached the target position
-        // if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-        // {
-        //     // Start the coroutine to wait for one second before choosing a new roaming target
-        //     anim.SetBool("Idle",true);
-        //     anim.SetBool("Walk",false);
-        //     StartCoroutine(WaitForNewRoamingTarget());
-        // }
     }
+
 
     // Coroutine to wait for one second before choosing a new roaming target
     private IEnumerator WaitForNewRoamingTarget()
@@ -117,8 +101,7 @@ public class ChargeAI : EnemyAI
             // Calculate distance to the player
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-            // Check if the player is within charge range and cooldown timer is up
-            if (distanceToPlayer <= chargeRange && chargeCooldownTimer <= 0f)
+            if(distanceToPlayer <= chargeRange)
             {
                 // Store player's position and switch to Charging state
                 spottedPlayerPosition = player.transform.position;
@@ -131,22 +114,11 @@ public class ChargeAI : EnemyAI
     private void ChargeAtPlayer()
     {
         // Move towards player
-        Vector3 direction = (spottedPlayerPosition - transform.position).normalized;
+        anim.SetBool("Walk",false);
         anim.SetBool("Run",true);
-        transform.rotation = Quaternion.LookRotation(direction);
-        transform.position += direction * chargeSpeed * Time.deltaTime;
-
-        if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.1f)
-        {
-            // Set the "Idle" animation trigger to indicate the enemy is idling
-            anim.SetBool("Idle",true);
-            anim.SetBool("Run",false);
+        navMeshAgent.speed = chargeSpeed;
         
-            // Transition back to the Roaming state and start the cooldown timer
-            currentState = ChargeAIState.Roaming;
-            chargeCooldownTimer = chargeCooldownTime;
-            //ChooseNewRoamingTarget();
-        }
+        navMeshAgent.SetDestination(spottedPlayerPosition);
 
         // Update charge timer
         chargeTimer -= Time.deltaTime;
@@ -154,15 +126,24 @@ public class ChargeAI : EnemyAI
         // If the charge duration is over, switch back to roaming and reset cooldown timer
         if (chargeTimer <= 0f)
         {
-            currentState = ChargeAIState.Roaming;
-            chargeCooldownTimer = chargeCooldownTime;
-            //ChooseNewRoamingTarget();
+            print("CHANGING");
+            anim.SetBool("Run",false);
+            anim.SetBool("Idle",true);
+            currentState = ChargeAIState.Idle;
+            chargeTimer = chargeDuration; //reset charagetimer
+            navMeshAgent.speed = 3f;
+            Invoke("roamingAgain",3f);
         }
     }
 
+    private void roamingAgain()
+    {
+        navMeshAgent.isStopped = false;
+        currentState = ChargeAIState.Roaming;
+    }
     protected override void Attack()
     {
-        Debug.Log($"{Stats.EnemyType} attacks the player with damage: {Stats.Damage}");
+        //Debug.Log($"{Stats.EnemyType} attacks the player with damage: {Stats.Damage}");
         PlayerStats.Instance.Health -= Stats.Damage;
     }
 
@@ -172,7 +153,7 @@ public class ChargeAI : EnemyAI
         Stats.Health -= damage;
 
         // Log damage and check if enemy's health is zero or below
-        Debug.Log($"{Stats.EnemyType} takes damage. Current health: {Stats.Health}");
+        //Debug.Log($"{Stats.EnemyType} takes damage. Current health: {Stats.Health}");
 
         // If health is zero or below, trigger the death sequence
         if (Stats.Health <= 0)
