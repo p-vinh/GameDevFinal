@@ -4,15 +4,16 @@ using UnityEngine;
 using BlankStudio.Constants;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 public class BloodSacrificeUI : MonoBehaviour
 {
     public GameObject mainCamera;
     public GameObject closeUpCamera;
     public GameObject crossHair;
-    public Canvas menuCanvas;
+    public GameObject menuCanvas;
     private GameObject player;
-    public TextMeshProUGUI buffText;
+    public TextMeshPro buffText;
     [SerializeField] ParticleSystem sacrificeEffect = null;
 
 
@@ -21,28 +22,25 @@ public class BloodSacrificeUI : MonoBehaviour
         mainCamera = GameObject.FindWithTag("MainCamera") as GameObject;
         crossHair = GameObject.FindWithTag("CrossHair") as GameObject;
         closeUpCamera.SetActive(false);
-        StartCoroutine(AfterFrame());
-    }
-
-    private IEnumerator AfterFrame()
-    {
-        yield return new WaitForEndOfFrame();
-        player = GameObject.FindGameObjectWithTag("Player");
-        menuCanvas = FindObjectsOfType<Canvas>(true).FirstOrDefault(go => go.CompareTag("MenuCanvas"));
-        buffText = GameObject.Find("BuffText").GetComponent<TextMeshProUGUI>();
+        menuCanvas = FindObjectsOfType<GameObject>(true).FirstOrDefault(go => go.CompareTag("MenuCanvas"));
 
         if (menuCanvas != null)
-            menuCanvas.gameObject.SetActive(false);
+            menuCanvas.SetActive(false);
     }
 
     public void increaseRandomStat()
     {
         int result = PlayerStats.Instance.increaseRandomStat();
+
+        
+        if (menuCanvas != null && !menuCanvas.transform.Find("RandomBuff").TryGetComponent<TextMeshPro>(out buffText))
+            return;
+            
         switch (result)
         {
             case 0:
                 print("Increase max health!");
-                buffText.text = "Max health++";
+                buffText.text = "Health++";
                 break;
             case 1:
                 print("Increase speed");
@@ -71,6 +69,8 @@ public class BloodSacrificeUI : MonoBehaviour
 
     public void changeWeapons()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         Animator anim = player.GetComponent<Animator>();
         bool carryGun = player.GetComponent<Movement>().carryGun;
         GameObject sword = player.GetComponent<Movement>().sword;
@@ -108,7 +108,7 @@ public class BloodSacrificeUI : MonoBehaviour
             mainCamera.SetActive(false);
             closeUpCamera.SetActive(true);
             crossHair.SetActive(false);
-            menuCanvas.gameObject.SetActive(true);
+            menuCanvas.SetActive(true);
             other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -121,7 +121,7 @@ public class BloodSacrificeUI : MonoBehaviour
             mainCamera.SetActive(true);
             closeUpCamera.SetActive(false);
             crossHair.SetActive(true);
-            menuCanvas.gameObject.SetActive(false);
+            menuCanvas.SetActive(false);
             other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.Confined;
