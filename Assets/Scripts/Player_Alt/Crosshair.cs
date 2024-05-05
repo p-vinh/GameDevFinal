@@ -15,7 +15,7 @@ public class Crosshair : MonoBehaviour
         m_InputsManager = GetComponent<InputsManager>();
     }
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         pos = m_InputsManager._MousePosition;
         pos.z = speed;
