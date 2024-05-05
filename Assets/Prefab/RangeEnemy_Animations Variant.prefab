@@ -400,7 +400,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 72
+  m_Constraints: 88
   m_CollisionDetection: 0
 --- !u!136 &1791733838
 CapsuleCollider:
@@ -448,6 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a79926bc633b9d45a13824548d19cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyData: {fileID: 0}
   bloodManager: {fileID: 0}
   enemy: {fileID: 1791733839}
   player: {fileID: 0}
