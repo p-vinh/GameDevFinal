@@ -107,7 +107,7 @@ public class MimicChestAI : EnemyAI
         return false;
     }
     
-    public override void Attack()
+    protected override void Attack()
     {
         if (playerTransform != null)
         {

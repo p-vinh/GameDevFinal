@@ -31,7 +31,7 @@ public class BloodTypeSelectUI : MonoBehaviour
         {
             title.text = "Blood Type A";
             title.color = Color.red;
-            infoText.text = "By choosing this, enemies will MODERATELY drop blood bags";
+            infoText.text = "By choosing this, enemies will MORE LIKELY drop blood bags";
             choosenBloodType = "A";
         }
         else if(bloodType == "B")
@@ -53,7 +53,7 @@ public class BloodTypeSelectUI : MonoBehaviour
 
             title.text = "Blood Type O";
             title.color = Color.red;
-            infoText.text = "By choosing this, enemies will MORE LIKELY drop blood bags";
+            infoText.text = "By choosing this, enemies will MODERATELY drop blood bags";
             choosenBloodType = "O";
         }
 
@@ -61,10 +61,10 @@ public class BloodTypeSelectUI : MonoBehaviour
 
     public void updatePlayerStats()
     {
-        //Please check, I'm not sure if this is correct
         if(choosenBloodType == "A") // 
         {
             PlayerStats.Instance.bloodType = PlayerStats.BloodType.A;
+            
         }
         else if(choosenBloodType == "B")
         {
@@ -83,7 +83,7 @@ public class BloodTypeSelectUI : MonoBehaviour
 
         print(PlayerStats.Instance.bloodType);
 
-        //StartCoroutine(FadeTransition("FirstStoryBoard"));
+        StartCoroutine(FadeTransition("FirstStoryBoard"));
 
 
     }

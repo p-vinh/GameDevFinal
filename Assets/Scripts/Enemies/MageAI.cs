@@ -165,7 +165,7 @@ public class MageAI : EnemyAI
         }
     }
 
-    public override void Attack()
+    protected override void Attack()
     {
         Debug.Log("Mage attacks with damage: " + Stats.Damage);
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);

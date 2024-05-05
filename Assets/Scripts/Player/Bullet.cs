@@ -14,9 +14,17 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        // Bullet
         if (other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.GetComponent<EnemyAI>().TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+            DestroyProjectile();
+        }
+
+        // Arrow
+        if (other.gameObject.CompareTag("Player"))
+        {
+            PlayerStats.Instance.Health -= 2f;
             DestroyProjectile();
         }
     }

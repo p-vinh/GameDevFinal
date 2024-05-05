@@ -41,8 +41,8 @@ public class Door : MonoBehaviour
             Vector3 direction = rotation * transform.forward * -1;
 
             RaycastHit hit;
-            Debug.DrawRay(transform.position, direction, Color.blue, m_MaxDistance);
-            Debug.Log(Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask));
+            Debug.DrawRay(transform.position, direction, Color.blue, m_MaxDistance); 
+                // Debug.Log(Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask));
 
             if (Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask))
             {

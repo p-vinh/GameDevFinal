@@ -115,7 +115,7 @@ public class RangeAI : EnemyAI
 
     protected override void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Projectile"))
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
         {
             TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }

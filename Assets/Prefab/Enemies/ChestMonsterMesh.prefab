@@ -625,10 +625,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddc987d032fb847b69b94bc07002edbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: cae6636b58e9b5842aa21b804197cb48, type: 2}
+  Properties:
+    m_Health: 0
+    m_Damage: 0
+    m_Speed: 0
+    m_EnemyType: 6
+    m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
   enemy: {fileID: 0}
   playerTransform: {fileID: 0}
-  spawnPoint: {fileID: 0}
   playerInSightRange: 0
   playerInAttackRange: 0
   sightRangeCollider: {fileID: 0}
@@ -636,12 +642,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
-  lastPlayerPosition: {x: 0, y: 0, z: 0}
-  idleHostile: 0
-  idleResting: 0
-  attacking: 0
-  hurting: 0
-  dead: 0
 --- !u!1 &8113310700314952944
 GameObject:
   m_ObjectHideFlags: 0
