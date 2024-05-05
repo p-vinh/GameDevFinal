@@ -127,13 +127,13 @@ public class RoomSpawner : MonoBehaviour
                 if (roomFails > 50)
                 {
                     Debug.Log("ROOM FAILED TO GENERATE");
-                    // yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(2f);
                     DestroyRoom(newRoom);
                     roomFails = 0;
                     continue;
                 }
 
-                // yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2f);
                 DestroyRoom(newRoom);
                 i--;
                 roomFails++;
@@ -155,7 +155,7 @@ public class RoomSpawner : MonoBehaviour
 
         SpawnBossRoom();
         FillUnusedConnections();
-        yield return new WaitForSeconds(3f);
+        yield return null;
     }
 
 

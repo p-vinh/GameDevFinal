@@ -93,5 +93,6 @@ public abstract class EnemyAI : MonoBehaviour
     public virtual void Die()
     {
         bloodManager.OnEnemyDeath(gameObject.transform);
+        Destroy(transform.parent.gameObject);
     }
 }
