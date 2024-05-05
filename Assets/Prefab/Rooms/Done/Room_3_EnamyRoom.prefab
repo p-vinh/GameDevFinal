@@ -231,6 +231,7 @@ Transform:
   - {fileID: 7383092816883942655}
   - {fileID: 6367271204729095773}
   - {fileID: 7200183018334630099}
+  - {fileID: 6957369851776378446}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -425,6 +426,121 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 35.800217, y: 3.2490292, z: 24.23103}
   m_Center: {x: 0.07633209, y: -0.12451458, z: -0.8575878}
+--- !u!1001 &691477883446392040
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1859474584167183715}
+    m_Modifications:
+    - target: {fileID: 7571980871687262885, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_Name
+      value: RoomSensor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -20.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: sightRange
+      value: 14.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: audioSource2
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: audioSource3
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: audioLoopController
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: audioLoopController2
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571980871687262887, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+        type: 3}
+      propertyPath: audioLoopController3
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4cf2da11811f647db9cb4c153ea6d8f7, type: 3}
+--- !u!4 &6957369851776378446 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7571980871687262886, guid: 4cf2da11811f647db9cb4c153ea6d8f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 691477883446392040}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1859474582988304696
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class BloodSacrificeUI : MonoBehaviour
     public GameObject closeUpCamera;
     public GameObject crossHair;
     public Canvas menuCanvas;
-    public GameObject player;
+    private GameObject player;
     public TextMeshProUGUI buffText;
     [SerializeField] ParticleSystem sacrificeEffect = null;
 
@@ -22,15 +22,14 @@ public class BloodSacrificeUI : MonoBehaviour
         menuCanvas = FindObjectsOfType<Canvas>(true).FirstOrDefault(go => go.CompareTag("MenuCanvas"));
         crossHair = GameObject.FindWithTag("CrossHair") as GameObject;
         closeUpCamera.SetActive(false);
-        if (menuCanvas != null) {
-            buffText = FindObjectsOfType<TextMeshProUGUI>(true).FirstOrDefault(go => go.CompareTag("BuffText"));
+
+        if (menuCanvas != null)
             menuCanvas.gameObject.SetActive(false);
-        }
-        buffText.text = "";
-        player = GameObject.FindGameObjectWithTag("Player");
     }
     public void increaseRandomStat()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        buffText = GameObject.Find("BuffText").GetComponent<TextMeshProUGUI>();
         int result = PlayerStats.Instance.increaseRandomStat();
         switch (result)
         {
@@ -65,7 +64,7 @@ public class BloodSacrificeUI : MonoBehaviour
 
     public void changeWeapons()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player");
         Animator anim = player.GetComponent<Animator>();
         bool carryGun = player.GetComponent<Movement>().carryGun;
         GameObject sword = player.GetComponent<Movement>().sword;
@@ -79,6 +78,7 @@ public class BloodSacrificeUI : MonoBehaviour
             gun.SetActive(false);
             sword.SetActive(true);
             PlayerStats.Instance.CurrentWeaponType = Constants.WeaponType.Sword;
+            PlayerStats.Instance.CurrentWeapon = new Weapon("Sword", PlayerStats.Instance.CurrentWeapon.Damage, PlayerStats.Instance.CurrentWeapon.Range, PlayerStats.Instance.CurrentWeapon.Speed);
 
         }
         else
@@ -86,6 +86,7 @@ public class BloodSacrificeUI : MonoBehaviour
             gun.SetActive(true);
             sword.SetActive(false);
             PlayerStats.Instance.CurrentWeaponType = Constants.WeaponType.Gun;
+            PlayerStats.Instance.CurrentWeapon = new Weapon("Gun", PlayerStats.Instance.CurrentWeapon.Damage, PlayerStats.Instance.CurrentWeapon.Range, PlayerStats.Instance.CurrentWeapon.Speed);
         }
 
         anim.SetBool("carryGun", carryGun);
@@ -102,7 +103,7 @@ public class BloodSacrificeUI : MonoBehaviour
             closeUpCamera.SetActive(true);
             crossHair.SetActive(false);
             menuCanvas.gameObject.SetActive(true);
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.None;
         }
     }
@@ -115,8 +116,8 @@ public class BloodSacrificeUI : MonoBehaviour
             closeUpCamera.SetActive(false);
             crossHair.SetActive(true);
             menuCanvas.gameObject.SetActive(false);
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.Confined;
         }
     }

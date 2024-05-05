@@ -42,7 +42,7 @@ public class PlayerStats : MonoBehaviour
     public float Health { get; set; }
     public float MaxHealth { get; private set; }
     public float MovementSpeed { get; set; }
-    public Weapon CurrentWeapon { get; private set; }
+    public Weapon CurrentWeapon { get; set; }
     public Constants.WeaponType CurrentWeaponType { get; set; }
     public Vector3 LastDoorEntered { get; set; }
 

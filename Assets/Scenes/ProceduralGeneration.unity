@@ -459,6 +459,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 3509263848263888504, guid: f564c7f0711424241b3fbc50825b92a7,
+        type: 3}
+    - target: {fileID: 247421195711721209, guid: 8e6b8b805bc421248a5675a1d06bd52d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: increaseRandomStat
       objectReference: {fileID: 0}
     - target: {fileID: 2823273134848457131, guid: 8e6b8b805bc421248a5675a1d06bd52d,
         type: 3}
@@ -580,6 +586,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: MenuCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2823273134946898084, guid: 8e6b8b805bc421248a5675a1d06bd52d,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -180.8583
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823273134946898084, guid: 8e6b8b805bc421248a5675a1d06bd52d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 546.2899
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823273134946898084, guid: 8e6b8b805bc421248a5675a1d06bd52d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -124.39465
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823273134946898084, guid: 8e6b8b805bc421248a5675a1d06bd52d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 46.729797
+      objectReference: {fileID: 0}
     - target: {fileID: 2823273134946898085, guid: 8e6b8b805bc421248a5675a1d06bd52d,
         type: 3}
       propertyPath: m_IsActive
@@ -589,6 +615,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 3509263848263888504, guid: f564c7f0711424241b3fbc50825b92a7,
+        type: 3}
+    - target: {fileID: 2823273135691832285, guid: 8e6b8b805bc421248a5675a1d06bd52d,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: changeWeapons
       objectReference: {fileID: 0}
     - target: {fileID: 4412947797483351137, guid: 8e6b8b805bc421248a5675a1d06bd52d,
         type: 3}
@@ -598,7 +630,7 @@ PrefabInstance:
     - target: {fileID: 7469570059982568014, guid: 8e6b8b805bc421248a5675a1d06bd52d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e6b8b805bc421248a5675a1d06bd52d, type: 3}

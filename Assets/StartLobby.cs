@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StartLobby : MonoBehaviour
 {
+    // TODO: Wait till everything is generated/PAUSE THE TIMER before moving player to start point
     public Transform startPoint;
     void Awake()
     {
