@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6555854824142644017
+--- !u!1 &8042088892128943723
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,59 +8,59 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4799391032497577220}
-  - component: {fileID: 4347727615822857131}
-  - component: {fileID: 3255011061949561164}
+  - component: {fileID: 7229403376166257306}
+  - component: {fileID: 8692770532734137159}
+  - component: {fileID: 74634222178391876}
   m_Layer: 0
-  m_Name: RoomThreeSensor (1)
+  m_Name: RoomFiveSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4799391032497577220
+--- !u!4 &7229403376166257306
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6555854824142644017}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.390377, y: 0, z: 26.248375}
+  m_GameObject: {fileID: 8042088892128943723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 151.81, y: 0.635, z: 88.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4347727615822857131
+--- !u!65 &8692770532734137159
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6555854824142644017}
+  m_GameObject: {fileID: 8042088892128943723}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3255011061949561164
+--- !u!114 &74634222178391876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6555854824142644017}
+  m_GameObject: {fileID: 8042088892128943723}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 050aed07c931b4613b27c833008f6ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 4347727615822857131}
+  collider: {fileID: 8692770532734137159}
   player: {fileID: 0}
-  sightRange: 20
+  sightRange: 15
   audioSource: {fileID: 0}
   audioLoopController: {fileID: 0}
   audioSource2: {fileID: 0}

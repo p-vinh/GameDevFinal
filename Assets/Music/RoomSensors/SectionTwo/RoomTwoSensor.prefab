@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 7758693457296861912}
   player: {fileID: 0}
-  sightRange: 15
+  sightRange: 14
   audioSource: {fileID: 0}
   audioLoopController: {fileID: 0}
   audioSource2: {fileID: 0}
