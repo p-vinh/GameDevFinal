@@ -11,6 +11,7 @@ public class VampireAI : GeneralSoldierAI
     protected override void Start()
     {
         base.Start();
+        attackRange = 0.7f;
     }
 
     protected override void Update()
