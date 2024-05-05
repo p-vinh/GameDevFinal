@@ -22,7 +22,8 @@ public class BloodSacrificeUI : MonoBehaviour
     }
     public void increaseRandomStat()
     {
-
+        PlayerStats.Instance.increaseRandomStat();
+        playEffect();
     }
 
     private void playEffect()
@@ -69,6 +70,8 @@ public class BloodSacrificeUI : MonoBehaviour
             closeUpCamera.SetActive(true);
             crossHair.SetActive(false);
             menuCanvas.SetActive(true);
+            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -80,6 +83,9 @@ public class BloodSacrificeUI : MonoBehaviour
             closeUpCamera.SetActive(false);
             crossHair.SetActive(true);
             menuCanvas.SetActive(false);
+            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            Cursor.lockState = CursorLockMode.Confined;
         }
     }
 }
