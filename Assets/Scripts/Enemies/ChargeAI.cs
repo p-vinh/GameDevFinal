@@ -10,7 +10,7 @@ public class ChargeAI : EnemyAI
 
     // Charge variables
 
-    private float chargeSpeed = 5f; //charge speed
+    public float chargeSpeed = 5f; //charge speed
     private float chargeDuration = 5f; //max chargetimer
     private float chargeTimer = 5f; //current chargetimer
     private float chargeRange = 10f;  //range to where enemy will charge 
@@ -79,6 +79,7 @@ public class ChargeAI : EnemyAI
     {
         // Set "Walk" animation trigger
         anim.SetBool("Walk",true);
+        navMeshAgent.acceleration = 8f;
 
         Vector3  roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
 
@@ -108,6 +109,7 @@ public class ChargeAI : EnemyAI
         anim.SetBool("Walk",false);
         anim.SetBool("Run",true);
         navMeshAgent.speed = chargeSpeed;
+        navMeshAgent.acceleration = 100;
         
         navMeshAgent.SetDestination(spottedPlayerPosition);
 
