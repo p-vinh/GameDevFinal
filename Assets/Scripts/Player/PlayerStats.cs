@@ -84,6 +84,22 @@ public class PlayerStats : MonoBehaviour
         CurrentWeaponType = Constants.WeaponType.Sword;
     }
 
+    public void increaseRandomStat()
+    {
+        int randomStat = Random.Range(0, 3);
+        switch (randomStat)
+        {
+            case 0:
+                Health += 10;
+                break;
+            case 1:
+                MovementSpeed += 1;
+                break;
+            case 2:
+                CurrentWeapon.Damage += 5;
+                break;
+        }
+    }
 
     public void Die()
     {

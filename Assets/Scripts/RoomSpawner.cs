@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RoomSpawner : MonoBehaviour
 {
-    // TODO: Work with team for boss spawn room
     public GameObject[] roomPrefabs;
     public GameObject[] deadEndRoomPrefabs;
     public GameObject spawnRoomPrefab;
@@ -16,6 +15,8 @@ public class RoomSpawner : MonoBehaviour
     public int numRooms = 0;
     public float minRoomDistance;
     public int roomFails = 0;
+
+    // TODO: Limit sacrifice room
 
     public Vector3 spawnRoomFinalPosition;
 
