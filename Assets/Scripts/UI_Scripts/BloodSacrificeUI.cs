@@ -19,17 +19,24 @@ public class BloodSacrificeUI : MonoBehaviour
     void Start()
     {
         mainCamera = GameObject.FindWithTag("MainCamera") as GameObject;
-        menuCanvas = FindObjectsOfType<Canvas>(true).FirstOrDefault(go => go.CompareTag("MenuCanvas"));
         crossHair = GameObject.FindWithTag("CrossHair") as GameObject;
         closeUpCamera.SetActive(false);
+        StartCoroutine(AfterFrame());
+    }
+
+    private IEnumerator AfterFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        player = GameObject.FindGameObjectWithTag("Player");
+        menuCanvas = FindObjectsOfType<Canvas>(true).FirstOrDefault(go => go.CompareTag("MenuCanvas"));
+        buffText = GameObject.Find("BuffText").GetComponent<TextMeshProUGUI>();
 
         if (menuCanvas != null)
             menuCanvas.gameObject.SetActive(false);
     }
+
     public void increaseRandomStat()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        buffText = GameObject.Find("BuffText").GetComponent<TextMeshProUGUI>();
         int result = PlayerStats.Instance.increaseRandomStat();
         switch (result)
         {
@@ -64,7 +71,6 @@ public class BloodSacrificeUI : MonoBehaviour
 
     public void changeWeapons()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         Animator anim = player.GetComponent<Animator>();
         bool carryGun = player.GetComponent<Movement>().carryGun;
         GameObject sword = player.GetComponent<Movement>().sword;
