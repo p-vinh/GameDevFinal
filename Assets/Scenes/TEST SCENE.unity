@@ -123,25 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: c7d21bd74d9ddd5469d21eff1f382994, type: 2}
---- !u!1 &213140517 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4489677677522035259, guid: 636ad359efebbbe44940facee3c4c50e,
-    type: 3}
-  m_PrefabInstance: {fileID: 496093166}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &213140523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213140517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61ab504a599180040b364d8b15c4ad27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thrust: 5
 --- !u!1 &304551498
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,25 +270,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1683891978, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 1683891978, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.134
-      objectReference: {fileID: 0}
     - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
       propertyPath: carryGun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1709014487, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: fireDelay
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1709014489, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3918858020621784607, guid: 636ad359efebbbe44940facee3c4c50e,
         type: 3}
@@ -570,25 +535,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9243ddc9c47d73840a7428cf2cbf1ea2, type: 3}
---- !u!1 &1799772545 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3918858020621784607, guid: 636ad359efebbbe44940facee3c4c50e,
-    type: 3}
-  m_PrefabInstance: {fileID: 496093166}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1799772552
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799772545}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.263731, y: 0.39571166, z: 0.24312973}
-  m_Center: {x: 0.041415215, y: 1.0956959, z: -0.0011081696}
 --- !u!1 &2010973775
 GameObject:
   m_ObjectHideFlags: 0
