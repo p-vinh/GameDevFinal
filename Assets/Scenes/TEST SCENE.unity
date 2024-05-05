@@ -151,6 +151,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &161378279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161378267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61ab504a599180040b364d8b15c4ad27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrust: 2
 --- !u!1 &304551498
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +510,10 @@ PrefabInstance:
     - target: {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8, type: 3}
       propertyPath: m_Name
       value: Charge_Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1077356410, guid: e2fe342fc2f57fa408154c4beeeca5e8, type: 3}
       propertyPath: m_RootOrder

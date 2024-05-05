@@ -10,10 +10,10 @@ public class ChargeAI : EnemyAI
 
     // Charge variables
 
-    private float chargeSpeed = 4f;
-    private float chargeDuration = 3f;
-    private float chargeTimer = 3f;
-    private float chargeRange = 10f; 
+    private float chargeSpeed = 5f; //charge speed
+    private float chargeDuration = 5f; //max chargetimer
+    private float chargeTimer = 5f; //current chargetimer
+    private float chargeRange = 10f;  //range to where enemy will charge 
 
 
     private ChargeAIState currentState = ChargeAIState.Roaming;
@@ -85,15 +85,6 @@ public class ChargeAI : EnemyAI
         navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
     }
 
-
-    // Coroutine to wait for one second before choosing a new roaming target
-    private IEnumerator WaitForNewRoamingTarget()
-    {
-        anim.SetBool("Idle",true);
-        // Wait for one second
-        yield return new WaitForSeconds(5f);
-    }
-
     private void CheckForPlayerInRange()
     {
         if (player != null)
@@ -123,10 +114,19 @@ public class ChargeAI : EnemyAI
         // Update charge timer
         chargeTimer -= Time.deltaTime;
 
-        // If the charge duration is over, switch back to roaming and reset cooldown timer
+        //Continuosly goes forward,even if they meet player position
+        if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.1f && chargeTimer > 0f)
+        {
+            // Calculate a point in front of the enemy
+            Vector3 forwardDestination = transform.position + transform.forward * 4f; // Change 10f to the distance you want the enemy to move forward
+            // Set the destination
+            navMeshAgent.SetDestination(forwardDestination);
+
+            spottedPlayerPosition = forwardDestination; //update position 
+        }
+
         if (chargeTimer <= 0f)
         {
-            print("CHANGING");
             anim.SetBool("Run",false);
             anim.SetBool("Idle",true);
             currentState = ChargeAIState.Idle;
@@ -141,16 +141,18 @@ public class ChargeAI : EnemyAI
         navMeshAgent.isStopped = false;
         currentState = ChargeAIState.Roaming;
     }
-    protected override void Attack()
-    {
-        //Debug.Log($"{Stats.EnemyType} attacks the player with damage: {Stats.Damage}");
-        PlayerStats.Instance.Health -= Stats.Damage;
-    }
 
-    public override void TakeDamage(float damage)
+    private IEnumerator TakeDamage(float damage)
     {
         anim.SetBool("GetHit",true);
+        anim.SetBool("Idle",true);
+        navMeshAgent.SetDestination(transform.position);
         Stats.Health -= damage;
+        navMeshAgent.isStopped = true;
+
+        yield return new WaitForSeconds(1f);
+
+        anim.SetBool("GetHit",false);
 
         // Log damage and check if enemy's health is zero or below
         //Debug.Log($"{Stats.EnemyType} takes damage. Current health: {Stats.Health}");
@@ -166,18 +168,22 @@ public class ChargeAI : EnemyAI
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Attack();
             PlayerStats.Instance.Health -= Stats.Damage;
         }
 
         if (other.gameObject.CompareTag("Wall"))
         {
-            //ChooseNewRoamingTarget();
+            anim.SetBool("Run",false);
+            anim.SetBool("Idle",true);
+            anim.SetBool("Walk",false);
+            navMeshAgent.isStopped = false;
+            currentState = ChargeAIState.Roaming;
+
         }
 
-        if (other.gameObject.CompareTag("Projectile"))
+        if (other.gameObject.CompareTag("Projectile")) //Go back to this
         {
-            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+            StartCoroutine(TakeDamage(1f)); //PlayerStats.Instance.CurrentWeapon.Damage
         }
     }
 
