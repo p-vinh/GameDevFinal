@@ -647,12 +647,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1609509949, guid: 20e2724b0b85f5b438f7334b6bc2aecc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 20e2724b0b85f5b438f7334b6bc2aecc, type: 3}
---- !u!1 &1726000799607450198 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1726000799848364735, guid: 20e2724b0b85f5b438f7334b6bc2aecc,
-    type: 3}
-  m_PrefabInstance: {fileID: 866390249}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3649021045187104588 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3649021044979228581, guid: 20e2724b0b85f5b438f7334b6bc2aecc,
@@ -674,8 +668,9 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   closeUpCamera: {fileID: 1785542864}
   crossHair: {fileID: 0}
-  menuCanvas: {fileID: 1726000799607450198}
+  menuCanvas: {fileID: 0}
   player: {fileID: 0}
+  buffText: {fileID: 0}
   sacrificeEffect: {fileID: 683801478}
 --- !u!4 &6483241562319017780 stripped
 Transform:

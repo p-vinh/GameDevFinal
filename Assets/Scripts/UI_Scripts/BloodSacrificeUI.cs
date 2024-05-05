@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BlankStudio.Constants;
+using TMPro;
 
 public class BloodSacrificeUI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class BloodSacrificeUI : MonoBehaviour
     public GameObject crossHair;
     public GameObject menuCanvas;
     public GameObject player;
+    public TextMeshProUGUI buffText;
     [SerializeField] ParticleSystem sacrificeEffect = null;
     
 
@@ -20,12 +22,36 @@ public class BloodSacrificeUI : MonoBehaviour
        crossHair = GameObject.FindWithTag("CrossHair") as GameObject;
        closeUpCamera.SetActive(false);
        menuCanvas.SetActive(false);
+       buffText.text = "";
        player = GameObject.FindGameObjectWithTag("Player");
     }
     public void increaseRandomStat()
     {
-        PlayerStats.Instance.increaseRandomStat();
+        int result = PlayerStats.Instance.increaseRandomStat();
+        switch(result)
+        {
+           case 0:
+                print("Increase max health!");
+                buffText.text = "Max health++";
+                break;
+            case 1:
+                print("Increase speed");
+                buffText.text = "Speed++";
+                break;
+            case 2:
+                print("Increase damage");
+                buffText.text = "Damage++";
+                break;
+        }
+
+        Invoke("resetBuffText",2f);
+
         playEffect();
+    }
+
+    private void resetBuffText()
+    {
+        buffText.text = "";
     }
 
     private void playEffect()
