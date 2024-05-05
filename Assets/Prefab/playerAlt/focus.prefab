@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4946048258972143372}
   m_Layer: 0
   m_Name: focus
-  m_TagString: Untagged
+  m_TagString: CrossHair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
