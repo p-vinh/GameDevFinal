@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomSensors : MonoBehaviour {
+public class RoomSensors : MonoBehaviour
+{
     public Collider collider;
-    public Transform player;
+    private Transform player;
     public float sightRange = 15.0f;
     public AudioSource audioSource; // Main Audio Source for Room
     public AudioLoopController audioLoopController;
@@ -16,7 +17,7 @@ public class RoomSensors : MonoBehaviour {
     public AudioLoopController audioLoopController2;
     public AudioSource audioSource3; // Second Other Audio Source
     public AudioLoopController audioLoopController3;
-    
+
     // Position Variables
     private float playerX;
     private float playerZ;
@@ -28,8 +29,21 @@ public class RoomSensors : MonoBehaviour {
     private float distance;
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         player = GameObject.FindWithTag("Player").transform;
+
+        GameObject mainSong = GameObject.FindWithTag("MainSong");
+        audioSource = mainSong.GetComponent<AudioSource>();
+        audioLoopController = mainSong.GetComponent<AudioLoopController>();
+
+        GameObject altSong = GameObject.FindWithTag("AlternativeSong");
+        audioSource2 = altSong.GetComponent<AudioSource>();
+        audioLoopController2 = altSong.GetComponent<AudioLoopController>();
+
+        GameObject sacrificeSong = GameObject.FindWithTag("SacrificeSong");
+        audioSource3 = sacrificeSong.GetComponent<AudioSource>();
+        audioLoopController3 = sacrificeSong.GetComponent<AudioLoopController>();
 
         // Get the player's position in the x axis compared to the collider's sight range
         playerX = player.transform.position.x;
@@ -37,7 +51,7 @@ public class RoomSensors : MonoBehaviour {
         colliderX = collider.transform.position.x;
         colliderZ = collider.transform.position.z;
         colliderPosition = collider.transform.position;
-        
+
         // Get the x and z distance between the player and the collider
         xDistance = Mathf.Abs(playerX - colliderX);
         zDistance = Mathf.Abs(playerZ - colliderZ);
@@ -46,18 +60,20 @@ public class RoomSensors : MonoBehaviour {
     }//end Start()
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         CheckSightRange();
     }//end Update()
 
-    void CheckSightRange() {
+    void CheckSightRange()
+    {
         // Get the player's position in the x axis compared to the collider's sight range
         playerX = player.transform.position.x;
         playerZ = player.transform.position.z;
         colliderX = collider.transform.position.x;
         colliderZ = collider.transform.position.z;
         colliderPosition = collider.transform.position;
-        
+
         // Get the x and z distance between the player and the collider
         xDistance = Mathf.Abs(playerX - colliderX);
         zDistance = Mathf.Abs(playerZ - colliderZ);
@@ -65,20 +81,26 @@ public class RoomSensors : MonoBehaviour {
         distance = Mathf.Sqrt(Mathf.Pow(xDistance, 2) + Mathf.Pow(zDistance, 2));
 
         // Check if the player is within the collider's sight range
-        if (distance <= sightRange) {
-            if (audioLoopController2.play == true) {
+        if (distance <= sightRange)
+        {
+            if (audioLoopController2.play == true)
+            {
                 audioLoopController2.play = false;
-            } else if (audioLoopController3.play == true) {
+            }
+            else if (audioLoopController3.play == true)
+            {
                 audioLoopController3.play = false;
             }//end if
-            
-            if (!audioLoopController.play) {
+
+            if (!audioLoopController.play)
+            {
                 audioLoopController.play = true;
             }//end if
         }//end if
     }//end CheckSightRange()
 
-    void OnDrawGizmosSelected() {
+    void OnDrawGizmosSelected()
+    {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
