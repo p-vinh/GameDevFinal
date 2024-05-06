@@ -2,26 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using BlankStudio.Constants;
 
 public class MimicChestAI : EnemyAI
 {
-    private NavMeshAgent enemy;
-    private Transform playerTransform; 
-    //public Transform spawnPoint;
+    public NavMeshAgent enemy;
+    public Transform playerTransform; 
 
-    public float sightRange, attackRange; 
-    private bool playerInSightRange, playerInAttackRange;
+    public bool playerInSightRange, playerInAttackRange;
+    public SphereCollider sightRangeCollider;
+    public SphereCollider attackRangeCollider;
     public LayerMask playerLayer;
-    public override string EnemyType => "Mimic";
+    public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;
     private GameObject playerGameObject; 
-    private bool idleHostile;
-    private bool idleResting;
-    private bool attacking;
-    private bool hurting;
-    private bool dead;
-
 
     public enum State
     {
@@ -32,7 +27,7 @@ public class MimicChestAI : EnemyAI
 
     protected override void Start()
     {
-        
+        base.Start();
         playerGameObject = GameObject.FindGameObjectWithTag("Player");
         if (playerGameObject != null)
         {
@@ -44,7 +39,6 @@ public class MimicChestAI : EnemyAI
         }
 
         enemy = GetComponent<NavMeshAgent>();
-        Stats = new EnemyStats(100, 5, 4);
         state = State.IdleResting;
         playerLayer = LayerMask.GetMask("Player");
         animator = GetComponent<Animator>();
@@ -99,7 +93,7 @@ public class MimicChestAI : EnemyAI
     {
         if (playerTransform != null)
         {
-            return (Vector3.Distance(playerTransform.position, transform.position) <= sightRange);
+            return sightRangeCollider.bounds.Contains(playerTransform.position);
         }
         return false;
     }
@@ -108,12 +102,12 @@ public class MimicChestAI : EnemyAI
     {
         if (playerTransform != null)
         {
-            return (Vector3.Distance(playerTransform.position, transform.position) <= attackRange);
+            return attackRangeCollider.bounds.Contains(playerTransform.position);
         }
         return false;
     }
     
-    public override void Attack()
+    protected override void Attack()
     {
         if (playerTransform != null)
         {
