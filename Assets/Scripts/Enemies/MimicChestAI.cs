@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class MimicChestAI : EnemyAI
 {
-    public NavMeshAgent enemy;
+    private NavMeshAgent enemy;
     public Transform playerTransform; 
     public Transform spawnPoint;
 
@@ -17,13 +17,12 @@ public class MimicChestAI : EnemyAI
     private Animator animator;
     private State state;
     private GameObject playerGameObject; 
-    public Vector3 lastPlayerPosition;
 
-    public bool idleHostile;
-    public bool idleResting;
-    public bool attacking;
-    public bool hurting;
-    public bool dead;
+    private bool idleHostile;
+    private bool idleResting;
+    private bool attacking;
+    private bool hurting;
+    private bool dead;
 
 
     public enum State
