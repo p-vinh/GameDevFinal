@@ -648,6 +648,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15eff7d9dcbc99479133f18a3d9946e, type: 2}
+    - target: {fileID: 3733942712662233035, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8775660958813543059, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
         type: 3}
       propertyPath: m_Name
@@ -737,7 +742,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1859474583051095145}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9129259796114912376
+--- !u!114 &1414877054968329403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -746,21 +751,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5867066173259843572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ada6b8d4fa7af6b4aafd54e1f45ced19, type: 3}
+  m_Script: {fileID: 11500000, guid: 53c10e474d84fc446b5144aaa4c569d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 7383092816883942654}
-  m_PlayerLayerMask:
-    serializedVersion: 2
-    m_Bits: 1048576
-  m_MaxDistance: 10
-  m_PlayerDetected: 0
---- !u!95 &7383092816883942654 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 9203155886472415383, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1859474583051095145}
-  m_PrefabAsset: {fileID: 0}
+  transitionSceneName: FinishedMenu
 --- !u!4 &7383092816883942655 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9203155886472415382, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
