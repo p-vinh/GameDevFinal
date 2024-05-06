@@ -26,7 +26,7 @@ namespace SimpleBarExample {
 				mat = new Material(img.material);
 				img.material = mat;
 				// Access the stats by using PlayerStats.Instance.{StatName}
-				float health = playerStats.playerStats.get.Health/100;
+				float health = PlayerStats.Instance.Health/100;
 				mat.SetFloat("_Fill", fillTarget);
 				fillTarget = health;
 			} else {
@@ -42,7 +42,7 @@ namespace SimpleBarExample {
 				timeout = 0f;
 
 				// Choose new fill value 
-				float health = (playerStats.get)/100;
+				float health = (PlayerStats.Instance.Health)/100;
 				float newFill = health;
 				
 				// Modify delta by how much fillTarget will change
