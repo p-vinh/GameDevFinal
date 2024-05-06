@@ -125,13 +125,13 @@ public class RoomSpawner : MonoBehaviour
                 if (roomFails > 50)
                 {
                     Debug.Log("ROOM FAILED TO GENERATE");
-                    yield return new WaitForSeconds(2f);
+                    // yield return new WaitForSeconds(2f);
                     DestroyRoom(newRoom);
                     roomFails = 0;
                     continue;
                 }
 
-                yield return new WaitForSeconds(2f);
+                // yield return new WaitForSeconds(2f);
                 DestroyRoom(newRoom);
                 i--;
                 roomFails++;

@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameLoop/ProceduralGeneration.unity
     guid: f37b4e7e54946404d9adb51c3edaa465
+  - enabled: 1
+    path: Assets/Scenes/GameLoop/FinishedMenu.unity
+    guid: 7222475016e9d644e89d0e1ab11384d0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: d0bb0c816f42efe43acd7375ebd630b0,
       type: 2}
