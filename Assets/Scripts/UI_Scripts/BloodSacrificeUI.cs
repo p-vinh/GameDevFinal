@@ -13,28 +13,73 @@ public class BloodSacrificeUI : MonoBehaviour
     public GameObject crossHair;
     public GameObject menuCanvas;
     private GameObject player;
-    public TextMeshPro buffText;
+    public TextMeshProUGUI buffText;
     [SerializeField] ParticleSystem sacrificeEffect = null;
 
 
     void Start()
     {
-        mainCamera = GameObject.FindWithTag("MainCamera") as GameObject;
-        crossHair = GameObject.FindWithTag("CrossHair") as GameObject;
-        closeUpCamera.SetActive(false);
-        menuCanvas = FindObjectsOfType<GameObject>(true).FirstOrDefault(go => go.CompareTag("MenuCanvas"));
+        mainCamera =  GameObject.FindWithTag("MainCamera");
+        crossHair = GameObject.FindWithTag("CrossHair");
 
+        closeUpCamera = transform.Find("CloseUpCamera").gameObject;
+        closeUpCamera.SetActive(false);
+
+        sacrificeEffect = transform.Find("CFX3_MagicAura_B_Runic").gameObject.GetComponent<ParticleSystem>();
+        
+        menuCanvas = GameObject.FindWithTag("MenuParent").transform.Find("SacrificeMenu").gameObject;
+        buffText = GameObject.FindWithTag("MenuParent").transform.Find("RandomBuff").gameObject.GetComponent<TextMeshProUGUI>();
+
+
+        // Check if the TextMeshPro component is found
+        if (buffText != null)
+        {
+            print("Gotem");
+        }
+        else
+        {
+            // Handle the case where the component is not found
+            Debug.LogError("TextMeshPro component not found on other parent GameObject.");
+        }
+        
         if (menuCanvas != null)
             menuCanvas.SetActive(false);
     }
 
+    // private void GameObject FindChildWithTag(GameObject parent, string tag) 
+    // {
+    //     GameObject child = null;
+ 
+    //     foreach(Transform transform in parent.transform) 
+    //     {
+    //         if(transform.CompareTag(tag)) 
+    //         {
+    //             child = transform.gameObject;
+    //             break;
+    //         }
+    //     }
+
+    //     return child;
+    // }    
+ 
     public void increaseRandomStat()
     {
         int result = PlayerStats.Instance.increaseRandomStat();
 
+        //!menuCanvas.transform.Find("BuffText").TryGetComponent<TextMeshPro>(out buffText)
+        //if (menuCanvas != null)
+            //return;
+
+        mainCamera =  GameObject.FindWithTag("MainCamera");
+        crossHair = GameObject.FindWithTag("CrossHair");
+
+        closeUpCamera = transform.Find("CloseUpCamera").gameObject;
+        closeUpCamera.SetActive(false);
+
+        sacrificeEffect = transform.Find("CFX3_MagicAura_B_Runic").gameObject.GetComponent<ParticleSystem>();
         
-        if (menuCanvas != null && !menuCanvas.transform.Find("RandomBuff").TryGetComponent<TextMeshPro>(out buffText))
-            return;
+        menuCanvas = GameObject.FindWithTag("MenuParent").transform.Find("SacrificeMenu").gameObject;
+        buffText = GameObject.FindWithTag("MenuParent").transform.Find("RandomBuff").gameObject.GetComponent<TextMeshProUGUI>();
             
         switch (result)
         {
