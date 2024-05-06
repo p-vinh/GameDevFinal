@@ -21,6 +21,7 @@ public class ChargeAI : EnemyAI
     private Vector3 spottedPlayerPosition;
     private GameObject player;
     private Animator anim;
+    public AudioSource attackSound;
 
     // Enumeration for enemy state
     private enum ChargeAIState

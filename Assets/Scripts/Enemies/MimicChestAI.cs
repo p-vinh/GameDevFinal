@@ -8,6 +8,7 @@ public class MimicChestAI : EnemyAI
 {
     public NavMeshAgent enemy;
     public Transform playerTransform; 
+    public AudioSource attackSound; // Code added by Abby (Sound Engineer)
 
     public bool playerInSightRange, playerInAttackRange;
     public SphereCollider sightRangeCollider;
@@ -154,7 +155,7 @@ public class MimicChestAI : EnemyAI
         //to ensure that no lerftover animations are happening
         animator.ResetTrigger("IdleHostile");
         animator.ResetTrigger("IdleResting");
-        animator.ResetTrigger("Atacking");
+        animator.ResetTrigger("Attacking");
         animator.ResetTrigger("Dead");
 
         animator.SetTrigger(state);

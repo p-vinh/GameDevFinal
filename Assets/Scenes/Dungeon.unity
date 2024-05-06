@@ -93814,7 +93814,7 @@ PrefabInstance:
     - target: {fileID: 6489233055212072562, guid: 7c396ea3be4de47c19b01b3613f26ddb,
         type: 3}
       propertyPath: m_Volume
-      value: 0.34
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6489233055212072573, guid: 7c396ea3be4de47c19b01b3613f26ddb,
         type: 3}
@@ -93962,7 +93962,7 @@ PrefabInstance:
     - target: {fileID: 6678832638104643651, guid: b332ebd2567cd4c20a4ad303aed4dd35,
         type: 3}
       propertyPath: m_Volume
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6678832638104644028, guid: b332ebd2567cd4c20a4ad303aed4dd35,
         type: 3}
@@ -94032,6 +94032,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AltBattleSong
+      objectReference: {fileID: 0}
+    - target: {fileID: 7154884162411728269, guid: 33f790cdf39fe434fb8ed42a6bc074cd,
+        type: 3}
+      propertyPath: maxVolume
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 7154884162411728270, guid: 33f790cdf39fe434fb8ed42a6bc074cd,
         type: 3}
