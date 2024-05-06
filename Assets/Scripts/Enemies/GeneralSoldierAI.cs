@@ -109,6 +109,15 @@ public class GeneralSoldierAI : EnemyAI {
         StopMoving();
     }
 
+    protected override void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+        }
+    }
+
+
     public override void TakeDamage(float damage) 
     {
         Stats.Health -= damage;

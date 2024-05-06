@@ -35,6 +35,7 @@ public class ChargeAI : EnemyAI
 
     protected override void Start()
     {
+        base.Start();
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -56,7 +57,6 @@ public class ChargeAI : EnemyAI
                 anim.SetBool("Idle",true);
                 break;
             case ChargeAIState.Roaming:
-                print("Roaming");
 
                 if (stateTimer >= 3f)
                 {
@@ -69,7 +69,6 @@ public class ChargeAI : EnemyAI
                 CheckForPlayerInRange();
                 break;
             case ChargeAIState.Charging:
-                print("Charging");
                 ChargeAtPlayer();
                 break;
         }
@@ -105,6 +104,7 @@ public class ChargeAI : EnemyAI
 
     private void ChargeAtPlayer()
     {
+        navMeshAgent.isStopped = false;
         // Move towards player
         anim.SetBool("Walk",false);
         anim.SetBool("Run",true);
@@ -119,12 +119,12 @@ public class ChargeAI : EnemyAI
         //Continuosly goes forward,even if they meet player position
         if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.1f && chargeTimer > 0f)
         {
-            // Calculate a point in front of the enemy
-            Vector3 forwardDestination = transform.position + transform.forward * 4f; // Change 10f to the distance you want the enemy to move forward
-            // Set the destination
-            navMeshAgent.SetDestination(forwardDestination);
-
-            spottedPlayerPosition = forwardDestination; //update position 
+            anim.SetBool("Run",false);
+            anim.SetBool("Idle",true);
+            currentState = ChargeAIState.Idle;
+            chargeTimer = chargeDuration; //reset charagetimer
+            navMeshAgent.speed = 3f;
+            Invoke("roamingAgain",3f);
         }
 
         if (chargeTimer <= 0f)
@@ -144,50 +144,50 @@ public class ChargeAI : EnemyAI
         currentState = ChargeAIState.Roaming;
     }
 
-    private IEnumerator TakeDamage(float damage)
+    public override void TakeDamage(float damage) 
     {
-        anim.SetBool("GetHit",true);
         anim.SetBool("Idle",true);
-        navMeshAgent.SetDestination(transform.position);
-        Stats.Health -= damage;
         navMeshAgent.isStopped = true;
+        Stats.Health -= damage;
+        Debug.Log("Charger Enemy Health:"  + Stats.Health);
 
-        yield return new WaitForSeconds(1f);
-
-        anim.SetBool("GetHit",false);
-
-        // Log damage and check if enemy's health is zero or below
-        //Debug.Log($"{Stats.EnemyType} takes damage. Current health: {Stats.Health}");
-
-        // If health is zero or below, trigger the death sequence
-        if (Stats.Health <= 0)
+        if (Stats.Health <= 0) 
         {
-            Die();
+            base.Die();
+            Destroy(this.gameObject);
         }
     }
+    
 
     protected override void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
         {
-            PlayerStats.Instance.Health -= Stats.Damage;
-        }
-
-        if (other.gameObject.CompareTag("Wall"))
-        {
-            anim.SetBool("Run",false);
-            anim.SetBool("Idle",true);
-            anim.SetBool("Walk",false);
-            navMeshAgent.isStopped = false;
-            currentState = ChargeAIState.Roaming;
-
-        }
-
-        if (other.gameObject.CompareTag("Projectile")) //Go back to this
-        {
-            StartCoroutine(TakeDamage(1f)); //PlayerStats.Instance.CurrentWeapon.Damage
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
     }
+    // protected override void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Player"))
+    //     {
+    //         PlayerStats.Instance.Health -= Stats.Damage;
+    //     }
+
+    //     if (other.gameObject.CompareTag("Wall"))
+    //     {
+    //         anim.SetBool("Run",false);
+    //         anim.SetBool("Idle",true);
+    //         anim.SetBool("Walk",false);
+    //         navMeshAgent.isStopped = false;
+    //         currentState = ChargeAIState.Roaming;
+
+    //     }
+
+    //     if (other.gameObject.CompareTag("Projectile")) //Go back to this
+    //     {
+    //         TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+    //     }
+    // }
 
     public override void Die()
     {

@@ -121,6 +121,18 @@ public class RangeAI : EnemyAI
         }
     }
 
+    public override void TakeDamage(float damage) 
+    {
+        Stats.Health -= damage;
+        Debug.Log("Range Enemy Health:"  + Stats.Health);
+
+        if (Stats.Health <= 0) 
+        {
+            base.Die();
+            Destroy(this.gameObject);
+        }
+    }
+
     void OnDrawGizmosSelected()
     {
         // Draw a yellow sphere at the transform's position
