@@ -17,9 +17,9 @@ public class Door : MonoBehaviour
     [SerializeField]
     private bool m_PlayerDetected = false;
 
-    private float StartAngle = -90f;
-    private float EndAngle = 90f;
-    private int rayCount = 10; 
+    private float StartAngle = 0f;
+    private float EndAngle = 360f;
+    private int rayCount = 20;
 
     private void Update()
     {
@@ -33,14 +33,14 @@ public class Door : MonoBehaviour
 
     public void RaycastIn180DegreeRange()
     {
-       
+
         float angleStep = Mathf.Abs(StartAngle - EndAngle) / rayCount;
         float angle = StartAngle;
         for (int i = 0; i < rayCount; i++)
         {
             Quaternion rotation = Quaternion.AngleAxis(angle, transform.up);
             Vector3 direction = rotation * transform.forward * -1;
-            
+
             RaycastHit hit;
             Debug.DrawRay(transform.position, direction, Color.blue, m_MaxDistance); 
                 // Debug.Log(Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask));
@@ -48,14 +48,14 @@ public class Door : MonoBehaviour
             if (Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask))
             {
                 m_PlayerDetected = true;
-                PlayAnimation();    
+                PlayAnimation();
             }
             angle += angleStep;
 
         }
     }
 
-    private void PlayAnimation() 
+    private void PlayAnimation()
     {
         m_Animator.SetTrigger("DoorOpen");
     }

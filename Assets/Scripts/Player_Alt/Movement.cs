@@ -24,6 +24,7 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
         m_Camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         rigidBody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
@@ -52,39 +53,38 @@ public class Movement : MonoBehaviour
         bool isShiftKeyDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         //Point a ray from mouse to camera, use this to rotate player to look at mouse
         //print(m_InputsManager._MousePosition);
-        Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100))
+        if (Cursor.lockState == CursorLockMode.Confined)
         {
-            Vector3 targetDirection = hit.point - transform.position;
-            targetDirection.y = 0;
+            Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
+            RaycastHit hit;
 
-            transform.LookAt(transform.position + targetDirection, Vector3.up);
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * m_PlayerRotationSpeed);
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                Vector3 targetDirection = hit.point - transform.position;
+                targetDirection.y = 0;
+
+                transform.LookAt(transform.position + targetDirection, Vector3.up);
+            }
+
+            //If sprint mode, change anim to run
+            if (isShiftKeyDown)
+            {
+                PlayerStats.Instance.MovementSpeed = 5;
+            }
+            else
+            {
+                PlayerStats.Instance.MovementSpeed = 4;
+            }
+            anim.SetBool("Shift", isShiftKeyDown);
         }
 
-        //If sprint mode, change anim to run
-        if (isShiftKeyDown)
-        {
-            PlayerStats.Instance.MovementSpeed = 5;
-        }
-        else
-        {
-            PlayerStats.Instance.MovementSpeed = 4;
-        }
-        anim.SetBool("Shift", isShiftKeyDown);
 
-        if (Input.GetMouseButton(0))
+        if (m_InputsManager._MouseLeftClick)
         {
             //If has gun, call this function here
-            if (carryGun)
+            if (carryGun && canFire)
             {
-                if(canFire)
-                {
-                    canFire = false;
-                    attackGun();
-                }
+                attackGun();
             }
             else //If has sword, call this function here
             {
@@ -123,10 +123,11 @@ public class Movement : MonoBehaviour
 
     private void attackGun()
     {
-       gunScript.Shoot();
-       attackAnimDone = false;
-       anim.SetBool("Attack", true);
-       Invoke("restartFire", fireDelay);
+        canFire = false;
+        gunScript.Shoot();
+        attackAnimDone = false;
+        anim.SetBool("Attack", true);
+        Invoke("restartFire", fireDelay);
     }
 
     private void restartFire()
