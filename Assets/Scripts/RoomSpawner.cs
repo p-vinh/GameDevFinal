@@ -16,6 +16,7 @@ public class RoomSpawner : MonoBehaviour
     public int roomFails = 0;
 
     public Vector3 spawnRoomFinalPosition;
+    private GameObject enemySpawner;
 
     public List<GameObject> successfullySpawnedRooms = new List<GameObject>();
     public List<GameObject> availableConnectors = new List<GameObject>();
@@ -23,6 +24,8 @@ public class RoomSpawner : MonoBehaviour
 
     void Start()
     {
+        enemySpawner = GameObject.Find("EnemySpawner");
+        enemySpawner.SetActive(false);
         StartCoroutine(SpawnRooms());
     }
 
@@ -153,6 +156,7 @@ public class RoomSpawner : MonoBehaviour
 
         SpawnBossRoom();
         FillUnusedConnections();
+        enemySpawner.SetActive(true);
         yield return null;
     }
 

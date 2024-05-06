@@ -19,6 +19,7 @@ TagManager:
   - AlternativeSong
   - SacrificeSong
   - MenuParent
+  - Spawner
   layers:
   - Default
   - TransparentFX

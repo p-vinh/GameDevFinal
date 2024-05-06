@@ -225,6 +225,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanEnemyWithSound
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 371f8575d91ec4d3ab392b549a7f1eca,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 1258545884903824690, guid: 371f8575d91ec4d3ab392b549a7f1eca,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
