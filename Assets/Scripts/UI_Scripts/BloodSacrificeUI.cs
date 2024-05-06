@@ -109,6 +109,7 @@ public class BloodSacrificeUI : MonoBehaviour
 
     private void playEffect()
     {
+        PlayerStats.Instance.Health -= 10f;
         sacrificeEffect.Play();
     }
 
