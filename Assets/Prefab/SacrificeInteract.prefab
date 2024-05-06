@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1785542865
 Transform:
   m_ObjectHideFlags: 0
@@ -250,7 +250,6 @@ MonoBehaviour:
   closeUpCamera: {fileID: 1785542864}
   crossHair: {fileID: 0}
   menuCanvas: {fileID: 0}
-  player: {fileID: 0}
   buffText: {fileID: 0}
   sacrificeEffect: {fileID: 683801478}
 --- !u!1001 &703587392
