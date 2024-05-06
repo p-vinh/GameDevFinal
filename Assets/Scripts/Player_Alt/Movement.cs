@@ -51,32 +51,19 @@ public class Movement : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("MainCamera") == null) return;
 
         bool isShiftKeyDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-        //Point a ray from mouse to camera, use this to rotate player to look at mouse
-        //print(m_InputsManager._MousePosition);
-        if (Cursor.lockState == CursorLockMode.Confined)
+
+
+        //If sprint mode, change anim to run
+        if (isShiftKeyDown)
         {
-            Ray ray = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-                Vector3 targetDirection = hit.point - transform.position;
-                targetDirection.y = 0;
-
-                transform.LookAt(transform.position + targetDirection, Vector3.up);
-            }
-
-            //If sprint mode, change anim to run
-            if (isShiftKeyDown)
-            {
-                PlayerStats.Instance.MovementSpeed = 5;
-            }
-            else
-            {
-                PlayerStats.Instance.MovementSpeed = 4;
-            }
-            anim.SetBool("Shift", isShiftKeyDown);
+            PlayerStats.Instance.MovementSpeed = 5;
         }
+        else
+        {
+            PlayerStats.Instance.MovementSpeed = 4;
+        }
+        anim.SetBool("Shift", isShiftKeyDown);
+
 
 
         if (m_InputsManager._MouseLeftClick)
@@ -92,18 +79,30 @@ public class Movement : MonoBehaviour
             }
 
         }
-
-
-
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        //m_MoveDirection = CalculateDirection();
-        //m_Rigidbody.velocity = m_MoveDirection * m_PlayerSpeed;
-
         m_InputsManager.HandleInputs();
+        if (Cursor.lockState == CursorLockMode.Confined)
+        {
+            Ray cameraRay = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            float rayLength;
+
+            if (groundPlane.Raycast(cameraRay, out rayLength))
+            {
+                Vector3 pointToLook = cameraRay.GetPoint(rayLength);
+                Debug.DrawLine(cameraRay.origin, pointToLook, Color.red);
+
+                transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
+            }
+        }
+
+        if (rigidBody.velocity.magnitude < 0.1f)
+        {
+            rigidBody.velocity = Vector3.zero;
+        }
 
         if (attackAnimDone && !carryGun)
         {
@@ -152,16 +151,4 @@ public class Movement : MonoBehaviour
         swordCollider.enabled = false;
     }
 
-
-    private Vector3 CalculateDirection()
-    {
-        //vector = m_Camera.transform.forward * m_InputsManager._VerticalInput; 
-        Vector3 vector = Vector3.forward * m_InputsManager._VerticalInput;
-
-        //vector = vector + m_Camera.transform.right * m_InputsManager._HorizontalInput;
-        vector = vector + Vector3.right * m_InputsManager._HorizontalInput;
-        vector.Normalize();
-        vector.y = 0;
-        return vector;
-    }
 }

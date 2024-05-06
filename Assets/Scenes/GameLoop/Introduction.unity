@@ -4327,6 +4327,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1134013609}
     m_Modifications:
+    - target: {fileID: 3677902671267824770, guid: 6d7a739afa8840e47b2269073a4ea42e,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5222212056441733332, guid: 6d7a739afa8840e47b2269073a4ea42e,
         type: 3}
       propertyPath: m_Name
@@ -4410,6 +4415,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1178814185}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1178814187 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5222212056441733332, guid: 6d7a739afa8840e47b2269073a4ea42e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1178814185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1178814188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178814187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c10e474d84fc446b5144aaa4c569d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionSceneName: ProceduralGeneration
 --- !u!1001 &1216196450
 PrefabInstance:
   m_ObjectHideFlags: 0
