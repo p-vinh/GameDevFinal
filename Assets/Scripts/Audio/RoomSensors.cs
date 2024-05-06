@@ -62,7 +62,8 @@ public class RoomSensors : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckSightRange();
+        if (player != null)
+            CheckSightRange();
     }//end Update()
 
     void CheckSightRange()

@@ -15,8 +15,6 @@ public class RoomSpawner : MonoBehaviour
     public float minRoomDistance;
     public int roomFails = 0;
 
-    // TODO: Limit sacrifice room
-
     public Vector3 spawnRoomFinalPosition;
 
     public List<GameObject> successfullySpawnedRooms = new List<GameObject>();
@@ -127,13 +125,13 @@ public class RoomSpawner : MonoBehaviour
                 if (roomFails > 50)
                 {
                     Debug.Log("ROOM FAILED TO GENERATE");
-                    yield return new WaitForSeconds(2f);
+                    // yield return new WaitForSeconds(2f);
                     DestroyRoom(newRoom);
                     roomFails = 0;
                     continue;
                 }
 
-                yield return new WaitForSeconds(2f);
+                // yield return new WaitForSeconds(2f);
                 DestroyRoom(newRoom);
                 i--;
                 roomFails++;
@@ -310,7 +308,7 @@ public class RoomSpawner : MonoBehaviour
             else
             {
                 // Fill the unused connection with a wall/door
-                // GenerateWall(connector.transform, connector);
+                GenerateWall(connector.transform, connector);
             }
         }
 
@@ -319,8 +317,20 @@ public class RoomSpawner : MonoBehaviour
 
     private void GenerateWall(Transform connectionPoint, GameObject connector)
     {
-        Quaternion rotation = connectionPoint.transform.rotation;
-        Instantiate(wallPrefab, connectionPoint.transform.position, rotation);
+        string directionName = connector.name;
+
+        if (directionName == "NorthRoomConnection" || directionName == "SouthRoomConnection")
+        {
+            connectionPoint.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (directionName == "EastRoomConnection" || directionName == "WestRoomConnection")
+        {
+            connectionPoint.transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+
+        connectionPoint.transform.position = new Vector3(connectionPoint.transform.position.x, connectionPoint.transform.position.y + 2f, connectionPoint.transform.position.z);
+
+        Instantiate(wallPrefab, connectionPoint.transform.position, connectionPoint.transform.rotation);
     }
 
     private void AddRoomConnectors(GameObject inputRoom, GameObject usedConnector)

@@ -569,6 +569,9 @@ GameObject:
   - component: {fileID: 8113310700314663102}
   - component: {fileID: 8113310700307707738}
   - component: {fileID: 8113310701953890090}
+  - component: {fileID: 7783597463792437570}
+  - component: {fileID: 4889054123011489229}
+  - component: {fileID: 2923404175916833631}
   m_Layer: 0
   m_Name: ChestMonsterMesh
   m_TagString: Untagged
@@ -637,11 +640,50 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   playerInSightRange: 0
   playerInAttackRange: 0
-  sightRangeCollider: {fileID: 0}
-  attackRangeCollider: {fileID: 0}
+  sightRangeCollider: {fileID: 7783597463792437570}
+  attackRangeCollider: {fileID: 2923404175916833631}
   playerLayer:
     serializedVersion: 2
     m_Bits: 0
+--- !u!135 &7783597463792437570
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8113310700314952862}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3.22
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &4889054123011489229
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8113310700314952862}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.95012283
+  m_Center: {x: 0, y: 0.61, z: 0}
+--- !u!135 &2923404175916833631
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8113310700314952862}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.12
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &8113310700314952944
 GameObject:
   m_ObjectHideFlags: 0

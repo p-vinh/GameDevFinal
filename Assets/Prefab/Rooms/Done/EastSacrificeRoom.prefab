@@ -103,7 +103,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4691878244267164709}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 18.866474, y: 3, z: 18.599825}
@@ -7522,7 +7522,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone_Pedestal
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1785542867, guid: f564c7f0711424241b3fbc50825b92a7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f564c7f0711424241b3fbc50825b92a7, type: 3}
 --- !u!4 &6526848267559986463 stripped
 Transform:
