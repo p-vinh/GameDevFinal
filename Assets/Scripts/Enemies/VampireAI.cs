@@ -9,6 +9,7 @@ public class VampireAI : GeneralSoldierAI
     public float healAmount = 10;
     private float MaxHealth;
     public override Constants.EnemyType Type => Constants.EnemyType.Vampire;
+    public bool hit;
 
     protected override void Start()
     {
@@ -55,6 +56,17 @@ public class VampireAI : GeneralSoldierAI
         }
 
         Stats.Health += healAmount;
+    }
+
+    public override void TakeDamage(float damage) 
+    {
+        Stats.Health -= damage;
+        Debug.Log("Vampire Health: " + Stats.Health);
+
+        if (Stats.Health <= 0) {
+            base.Die();
+            Destroy(gameObject);
+        }
     }
 }
 

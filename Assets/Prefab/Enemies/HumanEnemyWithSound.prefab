@@ -143,17 +143,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 371f8575d91ec4d3ab392b549a7f1eca,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.532034
+      value: -11.823864
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 371f8575d91ec4d3ab392b549a7f1eca,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.7613026
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 371f8575d91ec4d3ab392b549a7f1eca,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 34.008766
+      value: 22.517803
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 371f8575d91ec4d3ab392b549a7f1eca,
         type: 3}
@@ -308,7 +308,6 @@ MonoBehaviour:
     m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
   attackSound: {fileID: 1590575330114241014}
-  sightRange: 5
   attackRange: 2
 --- !u!1001 &8641850105688371656
 PrefabInstance:
@@ -321,6 +320,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489677676252728369, guid: 39ec6af3eb8c70848b3da75dbf39628f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4489677676252762129, guid: 39ec6af3eb8c70848b3da75dbf39628f,
         type: 3}

@@ -24,56 +24,60 @@ public class GeneralSoldierAI : EnemyAI
     private State state;
 
     // Public Variables
-    public float attackRange = 3.0f;
+    public float attackRange = 6.0f;
     public override Constants.EnemyType Type => Constants.EnemyType.GeneralSoldier;
-    private bool canMove = true;
+    private float distanceToPlayer;
+    private Vector3 playerCurrentPosition;
+    private bool canAttackAgain = true;
 
 
     // Setup Variables
-    protected override void Start()
+    protected override void Start() 
     {
         // Set up the enemy stats
         base.Start();
         // Set up the enemy AI
-        mesh = GetComponent<NavMeshAgent>();
-        mesh.speed = Stats.Speed;
-        enemy = GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        animator = GetComponent<Animator>();
-        sword = GetComponentInChildren<BoxCollider>();
-        state = State.Idle;
+
+        print(Stats.Health);
+        if(player != null)
+        {
+            mesh = GetComponent<NavMeshAgent>();
+            mesh.speed = Stats.Speed;
+            enemy = GetComponent<Transform>();
+            animator = GetComponent<Animator>();
+            sword = GetComponentInChildren<BoxCollider>();
+            state = State.Idle;
+        }
     }//end Start()
 
     // Update is called once per frame
     protected override void Update()
     {
+        if(player != null)
+        {
 
-        if (player == null) return;
-        bool playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
+            bool playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
+            if(canAttackAgain)
+            {
+                playerCurrentPosition = player.position;
+                MoveToPlayer();
+            }
 
-        // Move to Player if in sight range
-        if (!playerinAttackRange && canMove) //chase player
-        {
-            MoveToPlayer();
-        }
-        else if (playerinAttackRange)
-        {
-            mesh.SetDestination(enemy.position);
-            Attack();
-        }
-        else
-        {
-            StopMoving();
+            if (playerinAttackRange && canAttackAgain) 
+            {
+                mesh.SetDestination(enemy.position);
+                Attack();
+            } 
         }
     }
 
-    // Universal Soldier AI Methods //
     // Move to Player AI
     void MoveToPlayer()
     {
         mesh.isStopped = false;
         animator.SetBool("Walking", true);
-        mesh.SetDestination(player.position);
+        mesh.SetDestination(playerCurrentPosition);
         state = State.Chase;
     }
 
@@ -87,18 +91,16 @@ public class GeneralSoldierAI : EnemyAI
         state = State.Idle;
     }
 
-    protected override void Attack()
+    protected override void Attack() 
     {
-        // TODO: Set up the attack animation with the sword and if the sword object hits the player then and only then the player takes damage
-        canMove = false;
+        canAttackAgain = false;
         animator.SetBool("Idle", false);
         animator.SetBool("Walking", false);
 
         state = State.Attack;
         animator.SetBool("Attack", true);
 
-        Debug.Log("General Soldier Attack Player");
-        if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds))
+        if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) 
         {
             PlayerStats.Instance.Health -= Stats.Damage;
         }
@@ -106,11 +108,11 @@ public class GeneralSoldierAI : EnemyAI
 
     void changeCanMove()
     {
-        canMove = true;
+        canAttackAgain = true;
         StopMoving();
     }
 
-    protected override void OnCollisionEnter(Collision other)
+    protected override void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
         {
