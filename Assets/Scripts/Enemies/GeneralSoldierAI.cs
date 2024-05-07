@@ -4,17 +4,19 @@ using UnityEngine;
 using UnityEngine.AI;
 using BlankStudio.Constants;
 
-public class GeneralSoldierAI : EnemyAI {
+public class GeneralSoldierAI : EnemyAI
+{
     // Unity Editor Variables
-    private NavMeshAgent mesh;
-    private Transform enemy;
-    private Transform player;
-    private Animator animator;
-    private BoxCollider sword;
+    protected NavMeshAgent mesh;
+    protected Transform enemy;
+    protected Transform player;
+    protected Animator animator;
+    protected BoxCollider sword;
     public AudioSource attackSound;
 
     // State Variables
-    private enum State {
+    private enum State
+    {
         Idle,
         Chase,
         Attack
@@ -22,62 +24,64 @@ public class GeneralSoldierAI : EnemyAI {
     private State state;
 
     // Public Variables
-    public float sightRange = 8.0f; 
-    public float attackRange = 3.0f;
+    public float attackRange = 6.0f;
     public override Constants.EnemyType Type => Constants.EnemyType.GeneralSoldier;
     private float distanceToPlayer;
-    private bool canMove = true;
+    private Vector3 playerCurrentPosition;
+    private bool canAttackAgain = true;
 
 
     // Setup Variables
-    protected override void Start() {
+    protected override void Start() 
+    {
         // Set up the enemy stats
         base.Start();
         // Set up the enemy AI
-        mesh = GetComponent<NavMeshAgent>();
-        mesh.speed = Stats.Speed;
-        enemy = GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        animator = GetComponent<Animator>();
-        sword = GetComponentInChildren<BoxCollider>();
-        state = State.Idle;
+
+        print(Stats.Health);
+        if(player != null)
+        {
+            mesh = GetComponent<NavMeshAgent>();
+            mesh.speed = Stats.Speed;
+            enemy = GetComponent<Transform>();
+            animator = GetComponent<Animator>();
+            sword = GetComponentInChildren<BoxCollider>();
+            state = State.Idle;
+        }
     }//end Start()
 
     // Update is called once per frame
-    protected override void Update() 
+    protected override void Update()
     {
-        
+        if(player != null)
+        {
 
-        bool playerInSightRange = Vector3.Distance(player.position, transform.position) <= sightRange;
-        bool playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
+            bool playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
+            if(canAttackAgain)
+            {
+                playerCurrentPosition = player.position;
+                MoveToPlayer();
+            }
 
-        // Move to Player if in sight range
-        if (playerInSightRange && !playerinAttackRange && canMove) //chase player
-        {
-            MoveToPlayer();
-        } 
-        else if (playerInSightRange && playerinAttackRange) 
-        {
-            mesh.SetDestination(enemy.position);
-            Attack();
-        } 
-        else if(!playerInSightRange && !playerinAttackRange)
-        {
-            StopMoving();
+            if (playerinAttackRange && canAttackAgain) 
+            {
+                mesh.SetDestination(enemy.position);
+                Attack();
+            } 
         }
     }
 
-    // Universal Soldier AI Methods //
     // Move to Player AI
-    void MoveToPlayer() 
+    void MoveToPlayer()
     {
         mesh.isStopped = false;
         animator.SetBool("Walking", true);
-        mesh.SetDestination(player.position);
+        mesh.SetDestination(playerCurrentPosition);
         state = State.Chase;
     }
 
-    void StopMoving() 
+    void StopMoving()
     {
         animator.SetBool("Attack", false);
         animator.SetBool("Walking", false);
@@ -87,43 +91,57 @@ public class GeneralSoldierAI : EnemyAI {
         state = State.Idle;
     }
 
-    protected override void Attack() {
-        // TODO: Set up the attack animation with the sword and if the sword object hits the player then and only then the player takes damage
-        canMove = false;
+    protected override void Attack() 
+    {
+        canAttackAgain = false;
         animator.SetBool("Idle", false);
         animator.SetBool("Walking", false);
 
         state = State.Attack;
         animator.SetBool("Attack", true);
 
-        Debug.Log("General Soldier Attack Player");
         if (sword.bounds.Intersects(player.GetComponent<Collider>().bounds)) 
         {
             PlayerStats.Instance.Health -= Stats.Damage;
         }
     }
 
-    void changeCanMove() 
+    void changeCanMove()
     {
-        canMove = true;
+        canAttackAgain = true;
         StopMoving();
     }
 
-    public override void TakeDamage(float damage) 
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+        }
+    }
+
+
+    public override void TakeDamage(float damage)
     {
         Stats.Health -= damage;
         Debug.Log("General Soldier Health: " + Stats.Health);
 
-        if (Stats.Health <= 0) {
+        if (Stats.Health <= 0)
+        {
             base.Die();
             Destroy(gameObject);
         }
     }
 
-    void OnDrawGizmosSelected() {
+    void OnDrawGizmosSelected()
+    {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }//end OnDrawGizmosSelected()
+
+    protected void CallEnemyAIStart()
+    {
+        base.Start();
+    }
 }//end GeneralSoldierAI

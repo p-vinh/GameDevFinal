@@ -16,15 +16,15 @@ public class ChargeAI : EnemyAI
     private float chargeRange = 10f;  //range to where enemy will charge 
 
 
-    private ChargeAIState currentState = ChargeAIState.Roaming;
+    private ChargeAIState currentState = ChargeAIState.Idle;
     private Vector3 targetPosition;
     private Vector3 spottedPlayerPosition;
     private GameObject player;
     private Animator anim;
     public AudioSource attackSound;
     private NavMeshAgent navMeshAgent;
-    private float stateTimer;
     private Vector3 roamDirection;
+    private bool currentlyCharging;
 
     // Enumeration for enemy state
     private enum ChargeAIState
@@ -36,67 +36,38 @@ public class ChargeAI : EnemyAI
 
     protected override void Start()
     {
+        base.Start();
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = 4;
-        stateTimer = 0.0f;
     }
 
     protected override void Update()
     {
         base.Update();
-        // Update cooldown timer
-        stateTimer += Time.deltaTime;
 
         // Handle state transitions
         switch (currentState)
         {
             case ChargeAIState.Idle:
-                navMeshAgent.isStopped = true;
-                anim.SetBool("Idle",true);
-                break;
-            case ChargeAIState.Roaming:
-                print("Roaming");
-
-                if (stateTimer >= 3f)
-                {
-                    stateTimer = 0f;
-                }
-                else
-                {
-                    RoamAround();
-                }
                 CheckForPlayerInRange();
                 break;
             case ChargeAIState.Charging:
-                print("Charging");
                 ChargeAtPlayer();
                 break;
         }
     }
-
-    private void RoamAround()
-    {
-        // Set "Walk" animation trigger
-        anim.SetBool("Walk",true);
-        navMeshAgent.acceleration = 8f;
-
-        Vector3  roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
-
-        navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
-    }
-
     private void CheckForPlayerInRange()
     {
         if (player != null)
         {
             // Calculate distance to the player
-            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+            float distanceToPlayer = Vector3.Distance(player.transform.position,transform.position);
 
             if(distanceToPlayer <= chargeRange)
             {
-                // Store player's position and switch to Charging state
+                // Store player's current position and switch to Charging state
                 spottedPlayerPosition = player.transform.position;
                 currentState = ChargeAIState.Charging;
                 chargeTimer = chargeDuration;
@@ -106,68 +77,62 @@ public class ChargeAI : EnemyAI
 
     private void ChargeAtPlayer()
     {
-        // Move towards player
-        anim.SetBool("Walk",false);
-        anim.SetBool("Run",true);
-        navMeshAgent.speed = chargeSpeed;
-        navMeshAgent.acceleration = 100;
         
-        navMeshAgent.SetDestination(spottedPlayerPosition);
 
         // Update charge timer
         chargeTimer -= Time.deltaTime;
 
-        //Continuosly goes forward,even if they meet player position
-        if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.1f && chargeTimer > 0f)
+        if(!currentlyCharging)
         {
-            // Calculate a point in front of the enemy
-            Vector3 forwardDestination = transform.position + transform.forward * 4f; // Change 10f to the distance you want the enemy to move forward
-            // Set the destination
-            navMeshAgent.SetDestination(forwardDestination);
+            navMeshAgent.SetDestination(spottedPlayerPosition);
+            anim.SetBool("Run",true);
+            navMeshAgent.isStopped = false;
+            navMeshAgent.speed = chargeSpeed;
+            navMeshAgent.acceleration = 100;
 
-            spottedPlayerPosition = forwardDestination; //update position 
+            if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.4f || chargeTimer <= 0f)
+            {
+                currentlyCharging = true;
+                anim.SetBool("Run",false);
+                navMeshAgent.isStopped = true;
+                chargeTimer = chargeDuration; //reset charagetimer
+                navMeshAgent.speed = 3f;
+                Invoke("backToIdle",2f);
+            }
         }
+        
 
-        if (chargeTimer <= 0f)
-        {
-            anim.SetBool("Run",false);
-            anim.SetBool("Idle",true);
-            currentState = ChargeAIState.Idle;
-            chargeTimer = chargeDuration; //reset charagetimer
-            navMeshAgent.speed = 3f;
-            Invoke("roamingAgain",3f);
-        }
+    }
+    private void backToIdle() //gives time before looking for player again
+    {
+        currentlyCharging = false;
+        currentState = ChargeAIState.Idle;
     }
 
-    private void roamingAgain()
+    public override void TakeDamage(float damage) 
     {
-        navMeshAgent.isStopped = false;
-        currentState = ChargeAIState.Roaming;
-    }
-
-    private IEnumerator TakeDamage(float damage)
-    {
-        anim.SetBool("GetHit",true);
-        anim.SetBool("Idle",true);
-        navMeshAgent.SetDestination(transform.position);
-        Stats.Health -= damage;
         navMeshAgent.isStopped = true;
+        anim.SetBool("Run",false);
+        Stats.Health -= damage;
+        Debug.Log("Charger Enemy Health:"  + Stats.Health);
 
-        yield return new WaitForSeconds(1f);
-
-        anim.SetBool("GetHit",false);
-
-        // Log damage and check if enemy's health is zero or below
-        //Debug.Log($"{Stats.EnemyType} takes damage. Current health: {Stats.Health}");
-
-        // If health is zero or below, trigger the death sequence
-        if (Stats.Health <= 0)
+        if (Stats.Health <= 0) 
         {
-            Die();
+            base.Die();
+            Destroy(this.gameObject);
         }
     }
+    
 
     protected override void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+        }
+    }
+
+    protected override void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -176,17 +141,14 @@ public class ChargeAI : EnemyAI
 
         if (other.gameObject.CompareTag("Wall"))
         {
-            anim.SetBool("Run",false);
             anim.SetBool("Idle",true);
-            anim.SetBool("Walk",false);
             navMeshAgent.isStopped = false;
-            currentState = ChargeAIState.Roaming;
-
+            currentState = ChargeAIState.Idle;
         }
 
-        if (other.gameObject.CompareTag("Projectile")) //Go back to this
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon")) // add weapon
         {
-            StartCoroutine(TakeDamage(1f)); //PlayerStats.Instance.CurrentWeapon.Damage
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
     }
 

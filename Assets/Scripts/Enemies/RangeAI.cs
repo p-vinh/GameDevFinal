@@ -40,6 +40,7 @@ public class RangeAI : EnemyAI
     }
     private State state;
     private bool canWalk = true;
+    private Vector3 playerCurrentPosition;
 
     protected override void Start()
     {
@@ -52,12 +53,18 @@ public class RangeAI : EnemyAI
 
     private void FixedUpdate()
     {
-        playerInSightRange = Vector3.Distance(player.position, transform.position) <= sightRange;
-        playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
 
-        if (playerInSightRange && !playerinAttackRange && canWalk) ChasePlayer();
-        if (playerInSightRange && playerinAttackRange) AttackPlayer();
-        if (!playerInSightRange && !playerinAttackRange) StopEnemy();
+        if(player != null)
+        {
+            playerinAttackRange = Vector3.Distance(player.position, transform.position) < attackRange;
+
+            if(canWalk)
+            {
+                playerCurrentPosition = player.position;
+                ChasePlayer();
+            }
+            if (playerinAttackRange) AttackPlayer();
+        }
 
     }
 
@@ -67,16 +74,7 @@ public class RangeAI : EnemyAI
         anim.SetBool("Walking", true);
         anim.SetBool("Attacking", false);
         state = State.Chase;
-        enemy.SetDestination(player.position);
-    }
-
-    private void StopEnemy()
-    {
-        enemy.isStopped = true;
-        state = State.Idle;
-        anim.SetBool("Walking", false);
-        anim.SetBool("Attacking", false);
-
+        enemy.SetDestination(playerCurrentPosition);
     }
 
     private void AttackPlayer()
@@ -125,11 +123,22 @@ public class RangeAI : EnemyAI
         }
     }
 
+    public override void TakeDamage(float damage) 
+    {
+        Stats.Health -= damage;
+        Debug.Log("Range Enemy Health:"  + Stats.Health);
+
+        if (Stats.Health <= 0) 
+        {
+            base.Die();
+            Destroy(this.gameObject);
+        }
+    }
+
     void OnDrawGizmosSelected()
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 

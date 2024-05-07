@@ -11,7 +11,6 @@ public class MageAI : EnemyAI
     [Header("Ranges")]
     public float attackRange = 7.0f;
     public float backAwayRange = 3f;
-    public float approachRange = 20f;
 
     private NavMeshAgent navMeshAgent;
     public LayerMask playerLayer;
@@ -21,19 +20,13 @@ public class MageAI : EnemyAI
 
     private enum State
     {
-        Idle,
-        Roaming,
         Approach,
         Attack,
         BackingAway
     }
 
     private State state;
-
     private GameObject player;
-    private float stateTimer;
-    private Vector3 roamDirection;
-    private Vector3 lastKnownPlayerPosition;
 
     int Horizontal = 0;
     int Vertical = 0;
@@ -53,8 +46,7 @@ public class MageAI : EnemyAI
         navMeshAgent = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
 
-        state = State.Idle;
-        stateTimer = 0.0f;
+        state = State.Approach;
 
         Horizontal = Animator.StringToHash("Horizontal");
         Vertical = Animator.StringToHash("Vertical");
@@ -65,83 +57,30 @@ public class MageAI : EnemyAI
     {
         if (isDead) return;
 
-        stateTimer += Time.deltaTime;
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
 
         switch (state)
         {
-            case State.Idle:
-                navMeshAgent.isStopped = false;
-
-                if (stateTimer >= 3f)
-                {
-                    state = State.Roaming;
-                    stateTimer = 0f;
-                    roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
-                }
-                else if (distanceToPlayer <= approachRange)
-                {
-                    state = State.Approach;
-                    lastKnownPlayerPosition = player.transform.position;
-                }
-
-                UpdateAnimationValue(0, 0);
-                break;
-            case State.Roaming:
-                navMeshAgent.isStopped = false;
-
-                if (stateTimer >= 3f)
-                {
-                    state = State.Idle;
-                    stateTimer = 0f;
-                }
-                else if (distanceToPlayer <= approachRange)
-                {
-                    state = State.Approach;
-                    lastKnownPlayerPosition = player.transform.position;
-                }
-                else
-                {
-                    if (lastKnownPlayerPosition != Vector3.zero)
-                    {
-                        navMeshAgent.speed = Stats.Speed;
-                        navMeshAgent.SetDestination(lastKnownPlayerPosition);
-                        if (Vector3.Distance(navMeshAgent.destination, transform.position) <= navMeshAgent.stoppingDistance)
-                            lastKnownPlayerPosition = Vector3.zero;
-                    }
-                    else
-                        navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
-                }
-
-                SetRotation(roamDirection);
-                UpdateAnimationValue(roamDirection.x, roamDirection.z);
-                break;
             case State.Approach:
                 navMeshAgent.isStopped = false;
 
                 if (distanceToPlayer <= attackRange)
                 {
                     state = State.Attack;
-                    lastKnownPlayerPosition = player.transform.position;
                 }
-                else if (distanceToPlayer > approachRange)
-                    state = State.Idle;
                 else
                 {
                     navMeshAgent.speed = Stats.Speed;
                     navMeshAgent.SetDestination(player.transform.position);
-                    lastKnownPlayerPosition = player.transform.position;
                 }
 
 
-                SetRotation(directionToPlayer);
                 UpdateAnimationValue(directionToPlayer.x, directionToPlayer.z);
                 break;
             case State.Attack:
-                navMeshAgent.speed = 0;
                 navMeshAgent.isStopped = true;
-                SetRotation(directionToPlayer);
+                UpdateAnimationValue(0, 0);
                 Attack();
                 m_Animator.SetBool("Attack", true);
                 break;
@@ -150,16 +89,13 @@ public class MageAI : EnemyAI
                 Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
 
                 if (distanceToPlayer > backAwayRange)
-                {
                     state = State.Attack;
-                }
                 else
                 {
                     navMeshAgent.speed = Stats.Speed;
                     navMeshAgent.SetDestination(transform.position - directionToPlayer);
                 }
 
-                SetRotation(directionAwayFromPlayer);
                 UpdateAnimationValue(directionAwayFromPlayer.x, directionAwayFromPlayer.z);
                 break;
         }
@@ -169,19 +105,19 @@ public class MageAI : EnemyAI
     {
         Debug.Log("Mage attacks with damage: " + Stats.Damage);
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceToPlayer <= backAwayRange)
+        if (distanceToPlayer < backAwayRange)
         {
             state = State.BackingAway;
             lineRenderer.enabled = false;
         }
         else if (distanceToPlayer > attackRange)
         {
-            state = State.Idle;
+            state = State.Approach;
             lineRenderer.enabled = false;
         }
         else
         {
-            audioSource.Play();
+            audioSource.Play(); // This is getting called every frame make it so that it loops and only plays once
             PlayerStats.Instance.Health -= Stats.Damage;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);
@@ -203,12 +139,6 @@ public class MageAI : EnemyAI
     protected override void OnCollisionEnter(Collision other)
     {
         base.OnCollisionEnter(other);
-
-        if (other.gameObject.CompareTag("Wall"))
-        {
-            roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
-        }
-
     }
 
     public override void Die()
@@ -228,12 +158,4 @@ public class MageAI : EnemyAI
         m_Animator.SetFloat(Vertical, clampedVertical, time, Time.deltaTime);
     }
 
-    private void SetRotation(Vector3 direction)
-    {
-        if (direction != Vector3.zero)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, Stats.Speed * Time.deltaTime);
-        }
-    }
 }

@@ -15,10 +15,17 @@ public class Crosshair : MonoBehaviour
         m_InputsManager = GetComponent<InputsManager>();
     }
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
-        pos = m_InputsManager._MousePosition;
-        pos.z = speed;
-        transform.position = Camera.main.ScreenToWorldPoint(pos);
+        Ray cameraRay = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        float rayLength;
+
+        if (groundPlane.Raycast(cameraRay, out rayLength))
+        {
+            Vector3 pointToLook = cameraRay.GetPoint(rayLength);
+
+            transform.position = new Vector3(pointToLook.x, transform.position.y, pointToLook.z);
+        }
     }
 }

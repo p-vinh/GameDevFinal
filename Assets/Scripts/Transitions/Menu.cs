@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +9,7 @@ public class Menu : MonoBehaviour
 
     public void MainMenu()
     {
-        StartCoroutine(FadeTransition("MainMenu"));
+        StartCoroutine(FadeTransition("StartScreen"));
     }
 
     public void Quit()
@@ -20,9 +19,8 @@ public class Menu : MonoBehaviour
 
     public void Respawn()
     {
-        // TODO Reset Player's Stats
-        
-        StartCoroutine(FadeTransition("Dungeon"));
+        PlayerStats.Instance.ResetStats();
+        StartCoroutine(FadeTransition("ProceduralGeneration"));
     }
 
     private IEnumerator FadeTransition(string sceneName)

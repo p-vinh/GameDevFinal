@@ -14,21 +14,25 @@ public class MimicChestAI : EnemyAI
     public SphereCollider sightRangeCollider;
     public SphereCollider attackRangeCollider;
     public LayerMask playerLayer;
+    public float attackRange;
+    public bool playerInAttackRange;
     public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;
     private GameObject playerGameObject; 
+    private bool finishedAttackAnim = true;
 
     public enum State
     {
         IdleResting, 
-        IdleHostile, 
         Attack 
     }
 
     protected override void Start()
     {
+        //Initialize stats
         base.Start();
+
         playerGameObject = GameObject.FindGameObjectWithTag("Player");
         if (playerGameObject != null)
         {
@@ -41,81 +45,57 @@ public class MimicChestAI : EnemyAI
 
         enemy = GetComponent<NavMeshAgent>();
         state = State.IdleResting;
-        playerLayer = LayerMask.GetMask("Player");
         animator = GetComponent<Animator>();
     }
 
     protected override void Update() 
     {
-        playerInSightRange =  IsPlayerInSightRange();
-        playerInAttackRange = IsPlayerInAttackRange();
 
-       switch(state){
-        case State.IdleResting:
-            if(playerInSightRange){
-                state = State.IdleHostile;
-                SetAnimationState("IdleResting");
-                transform.LookAt(playerTransform.position);
-            }
-            break;
-        case State.IdleHostile:
-            if (!playerInSightRange)
-            {
-                SetAnimationState("IdleHostile");
-                state = State.IdleResting;
-            }
-            else if (playerInAttackRange)
-            {
-                SetAnimationState("Attacking");
-                state = State.Attack;
-            }
-            break;
-        case State.Attack:
-            if (!playerInSightRange)
-            {
-                SetAnimationState("IdleResting");
-                state = State.IdleResting;
-            }
-            else if (!playerInAttackRange)
-            {
-                SetAnimationState("IdleHostile");
-                state = State.IdleHostile;
-            }
-            else
-            {
-                SetAnimationState("Attacking");
-                Attack();
-            }
-            break;
-       }
-    }
-
-    bool IsPlayerInSightRange()
-    {
-        if (playerTransform != null)
+        if (playerGameObject != null)
         {
-            return sightRangeCollider.bounds.Contains(playerTransform.position);
+            playerInAttackRange = Vector3.Distance(playerTransform.position, transform.position) < attackRange;
+
+            switch(state)
+            {
+                case State.IdleResting:
+                    if(playerInAttackRange)
+                    {
+                        state = State.Attack;
+                    }
+                    break;
+                case State.Attack:
+                    if(finishedAttackAnim)
+                    {
+                        finishedAttackAnim = false;
+                        Attack();
+                    }
+                    break;
+            }
         }
-        return false;
+        else
+        {
+            print("Error");
+        }
     }
 
-    bool IsPlayerInAttackRange()
-    {
-        if (playerTransform != null)
-        {
-            return attackRangeCollider.bounds.Contains(playerTransform.position);
-        }
-        return false;
-    }
-    
     protected override void Attack()
     {
+        playerTransform = playerGameObject.transform; //Get player info
+        transform.LookAt(playerTransform.position); //Look at player
+
         if (playerTransform != null)
         {
-            Debug.Log("Player is too close to mimic! It attacks with damage: " + Stats.Damage);
-            SetAnimationState("Attacking");
+            animator.SetBool("Attacking",true);
             PlayerStats.Instance.Health -= Stats.Damage;
+            print("Player took damage from chest:" + PlayerStats.Instance.Health);
         }
+    }
+
+    public void canAttackAgain()
+    {
+        finishedAttackAnim = true;
+        animator.SetBool("Attacking",false);
+        state = State.IdleResting;
     }
     
     public override void TakeDamage(float damage)
@@ -131,25 +111,20 @@ public class MimicChestAI : EnemyAI
     
     public override void Die()
     {
-        SetAnimationState("Dead");
+        animator.SetTrigger("Died");
         Debug.Log("Mimic dies");
         base.Die();
         Destroy(gameObject);
     }
 
-    protected override void OnCollisionEnter(Collision other) 
+    protected override void OnTriggerEnter(Collider other) 
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            //
-            PlayerStats.Instance.Health -= Stats.Damage;
-        }
-        if (other.gameObject.CompareTag("Projectile"))
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon"))
         {
             //
             TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
-    }    
+    } 
 
     private void SetAnimationState(string state){
         //to ensure that no lerftover animations are happening
@@ -158,6 +133,12 @@ public class MimicChestAI : EnemyAI
         animator.ResetTrigger("Attacking");
         animator.ResetTrigger("Dead");
 
-        animator.SetTrigger(state);
     }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }   
 }

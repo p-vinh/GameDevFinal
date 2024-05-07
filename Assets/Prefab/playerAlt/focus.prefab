@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2643254150547313313}
   - component: {fileID: 2643254150547313314}
-  - component: {fileID: 2643254150547313312}
-  - component: {fileID: 4946048258972143372}
+  - component: {fileID: 1419340306682846062}
+  - component: {fileID: 462687774588913159}
   m_Layer: 0
   m_Name: focus
   m_TagString: CrossHair
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
---- !u!114 &2643254150547313312
+--- !u!114 &1419340306682846062
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  m_InputsManager: {fileID: 4946048258972143372}
---- !u!114 &4946048258972143372
+  m_InputsManager: {fileID: 0}
+--- !u!114 &462687774588913159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
