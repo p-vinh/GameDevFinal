@@ -21,6 +21,7 @@ public class ChargeAI : EnemyAI
     private Vector3 spottedPlayerPosition;
     private GameObject player;
     private Animator anim;
+    public AudioSource attackSound;
     private NavMeshAgent navMeshAgent;
     private Vector3 roamDirection;
     private bool currentlyCharging;

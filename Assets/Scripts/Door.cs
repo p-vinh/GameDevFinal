@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    public AudioSource audioSource; // Code added by Abby (Sound Engineer)
     [SerializeField]
     private Animator m_Animator = null;
 

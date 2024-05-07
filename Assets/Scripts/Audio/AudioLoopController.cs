@@ -62,7 +62,7 @@ public class AudioLoopController : MonoBehaviour {
         StartCoroutine(FadeOut());
     }//end FadeOutCaller()
 
-    // Fade in the audio clip sound
+    // Fade in the Song Audio
     public IEnumerator FadeIn() {
         keepFadingIn = true;
         keepFadingOut = false;
@@ -77,6 +77,7 @@ public class AudioLoopController : MonoBehaviour {
         }//end while
     }//end FadeIn()
 
+    // Fade out the Song Audio
     public IEnumerator FadeOut() {
         keepFadingIn = false;
         keepFadingOut = true;

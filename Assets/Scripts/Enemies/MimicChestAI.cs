@@ -8,8 +8,13 @@ public class MimicChestAI : EnemyAI
 {
     public NavMeshAgent enemy;
     public Transform playerTransform; 
+    public AudioSource attackSound; // Code added by Abby (Sound Engineer)
+
+    public bool playerInSightRange, playerInAttackRange;
+    public SphereCollider sightRangeCollider;
+    public SphereCollider attackRangeCollider;
+    public LayerMask playerLayer;
     public float attackRange;
-    public bool playerInAttackRange;
     public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;
@@ -120,8 +125,12 @@ public class MimicChestAI : EnemyAI
         }
     } 
 
-    protected override void OnCollisionEnter(Collision other)
-    {
+    private void SetAnimationState(string state){
+        //to ensure that no lerftover animations are happening
+        animator.ResetTrigger("IdleHostile");
+        animator.ResetTrigger("IdleResting");
+        animator.ResetTrigger("Attacking");
+        animator.ResetTrigger("Dead");
 
     }
 

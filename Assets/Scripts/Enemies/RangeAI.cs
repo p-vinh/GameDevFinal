@@ -10,6 +10,9 @@ public class RangeAI : EnemyAI
     public Transform player;
     public GameObject enemyBullet;
     public Transform spawnPoint;
+    public AudioSource attackSound1; // Code added by Abby (Sound Engineer)
+    public AudioSource attackSound2; // Code added by Abby (Sound Engineer)
+    public AudioSource attackSound3; // Code added by Abby (Sound Engineer)
     Animator anim;
 
     //Temporary variables, change the stats of enemy
@@ -98,6 +101,7 @@ public class RangeAI : EnemyAI
 
             canFire = false;
             Invoke(nameof(ResetAttack), fireDelaySeconds);
+            attackSound2.Play(); // Code added by Abby (Sound Engineer)
         }
     }
 
