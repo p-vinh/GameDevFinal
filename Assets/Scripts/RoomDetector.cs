@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation;
 using static BlankStudio.Constants.Constants;
 
 public class RoomDetector : MonoBehaviour
@@ -14,41 +15,85 @@ public class RoomDetector : MonoBehaviour
     [SerializeField]
     private BoxCollider m_BoxCollider = null;
 
-    [SerializeField]
-    private VisitStatus m_VisitStatus = VisitStatus.NotVisited;
+    // [SerializeField]
+    // private VisitStatus m_VisitStatus = VisitStatus.NotVisited;
+
+    private bool navMeshGenerated = false;
+    public GameObject roomNavMesh;
+    [SerializeField] private GameObject enemies;
 
     private void Start()
     {
-        m_VisitStatus= VisitStatus.NotVisited;
-        m_BoxCollider= GetComponent<BoxCollider>();
+        // m_VisitStatus = VisitStatus.NotVisited;
+        m_BoxCollider = GetComponent<BoxCollider>();
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (m_VisitStatus == VisitStatus.Visited)
-            {
-                return;
-            }
-            m_VisitStatus = VisitStatus.Visited;
+            // if (m_VisitStatus == VisitStatus.Visited)
+            // {
+            //     return;
+            // }
+            // m_VisitStatus = VisitStatus.Visited;
+            if (roomNavMesh != null)
+                GenerateNavMesh();
+
+
             PlayerEntered?.Invoke(m_RoomType, m_BoxCollider.bounds, collision.gameObject.transform);
         }
     }
 
-  /*  private VisitStatus GetRoomVisitStatus(RoomType roomType)
+    void OnTriggerExit(Collider other)
     {
-        string key = roomType.ToString() + "_VisitStatus";
-        if (PlayerPrefs.HasKey(key))
+        print("left collided with player");
+        if (other.CompareTag("Player") && roomNavMesh != null)
         {
-            return (VisitStatus)PlayerPrefs.GetInt(key);
+            DisableNavMesh();
+            foreach (Transform child in enemies.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
-        return VisitStatus.NotVisited; 
     }
 
-    private void SetRoomVisitStatus(RoomType roomType, VisitStatus status)
+    void GenerateNavMesh()
     {
-        string key = roomType.ToString() + "_VisitStatus";
-        PlayerPrefs.SetInt(key, (int)status);
-    }*/
+        if (!navMeshGenerated)
+        {
+            print("Enable navmesh for this room");
+            NavMeshSurface surface = roomNavMesh.AddComponent<NavMeshSurface>();
+            surface.collectObjects = CollectObjects.Children;
+            surface.BuildNavMesh();
+            navMeshGenerated = true;
+        }
+    }
+
+    void DisableNavMesh()
+    {
+        if (navMeshGenerated)
+        {
+            print("Disable navmesh for this room");
+            UnityEngine.AI.NavMesh.RemoveAllNavMeshData();
+            Destroy(GetComponent<NavMeshSurface>());
+            navMeshGenerated = false;
+        }
+    }
+
+    /*  private VisitStatus GetRoomVisitStatus(RoomType roomType)
+      {
+          string key = roomType.ToString() + "_VisitStatus";
+          if (PlayerPrefs.HasKey(key))
+          {
+              return (VisitStatus)PlayerPrefs.GetInt(key);
+          }
+          return VisitStatus.NotVisited; 
+      }
+
+      private void SetRoomVisitStatus(RoomType roomType, VisitStatus status)
+      {
+          string key = roomType.ToString() + "_VisitStatus";
+          PlayerPrefs.SetInt(key, (int)status);
+      }*/
 }

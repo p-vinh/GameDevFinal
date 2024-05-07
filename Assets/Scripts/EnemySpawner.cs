@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject m_EnemySpawnFX = null;
     [SerializeField] private RoomType m_CurrentRoomType = RoomType.Room_1;
     [SerializeField] private int m_SpawnerCount = 0;
+    [SerializeField] private GameObject RoomEnemies;
 
     private List<Vector3> m_SpawnPoints = new List<Vector3>();
 
@@ -78,7 +79,7 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject fx = Instantiate(m_EnemySpawnFX, m_SpawnPoints[i], m_EnemySpawnFX.transform.rotation);
         yield return new WaitForSeconds(0.2f);
-        GameObject enemyClone = Instantiate(enemy, m_SpawnPoints[i], Quaternion.identity);
+        GameObject enemyClone = Instantiate(enemy, m_SpawnPoints[i], Quaternion.identity, RoomEnemies.transform); // TODO: Spawn enemies under parent object per room
         Vector3 originalScale = enemy.transform.localScale;
         enemyClone.transform.localScale = Vector3.zero; 
         enemyClone.transform.DOScale(originalScale, 0.5f);
