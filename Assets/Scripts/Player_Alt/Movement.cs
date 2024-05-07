@@ -84,6 +84,9 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         m_InputsManager.HandleInputs();
+
+        rigidBody.angularVelocity = Vector3.zero; //To prevent the player from moving when stopped
+
         if (Cursor.lockState == CursorLockMode.Confined)
         {
             Ray cameraRay = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
