@@ -12,7 +12,7 @@ public class Blood : MonoBehaviour
     }
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,6 +20,14 @@ public class Blood : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player healed for " + healthAmount + " health.");
+            
+            if (PlayerStats.Instance.Health + healthAmount > PlayerStats.Instance.MaxHealth)
+            {
+                PlayerStats.Instance.Health = PlayerStats.Instance.MaxHealth;
+                Destroy(gameObject);
+                return;
+            }
+
             PlayerStats.Instance.Health += healthAmount;
             Destroy(gameObject);
         }

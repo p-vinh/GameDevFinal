@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 using static BlankStudio.Constants.Constants;
+using System.Linq;
 
 public class RoomDetector : MonoBehaviour
 {
@@ -15,33 +16,52 @@ public class RoomDetector : MonoBehaviour
     [SerializeField]
     private BoxCollider m_BoxCollider = null;
 
-    // [SerializeField]
-    // private VisitStatus m_VisitStatus = VisitStatus.NotVisited;
+    [SerializeField]
+    private BoxCollider[] doorColliders = null;
+
+    [SerializeField]
+    private VisitStatus m_VisitStatus = VisitStatus.NotVisited;
 
     private bool navMeshGenerated = false;
     public GameObject roomNavMesh;
-    [SerializeField] private GameObject enemies;
+    [SerializeField] private int enemyCount = 0;
+    private bool isSpawned = false;
 
-    private void Start()
+    void Start()
     {
-        // m_VisitStatus = VisitStatus.NotVisited;
+        m_VisitStatus = VisitStatus.NotVisited;
         m_BoxCollider = GetComponent<BoxCollider>();
+    }
+
+    void Update()
+    {
+        CountEnemies();
+        if (enemyCount <= 0 && isSpawned)
+        {
+            foreach (var door in doorColliders)
+            {
+                door.enabled = false;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            // if (m_VisitStatus == VisitStatus.Visited)
-            // {
-            //     return;
-            // }
-            // m_VisitStatus = VisitStatus.Visited;
+            if (m_VisitStatus == VisitStatus.Visited)
+            {
+                return;
+            }
+            m_VisitStatus = VisitStatus.Visited;
             if (roomNavMesh != null)
                 GenerateNavMesh();
 
+            foreach (var door in doorColliders)
+                door.enabled = true;
 
             PlayerEntered?.Invoke(m_RoomType, m_BoxCollider.bounds, collision.gameObject.transform);
+            isSpawned = true;
         }
     }
 
@@ -51,10 +71,6 @@ public class RoomDetector : MonoBehaviour
         if (other.CompareTag("Player") && roomNavMesh != null)
         {
             DisableNavMesh();
-            foreach (Transform child in enemies.transform)
-            {
-                Destroy(child.gameObject);
-            }
         }
     }
 
@@ -81,6 +97,25 @@ public class RoomDetector : MonoBehaviour
         }
     }
 
+    void CountEnemies()
+    {
+        enemyCount = 0;
+        foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if (m_BoxCollider.bounds.Contains(enemy.transform.position))
+            {
+                enemyCount++;
+            }
+        }
+
+        if (enemyCount <= 0 && isSpawned)
+        {
+            foreach (var door in doorColliders)
+            {
+                door.enabled = false;
+            }
+        }
+    }
     /*  private VisitStatus GetRoomVisitStatus(RoomType roomType)
       {
           string key = roomType.ToString() + "_VisitStatus";

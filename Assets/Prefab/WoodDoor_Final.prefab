@@ -114,7 +114,7 @@ MonoBehaviour:
   m_PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 1048576
-  m_MaxDistance: 10
+  m_MaxDistance: 4
   m_PlayerDetected: 0
 --- !u!1 &8775660958813543059
 GameObject:
@@ -126,9 +126,10 @@ GameObject:
   m_Component:
   - component: {fileID: 9203155886472415382}
   - component: {fileID: 9203155886472415383}
+  - component: {fileID: 172084931735426231}
   m_Layer: 0
   m_Name: WoodDoor_Final
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,3 +170,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &172084931735426231
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8775660958813543059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 3.07, y: 3.06, z: 4}
+  m_Center: {x: 0.87, y: 0, z: -0.03}
