@@ -12,12 +12,10 @@ public class RoomSpawner : MonoBehaviour
 
     public enum CardinalDir { NorthRoomConnection, EastRoomConnection, SouthRoomConnection, WestRoomConnection }
     public int numRooms = 0;
-    public float minRoomDistance;
     public int roomFails = 0;
 
-    // TODO: Limit sacrifice room
-
     public Vector3 spawnRoomFinalPosition;
+    private GameObject enemySpawner;
 
     public List<GameObject> successfullySpawnedRooms = new List<GameObject>();
     public List<GameObject> availableConnectors = new List<GameObject>();
@@ -25,6 +23,8 @@ public class RoomSpawner : MonoBehaviour
 
     void Start()
     {
+        enemySpawner = GameObject.Find("EnemySpawner");
+        enemySpawner.SetActive(false);
         StartCoroutine(SpawnRooms());
     }
 
@@ -88,37 +88,8 @@ public class RoomSpawner : MonoBehaviour
 
             // ================COLLIDER OVERLAP CHECK================
 
-            // Get the box collider of the new room
-            Transform newRoomTransform = newRoom.transform.Find("Collider");
-            BoxCollider newRoomCollider = newRoomTransform.GetComponentInChildren<BoxCollider>();
-
             // Check if the new room's collider is overlapping with any of the successfully spawned rooms' colliders
-            bool overlap = false;
-            foreach (GameObject successfulRoom in successfullySpawnedRooms)
-            {
-                Transform prefabTransform = successfulRoom.transform.Find("Collider");
-                BoxCollider successfulRoomCollider = prefabTransform.GetComponentInChildren<BoxCollider>();
-
-                if (newRoomCollider != null && successfulRoomCollider != null)
-                {
-                    // Check if the rooms are too close to each other
-                    float distance = Vector3.Distance(newRoomCollider.bounds.center, successfulRoomCollider.bounds.center);
-                    if (distance < minRoomDistance)
-                    {
-                        Debug.Log("Distance: " + distance);
-                        overlap = true;
-                        break;
-                    }
-
-                    Collider[] hitColliders = Physics.OverlapBox(newRoomCollider.bounds.center, newRoomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("RoomCollider"));
-
-                    if (hitColliders.Length > 1)
-                    {
-                        overlap = true;
-                        break;
-                    }
-                }
-            }
+            bool overlap = CheckForOverlap(newRoom);
 
             // If the room sare overlapping, destroy it and try again
             if (overlap)
@@ -127,14 +98,14 @@ public class RoomSpawner : MonoBehaviour
                 if (roomFails > 50)
                 {
                     Debug.Log("ROOM FAILED TO GENERATE");
-                    yield return new WaitForSeconds(2f);
-                    DestroyRoom(newRoom);
+                    // yield return new WaitForSeconds(2f);
+                    Destroy(newRoom);
                     roomFails = 0;
                     continue;
                 }
 
-                yield return new WaitForSeconds(2f);
-                DestroyRoom(newRoom);
+                // yield return new WaitForSeconds(2f);
+                Destroy(newRoom);
                 i--;
                 roomFails++;
                 continue;
@@ -155,6 +126,7 @@ public class RoomSpawner : MonoBehaviour
 
         SpawnBossRoom();
         FillUnusedConnections();
+        enemySpawner.SetActive(true);
         yield return null;
     }
 
@@ -208,36 +180,7 @@ public class RoomSpawner : MonoBehaviour
             GameObject newBossRoom = Instantiate(bRoomPrefab, bossRoomPosition, bRoomPrefab.transform.rotation);
 
             // Get the composite collider of the new boss room
-            Transform newBossRoomTransform = newBossRoom.transform.Find("Collider");
-            BoxCollider bossRoomCollider = newBossRoomTransform.GetComponentInChildren<BoxCollider>();
-
-            // Check if the new boss room's collider is overlapping with any of the successfully spawned rooms' colliders
-            bool overlap = false;
-            foreach (GameObject successfulRoom in successfullySpawnedRooms)
-            {
-                Transform transform = successfulRoom.transform.Find("Collider");
-                BoxCollider successfulRoomCollider = transform.GetComponentInChildren<BoxCollider>();
-
-                if (bossRoomCollider != null && successfulRoomCollider != null)
-                {
-                    // Check if the rooms are too close to each other
-                    float distance = Vector3.Distance(bossRoomCollider.bounds.center, successfulRoomCollider.bounds.center);
-                    if (distance < minRoomDistance)
-                    {
-                        Debug.Log("Distance: " + distance);
-                        overlap = true;
-                        break;
-                    }
-
-                    Collider[] hitColliders = Physics.OverlapBox(bossRoomCollider.bounds.center, bossRoomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("RoomCollider"));
-
-                    if (hitColliders.Length > 1)
-                    {
-                        overlap = true;
-                        break;
-                    }
-                }
-            }
+            bool overlap = CheckForOverlap(newBossRoom);
 
             // If the rooms are overlapping, destroy the boss room and try again
             if (overlap)
@@ -246,12 +189,12 @@ public class RoomSpawner : MonoBehaviour
                 if (roomFails > 50)
                 {
                     Debug.Log("ROOM FAILED TO GENERATE");
-                    DestroyRoom(newBossRoom);
+                    Destroy(newBossRoom);
                     roomFails = 0;
                     continue;
                 }
 
-                DestroyRoom(newBossRoom);
+                Destroy(newBossRoom);
                 i--;
                 roomFails++;
                 continue;
@@ -294,33 +237,40 @@ public class RoomSpawner : MonoBehaviour
 
                 GameObject room = Instantiate(deadEndRoom, deadEndRoomPosition, deadEndRoom.transform.rotation);
 
-                // Get the box collider of the new room
-                Transform newRoomTransform = room.transform.Find("Collider");
-                BoxCollider newRoomCollider = newRoomTransform.GetComponentInChildren<BoxCollider>();
+                bool overlap = CheckForOverlap(room);
 
-
-                Collider[] hitColliders = Physics.OverlapBox(newRoomCollider.bounds.center, newRoomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("RoomCollider"));
-
-                if (hitColliders.Length > 1)
+                if (overlap)
                 {
-                    DestroyRoom(room);
+                    Destroy(room);
                     GenerateWall(connector.transform, connector);
                 }
             }
             else
             {
                 // Fill the unused connection with a wall/door
-                // GenerateWall(connector.transform, connector);
+                GenerateWall(connector.transform, connector);
             }
         }
 
-        // availableConnectors.Clear();
+        availableConnectors.Clear();
     }
 
     private void GenerateWall(Transform connectionPoint, GameObject connector)
     {
-        Quaternion rotation = connectionPoint.transform.rotation;
-        Instantiate(wallPrefab, connectionPoint.transform.position, rotation);
+        string directionName = connector.name;
+
+        if (directionName == "NorthRoomConnection" || directionName == "SouthRoomConnection")
+        {
+            connectionPoint.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (directionName == "EastRoomConnection" || directionName == "WestRoomConnection")
+        {
+            connectionPoint.transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+
+        connectionPoint.transform.position = new Vector3(connectionPoint.transform.position.x, connectionPoint.transform.position.y + 2f, connectionPoint.transform.position.z);
+
+        Instantiate(wallPrefab, connectionPoint.transform.position, connectionPoint.transform.rotation);
     }
 
     private void AddRoomConnectors(GameObject inputRoom, GameObject usedConnector)
@@ -346,6 +296,33 @@ public class RoomSpawner : MonoBehaviour
         }
     }
 
+    private bool CheckForOverlap(GameObject room)
+    {
+        Transform roomTransform = room.transform.Find("Collider");
+        BoxCollider roomCollider = roomTransform.GetComponentInChildren<BoxCollider>();
+
+        // Check if the new boss room's collider is overlapping with any of the successfully spawned rooms' colliders
+        bool overlap = false;
+        foreach (GameObject successfulRoom in successfullySpawnedRooms)
+        {
+            Transform transform = successfulRoom.transform.Find("Collider");
+            BoxCollider successfulRoomCollider = transform.GetComponentInChildren<BoxCollider>();
+
+            if (roomCollider != null && successfulRoomCollider != null)
+            {
+                Collider[] hitColliders = Physics.OverlapBox(roomCollider.bounds.center, roomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("RoomCollider"));
+
+                if (hitColliders.Length > 1)
+                {
+                    overlap = true;
+                    break;
+                }
+            }
+        }
+
+        return overlap;
+    }
+
     private string GetOppositeConnectorName(GameObject inputConnector)
     {
         if (inputConnector.name == "NorthRoomConnection")
@@ -368,10 +345,5 @@ public class RoomSpawner : MonoBehaviour
         {
             return null;
         }
-    }
-
-    private void DestroyRoom(GameObject roomToDelete)
-    {
-        Destroy(roomToDelete);
     }
 }

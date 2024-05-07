@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 6483241562010994653}
   - component: {fileID: 3195650426283640947}
   - component: {fileID: 7326174069793305465}
-  - component: {fileID: 6942124705999356066}
-  - component: {fileID: 1609509949}
   m_Layer: 0
   m_Name: Grinding_Plate
   m_TagString: Untagged
@@ -85,29 +83,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6942124705999356066
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3649021044979228581}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.22106555, y: 0.14437601, z: 0.21024522}
-  m_Center: {x: -0.0000009834766, y: -0.0022562705, z: 0.000000040978193}
---- !u!65 &1609509949
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3649021044979228581}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.14, y: 0.3, z: 0.95}
-  m_Center: {x: -0.0000009834766, y: -0.002256211, z: 0.000000040978197}

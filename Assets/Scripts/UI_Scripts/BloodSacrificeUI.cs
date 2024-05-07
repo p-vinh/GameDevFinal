@@ -4,39 +4,88 @@ using UnityEngine;
 using BlankStudio.Constants;
 using TMPro;
 using System.Linq;
+using UnityEngine.UI;
 
 public class BloodSacrificeUI : MonoBehaviour
 {
     public GameObject mainCamera;
     public GameObject closeUpCamera;
     public GameObject crossHair;
-    public Canvas menuCanvas;
-    public GameObject player;
+    public GameObject menuCanvas;
+    private GameObject player;
     public TextMeshProUGUI buffText;
     [SerializeField] ParticleSystem sacrificeEffect = null;
 
 
     void Start()
     {
-        mainCamera = GameObject.FindWithTag("MainCamera") as GameObject;
-        menuCanvas = FindObjectsOfType<Canvas>(true).FirstOrDefault(go => go.CompareTag("MenuCanvas"));
-        crossHair = GameObject.FindWithTag("CrossHair") as GameObject;
+        mainCamera =  GameObject.FindWithTag("MainCamera");
+        crossHair = GameObject.FindWithTag("CrossHair");
+
+        closeUpCamera = transform.Find("CloseUpCamera").gameObject;
         closeUpCamera.SetActive(false);
-        if (menuCanvas != null) {
-            buffText = FindObjectsOfType<TextMeshProUGUI>(true).FirstOrDefault(go => go.CompareTag("BuffText"));
-            menuCanvas.gameObject.SetActive(false);
+
+        sacrificeEffect = transform.Find("CFX3_MagicAura_B_Runic").gameObject.GetComponent<ParticleSystem>();
+        
+        menuCanvas = GameObject.FindWithTag("MenuParent").transform.Find("SacrificeMenu").gameObject;
+        buffText = GameObject.FindWithTag("MenuParent").transform.Find("RandomBuff").gameObject.GetComponent<TextMeshProUGUI>();
+
+
+        // Check if the TextMeshPro component is found
+        if (buffText != null)
+        {
+            print("Gotem");
         }
-        buffText.text = "";
-        player = GameObject.FindGameObjectWithTag("Player");
+        else
+        {
+            // Handle the case where the component is not found
+            Debug.LogError("TextMeshPro component not found on other parent GameObject.");
+        }
+        
+        if (menuCanvas != null)
+            menuCanvas.SetActive(false);
     }
+
+    // private void GameObject FindChildWithTag(GameObject parent, string tag) 
+    // {
+    //     GameObject child = null;
+ 
+    //     foreach(Transform transform in parent.transform) 
+    //     {
+    //         if(transform.CompareTag(tag)) 
+    //         {
+    //             child = transform.gameObject;
+    //             break;
+    //         }
+    //     }
+
+    //     return child;
+    // }    
+ 
     public void increaseRandomStat()
     {
         int result = PlayerStats.Instance.increaseRandomStat();
+
+        //!menuCanvas.transform.Find("BuffText").TryGetComponent<TextMeshPro>(out buffText)
+        //if (menuCanvas != null)
+            //return;
+
+        mainCamera =  GameObject.FindWithTag("MainCamera");
+        crossHair = GameObject.FindWithTag("CrossHair");
+
+        closeUpCamera = transform.Find("CloseUpCamera").gameObject;
+        closeUpCamera.SetActive(false);
+
+        sacrificeEffect = transform.Find("CFX3_MagicAura_B_Runic").gameObject.GetComponent<ParticleSystem>();
+        
+        menuCanvas = GameObject.FindWithTag("MenuParent").transform.Find("SacrificeMenu").gameObject;
+        buffText = GameObject.FindWithTag("MenuParent").transform.Find("RandomBuff").gameObject.GetComponent<TextMeshProUGUI>();
+            
         switch (result)
         {
             case 0:
                 print("Increase max health!");
-                buffText.text = "Max health++";
+                buffText.text = "Health++";
                 break;
             case 1:
                 print("Increase speed");
@@ -60,11 +109,13 @@ public class BloodSacrificeUI : MonoBehaviour
 
     private void playEffect()
     {
+        PlayerStats.Instance.Health -= 10f;
         sacrificeEffect.Play();
     }
 
     public void changeWeapons()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
 
         Animator anim = player.GetComponent<Animator>();
         bool carryGun = player.GetComponent<Movement>().carryGun;
@@ -79,6 +130,7 @@ public class BloodSacrificeUI : MonoBehaviour
             gun.SetActive(false);
             sword.SetActive(true);
             PlayerStats.Instance.CurrentWeaponType = Constants.WeaponType.Sword;
+            PlayerStats.Instance.CurrentWeapon = new Weapon("Sword", PlayerStats.Instance.CurrentWeapon.Damage, PlayerStats.Instance.CurrentWeapon.Range, PlayerStats.Instance.CurrentWeapon.Speed);
 
         }
         else
@@ -86,6 +138,7 @@ public class BloodSacrificeUI : MonoBehaviour
             gun.SetActive(true);
             sword.SetActive(false);
             PlayerStats.Instance.CurrentWeaponType = Constants.WeaponType.Gun;
+            PlayerStats.Instance.CurrentWeapon = new Weapon("Gun", PlayerStats.Instance.CurrentWeapon.Damage, PlayerStats.Instance.CurrentWeapon.Range, PlayerStats.Instance.CurrentWeapon.Speed);
         }
 
         anim.SetBool("carryGun", carryGun);
@@ -101,8 +154,8 @@ public class BloodSacrificeUI : MonoBehaviour
             mainCamera.SetActive(false);
             closeUpCamera.SetActive(true);
             crossHair.SetActive(false);
-            menuCanvas.gameObject.SetActive(true);
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            menuCanvas.SetActive(true);
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.None;
         }
     }
@@ -114,9 +167,9 @@ public class BloodSacrificeUI : MonoBehaviour
             mainCamera.SetActive(true);
             closeUpCamera.SetActive(false);
             crossHair.SetActive(true);
-            menuCanvas.gameObject.SetActive(false);
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            menuCanvas.SetActive(false);
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.Confined;
         }
     }
