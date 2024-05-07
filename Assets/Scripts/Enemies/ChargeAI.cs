@@ -16,14 +16,14 @@ public class ChargeAI : EnemyAI
     private float chargeRange = 10f;  //range to where enemy will charge 
 
 
-    private ChargeAIState currentState = ChargeAIState.Roaming;
+    private ChargeAIState currentState = ChargeAIState.Idle;
     private Vector3 targetPosition;
     private Vector3 spottedPlayerPosition;
     private GameObject player;
     private Animator anim;
     private NavMeshAgent navMeshAgent;
-    private float stateTimer;
     private Vector3 roamDirection;
+    private bool currentlyCharging;
 
     // Enumeration for enemy state
     private enum ChargeAIState
@@ -40,32 +40,16 @@ public class ChargeAI : EnemyAI
         player = GameObject.FindGameObjectWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = 4;
-        stateTimer = 0.0f;
     }
 
     protected override void Update()
     {
         base.Update();
-        // Update cooldown timer
-        stateTimer += Time.deltaTime;
 
         // Handle state transitions
         switch (currentState)
         {
             case ChargeAIState.Idle:
-                navMeshAgent.isStopped = true;
-                anim.SetBool("Idle",true);
-                break;
-            case ChargeAIState.Roaming:
-
-                if (stateTimer >= 3f)
-                {
-                    stateTimer = 0f;
-                }
-                else
-                {
-                    RoamAround();
-                }
                 CheckForPlayerInRange();
                 break;
             case ChargeAIState.Charging:
@@ -73,28 +57,16 @@ public class ChargeAI : EnemyAI
                 break;
         }
     }
-
-    private void RoamAround()
-    {
-        // Set "Walk" animation trigger
-        anim.SetBool("Walk",true);
-        navMeshAgent.acceleration = 8f;
-
-        Vector3  roamDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
-
-        navMeshAgent.SetDestination(transform.position + roamDirection * 5f);
-    }
-
     private void CheckForPlayerInRange()
     {
         if (player != null)
         {
             // Calculate distance to the player
-            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+            float distanceToPlayer = Vector3.Distance(player.transform.position,transform.position);
 
             if(distanceToPlayer <= chargeRange)
             {
-                // Store player's position and switch to Charging state
+                // Store player's current position and switch to Charging state
                 spottedPlayerPosition = player.transform.position;
                 currentState = ChargeAIState.Charging;
                 chargeTimer = chargeDuration;
@@ -104,50 +76,42 @@ public class ChargeAI : EnemyAI
 
     private void ChargeAtPlayer()
     {
-        navMeshAgent.isStopped = false;
-        // Move towards player
-        anim.SetBool("Walk",false);
-        anim.SetBool("Run",true);
-        navMeshAgent.speed = chargeSpeed;
-        navMeshAgent.acceleration = 100;
         
-        navMeshAgent.SetDestination(spottedPlayerPosition);
 
         // Update charge timer
         chargeTimer -= Time.deltaTime;
 
-        //Continuosly goes forward,even if they meet player position
-        if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.1f && chargeTimer > 0f)
+        if(!currentlyCharging)
         {
-            anim.SetBool("Run",false);
-            anim.SetBool("Idle",true);
-            currentState = ChargeAIState.Idle;
-            chargeTimer = chargeDuration; //reset charagetimer
-            navMeshAgent.speed = 3f;
-            Invoke("roamingAgain",3f);
-        }
+            navMeshAgent.SetDestination(spottedPlayerPosition);
+            anim.SetBool("Run",true);
+            navMeshAgent.isStopped = false;
+            navMeshAgent.speed = chargeSpeed;
+            navMeshAgent.acceleration = 100;
 
-        if (chargeTimer <= 0f)
-        {
-            anim.SetBool("Run",false);
-            anim.SetBool("Idle",true);
-            currentState = ChargeAIState.Idle;
-            chargeTimer = chargeDuration; //reset charagetimer
-            navMeshAgent.speed = 3f;
-            Invoke("roamingAgain",3f);
+            if (Vector3.Distance(transform.position, spottedPlayerPosition) < 0.4f || chargeTimer <= 0f)
+            {
+                currentlyCharging = true;
+                anim.SetBool("Run",false);
+                navMeshAgent.isStopped = true;
+                chargeTimer = chargeDuration; //reset charagetimer
+                navMeshAgent.speed = 3f;
+                Invoke("backToIdle",2f);
+            }
         }
+        
+
     }
-
-    private void roamingAgain()
+    private void backToIdle() //gives time before looking for player again
     {
-        navMeshAgent.isStopped = false;
-        currentState = ChargeAIState.Roaming;
+        currentlyCharging = false;
+        currentState = ChargeAIState.Idle;
     }
 
     public override void TakeDamage(float damage) 
     {
-        anim.SetBool("Idle",true);
         navMeshAgent.isStopped = true;
+        anim.SetBool("Run",false);
         Stats.Health -= damage;
         Debug.Log("Charger Enemy Health:"  + Stats.Health);
 
@@ -166,28 +130,26 @@ public class ChargeAI : EnemyAI
             TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
     }
-    // protected override void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.gameObject.CompareTag("Player"))
-    //     {
-    //         PlayerStats.Instance.Health -= Stats.Damage;
-    //     }
 
-    //     if (other.gameObject.CompareTag("Wall"))
-    //     {
-    //         anim.SetBool("Run",false);
-    //         anim.SetBool("Idle",true);
-    //         anim.SetBool("Walk",false);
-    //         navMeshAgent.isStopped = false;
-    //         currentState = ChargeAIState.Roaming;
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            PlayerStats.Instance.Health -= Stats.Damage;
+        }
 
-    //     }
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            anim.SetBool("Idle",true);
+            navMeshAgent.isStopped = false;
+            currentState = ChargeAIState.Idle;
+        }
 
-    //     if (other.gameObject.CompareTag("Projectile")) //Go back to this
-    //     {
-    //         TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
-    //     }
-    // }
+        if (other.gameObject.CompareTag("Projectile") || other.gameObject.CompareTag("Weapon")) // add weapon
+        {
+            TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
+        }
+    }
 
     public override void Die()
     {
