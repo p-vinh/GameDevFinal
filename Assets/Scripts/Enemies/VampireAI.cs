@@ -37,16 +37,6 @@ public class VampireAI : GeneralSoldierAI
         Heal();
     }
 
-    public override void TakeDamage(float damage)
-    {
-        Stats.Health -= damage;
-        Debug.Log("Enemy takes damage. Current health: " + Stats.Health);
-        if (Stats.Health <= 0)
-        {
-            Die();
-        }
-    }
-
     private void Heal()
     {
         if (Stats.Health + healAmount > MaxHealth)
