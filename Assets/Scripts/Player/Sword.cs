@@ -10,5 +10,9 @@ public class Sword : MonoBehaviour
         {
             other.GetComponent<EnemyAI>().TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
+        if (other.CompareTag("Player"))
+        {
+            PlayerStats.Instance.Health -= other.GetComponent<EnemyAI>().Stats.Damage;
+        }
     }
 }
