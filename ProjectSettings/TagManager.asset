@@ -20,6 +20,8 @@ TagManager:
   - SacrificeSong
   - MenuParent
   - Spawner
+  - FxTemporaire
+  - Door
   layers:
   - Default
   - TransparentFX
