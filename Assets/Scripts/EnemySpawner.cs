@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int m_SpawnerCount = 0;
     [SerializeField] private GameObject RoomEnemies;
     public static Action<bool> lockAllDoors;
-    private int m_EnemyCount = 0;
+    [SerializeField] private int m_EnemyCount = 0;
 
     private List<Vector3> m_SpawnPoints = new List<Vector3>();
 
