@@ -5,11 +5,9 @@ using UnityEngine;
 public class Blood : MonoBehaviour
 {
     [SerializeField] private float healthAmount = 10.0f;
-    public AudioSource audioSource; // Code added by Abby (Sound Engineer)
-
+    public AudioSource audioSource;
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
         Destroy(gameObject, 10.0f);
     }
     void Update()
@@ -22,13 +20,16 @@ public class Blood : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player healed for " + healthAmount + " health.");
-            if (audioSource.isPlaying == false) {
-                audioSource.Play(); // Code added by Abby (Sound Engineer)
-            }//end if
             
             if (PlayerStats.Instance.Health + healthAmount > PlayerStats.Instance.MaxHealth)
             {
                 PlayerStats.Instance.Health = PlayerStats.Instance.MaxHealth;
+
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+
                 Destroy(gameObject);
                 return;
             }

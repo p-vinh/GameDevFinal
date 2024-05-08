@@ -14,20 +14,20 @@ public class BloodSacrificeUI : MonoBehaviour
     public GameObject menuCanvas;
     private GameObject player;
     public TextMeshProUGUI buffText;
-    public AudioSource audioSource; // Code added by Abby (Sound Engineer)
+    public AudioSource audioSource;
     [SerializeField] ParticleSystem sacrificeEffect = null;
 
 
     void Start()
     {
-        mainCamera =  GameObject.FindWithTag("MainCamera");
+        mainCamera = GameObject.FindWithTag("MainCamera");
         crossHair = GameObject.FindWithTag("CrossHair");
 
         closeUpCamera = transform.Find("CloseUpCamera").gameObject;
         closeUpCamera.SetActive(false);
 
         sacrificeEffect = transform.Find("CFX3_MagicAura_B_Runic").gameObject.GetComponent<ParticleSystem>();
-        
+
         menuCanvas = GameObject.FindWithTag("MenuParent").transform.Find("SacrificeMenu").gameObject;
         buffText = GameObject.FindWithTag("MenuParent").transform.Find("RandomBuff").gameObject.GetComponent<TextMeshProUGUI>();
 
@@ -42,7 +42,7 @@ public class BloodSacrificeUI : MonoBehaviour
             // Handle the case where the component is not found
             Debug.LogError("TextMeshPro component not found on other parent GameObject.");
         }
-        
+
         if (menuCanvas != null)
             menuCanvas.SetActive(false);
     }
@@ -50,7 +50,7 @@ public class BloodSacrificeUI : MonoBehaviour
     // private void GameObject FindChildWithTag(GameObject parent, string tag) 
     // {
     //     GameObject child = null;
- 
+
     //     foreach(Transform transform in parent.transform) 
     //     {
     //         if(transform.CompareTag(tag)) 
@@ -62,26 +62,31 @@ public class BloodSacrificeUI : MonoBehaviour
 
     //     return child;
     // }    
- 
+
     public void increaseRandomStat()
     {
         int result = PlayerStats.Instance.increaseRandomStat();
 
-        //!menuCanvas.transform.Find("BuffText").TryGetComponent<TextMeshPro>(out buffText)
+        // menuCanvas.transform.Find("BuffText").TryGetComponent<TextMeshPro>(out buffText)
         //if (menuCanvas != null)
-            //return;
+        //return;
 
-        mainCamera =  GameObject.FindWithTag("MainCamera");
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+
+        mainCamera = GameObject.FindWithTag("MainCamera");
         crossHair = GameObject.FindWithTag("CrossHair");
 
         closeUpCamera = transform.Find("CloseUpCamera").gameObject;
         closeUpCamera.SetActive(false);
 
         sacrificeEffect = transform.Find("CFX3_MagicAura_B_Runic").gameObject.GetComponent<ParticleSystem>();
-        
+
         menuCanvas = GameObject.FindWithTag("MenuParent").transform.Find("SacrificeMenu").gameObject;
         buffText = GameObject.FindWithTag("MenuParent").transform.Find("RandomBuff").gameObject.GetComponent<TextMeshProUGUI>();
-            
+
         switch (result)
         {
             case 0:
@@ -112,13 +117,17 @@ public class BloodSacrificeUI : MonoBehaviour
     {
         PlayerStats.Instance.Health -= 10f;
         sacrificeEffect.Play();
-        if (!audioSource.isPlaying) {
-            audioSource.Play(); // Code added by Abby (Sound Engineer)
-        }//end if
+
     }
 
     public void changeWeapons()
     {
+
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         Animator anim = player.GetComponent<Animator>();

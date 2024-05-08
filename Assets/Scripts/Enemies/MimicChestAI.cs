@@ -11,7 +11,7 @@ public class MimicChestAI : EnemyAI
     public AudioSource attackSound; // Code added by Abby (Sound Engineer)
 
     public bool playerInAttackRange;
-    public float attackRange;
+    public float attackRange = 2f;
     public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;
@@ -21,7 +21,7 @@ public class MimicChestAI : EnemyAI
     public enum State
     {
         IdleResting, 
-        Attack 
+        Attack, 
     }
 
     protected override void Start()
@@ -56,7 +56,16 @@ public class MimicChestAI : EnemyAI
                 case State.IdleResting:
                     if(playerInAttackRange)
                     {
+                        animator.SetBool("Walk",false);
+                        enemy.SetDestination(transform.position);
+                        enemy.isStopped = true;
                         state = State.Attack;
+                    }
+                    else
+                    {
+                        enemy.isStopped = false;
+                        animator.SetBool("Walk",true);
+                        enemy.SetDestination(playerTransform.position);
                     }
                     break;
                 case State.Attack:

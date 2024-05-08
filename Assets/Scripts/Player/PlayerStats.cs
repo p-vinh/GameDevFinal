@@ -44,7 +44,6 @@ public class PlayerStats : MonoBehaviour
     public float MovementSpeed { get; set; }
     public Weapon CurrentWeapon { get; set; }
     public Constants.WeaponType CurrentWeaponType { get; set; }
-    public Vector3 LastDoorEntered { get; set; }
 
     private void Awake()
     {
@@ -65,7 +64,7 @@ public class PlayerStats : MonoBehaviour
         MaxHealth = 100;
         MovementSpeed = 4;
         CurrentWeaponType = Constants.WeaponType.Sword;
-        CurrentWeapon = new Weapon("Gun", 100f, 2f, 0.2f);
+        CurrentWeapon = new Weapon("Sword", 10f, 2f, 0.2f);
     }
 
     void Update()
@@ -96,7 +95,7 @@ public class PlayerStats : MonoBehaviour
                 MovementSpeed += 1;
                 break;
             case 2:
-                CurrentWeapon.Damage += 5;
+                CurrentWeapon.Damage += 2;
                 break;
         }
 

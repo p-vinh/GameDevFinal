@@ -73,7 +73,7 @@ public class GiantEnemy : EnemyAI
     [SerializeField]
     private Material m_EnemyMaterial = null;
 
-    public override Constants.EnemyType Type => EnemyType.BOSS;
+    public override Constants.EnemyType Type => Constants.EnemyType.BOSS;
 
     protected override void Start()
     {

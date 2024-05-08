@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
         // Arrow
         if (other.gameObject.CompareTag("Player"))
         {
-            PlayerStats.Instance.Health -= 2f;
+            PlayerStats.Instance.Health -= 5f;
             DestroyProjectile();
         }
     }
