@@ -56,31 +56,8 @@ public class MimicChestAI : EnemyAI
         {
                //to check if the player is within chasing range
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
-            playerInChaseRange = distanceToPlayer <= chaseRange; 
+            playerInChaseRange = (distanceToPlayer <= chaseRange) && (distanceToPlayer > attackRange); 
             playerInAttackRange = Vector3.Distance(playerTransform.position, transform.position) < attackRange;
-
-
-            // if (distanceToPlayer <= chaseRange)
-            // {
-            // enemy.SetDestination(playerTransform.position);
-            
-            //     if(distanceToPlayer <= attackRange)
-            //     {
-            //         state = State.Attack;
-            //         if(finishedAttackAnim)
-            //         {
-            //             finishedAttackAnim = false;
-            //             Attack();
-            //         }
-            //     } else 
-            //     {
-            //         state = State.IdleResting;
-            //     }
-            // } else 
-            //     {
-            //         state = State.IdleResting;
-            //     }
-        
 
             switch(state)
             {
@@ -172,16 +149,6 @@ public class MimicChestAI : EnemyAI
             TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
     } 
-
-    // private void SetAnimationState(string state){
-    //     //to ensure that no lerftover animations are happening
-    //     //animator.ResetTrigger("IdleHostile");
-    //     animator.ResetTrigger("IdleResting");
-    //     animator.ResetTrigger("Attacking");
-    //     animator.ResetTrigger("Chasing");
-    //     //animator.ResetTrigger("Dead");
-
-    // }
 
     void OnDrawGizmosSelected()
     {
