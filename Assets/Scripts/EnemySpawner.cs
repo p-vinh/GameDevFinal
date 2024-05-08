@@ -21,11 +21,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        RoomDetector.PlayerEntered -= SpawnEnemies; 
+        RoomDetector.PlayerEntered -= SpawnEnemies;  
     }
 
-    private void SpawnEnemies(RoomType roomType, Bounds roomBounds, Transform roomTransform)
+    private void SpawnEnemies( RoomType roomType, Transform roomTransform, Bounds roomBounds, Transform playerTransform)
     {
+        m_SpawnPoints.Clear();  
         EnemyTypeData enemyData = m_EnemySpawnerData.GetEnemyProperties(roomType);
         if (enemyData == null)
         {
@@ -40,18 +41,30 @@ public class EnemySpawner : MonoBehaviour
 
     private void GenerateRandomCoordinates(int spawnCount, Bounds bounds, Transform roomTransform)
     {
-        HashSet<Vector3> existingSpawnPoints = new HashSet<Vector3>(m_SpawnPoints);
-        Debug.Log("Coordinates generated");
+        bool flag = false;
 
         while (m_SpawnPoints.Count < spawnCount)
         {
             Vector3 position = GetCoordinates(bounds);
             position.y = roomTransform.position.y;
 
-            if (existingSpawnPoints.Add(position)) // Add returns false if the point already exists
+            if (m_SpawnPoints.Count > 0)
             {
-                m_SpawnPoints.Add(position);
+                for (int i = 0; i < m_SpawnPoints.Count; i++)
+                {
+                    if (m_SpawnPoints[i] == position) // Add returns false if the point already exists
+                    {
+                        flag = false;
+                        break;
+                    }
+                } 
+                if (flag)
+                {
+                    continue; 
+                }
             }
+            m_SpawnPoints.Add(position);
+            Debug.Log(position+ " | "+ m_SpawnPoints.Count);
         }
 
         GenerateEnemies();

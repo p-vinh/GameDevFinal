@@ -1639,6 +1639,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8122a9fb8d87c47a61451d3f8d7d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 11400000, guid: cae6636b58e9b5842aa21b804197cb48, type: 2}
+  Properties:
+    m_Health: 0
+    m_Damage: 0
+    m_Speed: 0
+    m_EnemyType: 7
+    m_EnemyPrefab: {fileID: 0}
+  bloodManager: {fileID: 0}
   m_AttackFXData:
   - m_AttackType: 0
     m_AttackFX: {fileID: 3554442549762134777}
