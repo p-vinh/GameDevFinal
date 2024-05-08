@@ -22,10 +22,12 @@ public class RangeEnemySounds : StateMachineBehaviour {
         // If state is Attack, play attack sound
         if (stateInfo.IsName("Attack")) {
             // Check if the animation has looped
-            if (stateInfo.normalizedTime % 1.0f > 0.49f && stateInfo.normalizedTime % 1.0f < 0.51f) {
-                // Play the sound
-                animator.GetComponent<RangeAI>().attackSound1.Play();
-                Debug.Log("Playing Attack Sound Again");
+            if (!animator.GetComponent<RangeAI>().attackSound1.isPlaying) {
+                if (stateInfo.normalizedTime % 1.0f > 0.49f && stateInfo.normalizedTime % 1.0f < 0.51f) {
+                    // Play the sound
+                    animator.GetComponent<RangeAI>().attackSound1.Play();
+                    Debug.Log("Playing Attack Sound Again");
+                }//end if
             }//end if
         }//end if
     }//end OnStateUpdate()

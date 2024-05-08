@@ -31,7 +31,7 @@ public class MageAI : EnemyAI
     int Horizontal = 0;
     int Vertical = 0;
 
-    private AudioSource audioSource;
+    public AudioSource attackSound;
     public override Constants.EnemyType Type => Constants.EnemyType.Mage;
 
     #endregion
@@ -44,7 +44,6 @@ public class MageAI : EnemyAI
         playerLayer = LayerMask.GetMask("Player");
         lineRenderer = GetComponent<LineRenderer>();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        audioSource = GetComponent<AudioSource>();
 
         state = State.Approach;
 
@@ -117,7 +116,7 @@ public class MageAI : EnemyAI
         }
         else
         {
-            audioSource.Play(); // This is getting called every frame make it so that it loops and only plays once
+            //audioSource.Play(); // This is getting called every frame make it so that it loops and only plays once
             PlayerStats.Instance.Health -= Stats.Damage;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);

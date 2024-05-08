@@ -7,7 +7,7 @@ public class MimicEnemySound : StateMachineBehaviour {
 
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (stateInfo.IsName("Attack01(Chomp)")) {
+        if (stateInfo.IsName("Attack")) {
             if (!animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().attackSound.isPlaying) {                
                 animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().play = true;
             }//end if
@@ -16,18 +16,24 @@ public class MimicEnemySound : StateMachineBehaviour {
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (stateInfo.IsName("Attack01(Chomp)")) {
+        if (stateInfo.IsName("Attack")) {
             // if sound is not playing, play sound
             if (!animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().attackSound.isPlaying) {
-                animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().attackSound.time = 0.0f;
-                animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().play = true;
+                if (stateInfo.normalizedTime % 1.0f < 0.1f) {
+                    animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().attackSound.time = 0.0f;
+                    animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().play = true;
+                }//end if
             }//end if
         }//end if
     }//end OnStateUpdate()
 
     // OnStateExit is called before OnStateExit is called on any state inside this state machine
     // override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-    //
+    //     if (stateInfo.IsName("Attack")) {
+    //         if (animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().attackSound.isPlaying) {
+    //             animator.GetComponent<MimicChestAI>().attackSound.GetComponent<MimicAttackSoundController>().play = false;
+    //         }//end if
+    //     }//end if
     // }//end OnStateExit()
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine
