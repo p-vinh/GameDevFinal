@@ -84,6 +84,9 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         m_InputsManager.HandleInputs();
+
+        rigidBody.angularVelocity = Vector3.zero; //To prevent the player from moving when stopped
+
         if (Cursor.lockState == CursorLockMode.Confined)
         {
             Ray cameraRay = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
@@ -94,7 +97,7 @@ public class Movement : MonoBehaviour
             {
                 Vector3 pointToLook = cameraRay.GetPoint(rayLength);
 
-                transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
+                transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z + 0.8f));
             }
         }
 

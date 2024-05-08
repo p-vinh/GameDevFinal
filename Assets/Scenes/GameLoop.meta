@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/GameLoop.meta
 guid: 8a8de68070ae73649b71ac5516d2c829
+========
+guid: edecba52e5ba16a4bbd534eac657cd07
+>>>>>>>> Dhruvi_PlayerInputs:Assets/Music.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

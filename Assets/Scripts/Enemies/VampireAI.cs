@@ -55,7 +55,6 @@ public class VampireAI : GeneralSoldierAI
 
         if (Stats.Health <= 0) {
             base.Die();
-            Destroy(gameObject);
         }
     }
 }

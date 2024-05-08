@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Music.meta
 guid: edecba52e5ba16a4bbd534eac657cd07
+========
+guid: 37abb8cf6a010de43aceda64db6755a0
+>>>>>>>> Dhruvi_PlayerInputs:Assets/Kevin Iglesias.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

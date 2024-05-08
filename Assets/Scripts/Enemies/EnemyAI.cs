@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BlankStudio.Constants;
+using System;
 
 public class EnemyStats
 {
@@ -28,7 +29,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     public abstract Constants.EnemyType Type { get; }
     public EnemyData.EnemyProperties Properties;
-
+    public static Action EnemyDied;
 
     public BloodManager bloodManager;
 
@@ -93,6 +94,7 @@ public abstract class EnemyAI : MonoBehaviour
     public virtual void Die()
     {
         bloodManager.OnEnemyDeath(gameObject.transform);
+        EnemyDied?.Invoke();
         Destroy(gameObject);
     }
 }

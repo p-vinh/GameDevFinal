@@ -133,7 +133,6 @@ public class RangeAI : EnemyAI
         if (Stats.Health <= 0) 
         {
             base.Die();
-            Destroy(this.gameObject);
         }
     }
 

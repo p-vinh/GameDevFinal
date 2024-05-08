@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Audio/AnimationSounds/HumanAttackSound.cs.meta
+guid: 1dea1d953e73d68429e97d7b7320a06f
+========
+guid: 149d864443ddca94ba93b092e7acd5ea
+>>>>>>>> Dhruvi_PlayerInputs:Assets/ProgressBar/Script/ProgressBar.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

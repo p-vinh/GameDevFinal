@@ -151,12 +151,4 @@ public class ChargeAI : EnemyAI
             TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
         }
     }
-
-    public override void Die()
-    {
-        anim.SetBool("Die",true);
-        Debug.Log("Charge dies");
-        base.Die();
-        Destroy(gameObject);
-    }
 }

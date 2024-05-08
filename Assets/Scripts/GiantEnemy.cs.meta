@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DoorOpenSound.cs.meta
+guid: 82147f8730a65554caca22f837d3a276
+========
+guid: 2a8122a9fb8d87c47a61451d3f8d7d2d
+>>>>>>>> Dhruvi_PlayerInputs:Assets/Scripts/GiantEnemy.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

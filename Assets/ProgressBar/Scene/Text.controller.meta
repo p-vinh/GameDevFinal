@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Materials/Materials/QuadBar4.mat.meta
+guid: 4ce7067d0b7e0334ab908710dea8fd32
+timeCreated: 1497282994
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+========
+guid: 7f041e10134074c4c96bfec1542701da
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+>>>>>>>> Dhruvi_PlayerInputs:Assets/ProgressBar/Scene/Text.controller.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

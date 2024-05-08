@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/FreeAssets/Polytope Studio/Lowpoly_Characters.meta
 guid: ca4ec169a9d50d244b7a757aa35233bc
+========
+guid: 89d2efb89d73647679fa6e1869103938
+>>>>>>>> Dhruvi_PlayerInputs:Assets/Packages.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

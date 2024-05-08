@@ -839,7 +839,7 @@ MonoBehaviour:
   gun: {fileID: 3918858019567555886}
   sword: {fileID: 4489677677522035259}
   carryGun: 1
-  fireDelay: 0.5
+  fireDelay: 0.01
   m_Camera: {fileID: 0}
   m_InputsManager: {fileID: 0}
 --- !u!4 &4407128716844092581 stripped

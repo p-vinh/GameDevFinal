@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 using static BlankStudio.Constants.Constants;
-using System.Linq;
 
 public class RoomDetector : MonoBehaviour
 {
@@ -17,15 +16,11 @@ public class RoomDetector : MonoBehaviour
     private BoxCollider m_BoxCollider = null;
 
     [SerializeField]
-    private BoxCollider[] doorColliders = null;
-
-    [SerializeField]
     private VisitStatus m_VisitStatus = VisitStatus.NotVisited;
 
     private bool navMeshGenerated = false;
     public GameObject roomNavMesh;
-    [SerializeField] private int enemyCount = 0;
-    private bool isSpawned = false;
+
 
     void Start()
     {
@@ -33,17 +28,6 @@ public class RoomDetector : MonoBehaviour
         m_BoxCollider = GetComponent<BoxCollider>();
     }
 
-    void Update()
-    {
-        CountEnemies();
-        if (enemyCount <= 0 && isSpawned)
-        {
-            foreach (var door in doorColliders)
-            {
-                door.enabled = false;
-            }
-        }
-    }
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -56,12 +40,9 @@ public class RoomDetector : MonoBehaviour
             m_VisitStatus = VisitStatus.Visited;
             if (roomNavMesh != null)
                 GenerateNavMesh();
-
-            foreach (var door in doorColliders)
-                door.enabled = true;
-
+            Debug.Log("Player " + collision.gameObject.transform.position);
+            Debug.Log("Room " + m_BoxCollider.gameObject.transform.position);
             PlayerEntered?.Invoke(m_RoomType, m_BoxCollider.bounds, collision.gameObject.transform);
-            isSpawned = true;
         }
     }
 
@@ -97,25 +78,6 @@ public class RoomDetector : MonoBehaviour
         }
     }
 
-    void CountEnemies()
-    {
-        enemyCount = 0;
-        foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            if (m_BoxCollider.bounds.Contains(enemy.transform.position))
-            {
-                enemyCount++;
-            }
-        }
-
-        if (enemyCount <= 0 && isSpawned)
-        {
-            foreach (var door in doorColliders)
-            {
-                door.enabled = false;
-            }
-        }
-    }
     /*  private VisitStatus GetRoomVisitStatus(RoomType roomType)
       {
           string key = roomType.ToString() + "_VisitStatus";

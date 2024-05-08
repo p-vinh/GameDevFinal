@@ -142,9 +142,7 @@ public class MageAI : EnemyAI
 
     public override void Die()
     {
-        Debug.Log("Mage dies");
         base.Die();
-        Destroy(gameObject);
     }
 
     private void UpdateAnimationValue(float horizontalValue, float verticalValue)

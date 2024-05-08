@@ -52,6 +52,7 @@ namespace BlankStudio.Constants
             Ranger,
             Mimic,
             Mage,
+            BOSS,
             None
         }
         
@@ -65,6 +66,25 @@ namespace BlankStudio.Constants
             Hallway_1, 
             Hallway_2,
             BossEnemy_Room
+        }
+
+
+        public enum EnemyState
+        {
+            Idle = 0,
+            Run,
+            Jump,
+            Death,
+            Attack,
+            Hurt
+        }
+
+        public enum AttackType
+        {
+            SwingHandAttack,
+            OneLagCrashAttack,
+            MultiJumpAttack,
+            SuperJumpAndHandAttack
         }
 
         public enum VisitStatus
