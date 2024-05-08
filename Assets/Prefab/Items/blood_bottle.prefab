@@ -209,6 +209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthAmount: 10
+  audioSource: {fileID: 6236686202471259014, guid: c4aaad2ef92e374428ce6461426c2555,
+    type: 3}
 --- !u!95 &3940469297238496223
 Animator:
   serializedVersion: 4
