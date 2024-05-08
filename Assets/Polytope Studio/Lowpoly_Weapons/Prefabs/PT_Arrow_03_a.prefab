@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6739896916682011692}
   - component: {fileID: 6739896916681012972}
   - component: {fileID: -1724087045240004152}
+  - component: {fileID: -2256916163973112200}
+  - component: {fileID: 2618249475491595400}
   m_Layer: 0
   m_Name: PT_Arrow_03_a
   m_TagString: Untagged
@@ -100,3 +102,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2256916163973112200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6739896916683204652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3734c354cf6e2b74ab80d5cb3abdd01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 3
+--- !u!136 &2618249475491595400
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6739896916683204652}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.02
+  m_Height: 0.8
+  m_Direction: 2
+  m_Center: {x: 0.00000008381903, y: 0.000020029953, z: 0.2735379}

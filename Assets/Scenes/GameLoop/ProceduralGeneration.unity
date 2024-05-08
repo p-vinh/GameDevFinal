@@ -1960,22 +1960,22 @@ MonoBehaviour:
       - {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8, type: 3}
       - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
-      - {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a, type: 3}
+      - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       m_EnemyCount: 5
       m_RoomType: 1
     - m_EnemyPrefeb:
       - {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8, type: 3}
       - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
-      - {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a, type: 3}
-      - {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a, type: 3}
+      - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
+      - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       m_EnemyCount: 8
       m_RoomType: 2
     - m_EnemyPrefeb:
       - {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8, type: 3}
       - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
-      - {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a, type: 3}
+      - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       - {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8, type: 3}
       m_EnemyCount: 5
       m_RoomType: 3
@@ -1983,13 +1983,13 @@ MonoBehaviour:
       - {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8, type: 3}
       - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
-      - {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a, type: 3}
+      - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       - {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8, type: 3}
       m_EnemyCount: 10
       m_RoomType: 4
     - m_EnemyPrefeb:
       - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
-      - {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a, type: 3}
+      - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       - {fileID: 5437998181454276144, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
       m_EnemyCount: 4
       m_RoomType: 5
