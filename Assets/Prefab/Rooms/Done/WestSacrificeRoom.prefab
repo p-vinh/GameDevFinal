@@ -391,46 +391,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7871006637237047108}
     m_Modifications:
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: sightRange
-      value: 10.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: audioSource2
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: audioSource3
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: audioLoopController
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: audioLoopController2
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
-        type: 3}
-      propertyPath: audioLoopController3
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4682340934879698466, guid: 4d42cffa73d044ee19d867b6db43d114,
         type: 3}
       propertyPath: m_Name
