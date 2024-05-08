@@ -95,7 +95,7 @@ public class PlayerStats : MonoBehaviour
                 MovementSpeed += 1;
                 break;
             case 2:
-                CurrentWeapon.Damage += 5;
+                CurrentWeapon.Damage += 2;
                 break;
         }
 

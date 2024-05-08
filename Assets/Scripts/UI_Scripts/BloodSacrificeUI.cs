@@ -67,7 +67,7 @@ public class BloodSacrificeUI : MonoBehaviour
     {
         int result = PlayerStats.Instance.increaseRandomStat();
 
-        //!menuCanvas.transform.Find("BuffText").TryGetComponent<TextMeshPro>(out buffText)
+        // menuCanvas.transform.Find("BuffText").TryGetComponent<TextMeshPro>(out buffText)
         //if (menuCanvas != null)
         //return;
 
