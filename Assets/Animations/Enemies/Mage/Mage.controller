@@ -20,7 +20,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 1
-  m_HasExitTime: 0
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -39,7 +39,7 @@ AnimatorStateMachine:
     m_Position: {x: 310, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1930218211465794624}
-    m_Position: {x: 250, y: 10, z: 0}
+    m_Position: {x: 240, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4576567177423559107}
     m_Position: {x: 250, y: 120, z: 0}
@@ -269,7 +269,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 276981acc9e497547b5098c1d7841429, type: 2}
     m_Threshold: 0
-    m_Position: {x: -1.0368731, y: 1.0902383}
+    m_Position: {x: 0, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -277,7 +277,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 372671ce75175ac4490182a61415768e, type: 2}
     m_Threshold: 0.25
-    m_Position: {x: -1.1998378, y: -0.033665266}
+    m_Position: {x: -1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -285,7 +285,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: f54a58cadb70c3c47a09bb9998386616, type: 2}
     m_Threshold: 0.5
-    m_Position: {x: 0.64153504, y: 1.0628817}
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -293,7 +293,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: f25695efb55eede4296bdc46ef418de5, type: 2}
     m_Threshold: 0.75
-    m_Position: {x: 0.90275794, y: -0.6153858}
+    m_Position: {x: 0, y: -1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -301,7 +301,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 61abd4cebf610584dadf6b7f0e7f5753, type: 2}
     m_Threshold: 1
-    m_Position: {x: 0.0000000017462298, y: -2.3283064e-10}
+    m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend

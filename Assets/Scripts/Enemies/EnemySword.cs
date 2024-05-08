@@ -5,13 +5,10 @@ using UnityEngine;
 public class EnemySword : MonoBehaviour {
     public BoxCollider swordCollider;
     public GeneralSoldierAI generalSoldierAI;
-    public EnemyStats enemyStats;
 
     // Start is called before the first frame update
     void Start() {
         swordCollider = GetComponent<BoxCollider>();
-        enemyStats = generalSoldierAI.enemyStats;
-
         // Get the parent object of the sword
         generalSoldierAI = GetComponentInParent<GeneralSoldierAI>();
     }//end Start()

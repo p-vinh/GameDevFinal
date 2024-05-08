@@ -9,14 +9,15 @@ public class MageAI : EnemyAI
     #region Variables
 
     [Header("Ranges")]
-    public float attackRange = 7.0f;
-    public float backAwayRange = 3f;
+    public float attackRange = 6.0f;
+    public float backAwayRange = 1f;
 
     private NavMeshAgent navMeshAgent;
     public LayerMask playerLayer;
     private Animator m_Animator;
     private LineRenderer lineRenderer;
     private bool isDead = false;
+    private bool attackAnimationsDone = true;
 
     private enum State
     {
@@ -44,6 +45,7 @@ public class MageAI : EnemyAI
         playerLayer = LayerMask.GetMask("Player");
         lineRenderer = GetComponent<LineRenderer>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        attackSound = GetComponent<AudioSource>();
 
         state = State.Approach;
 
@@ -62,33 +64,40 @@ public class MageAI : EnemyAI
         switch (state)
         {
             case State.Approach:
+                lineRenderer.enabled = false;
                 navMeshAgent.isStopped = false;
 
                 if (distanceToPlayer <= attackRange)
                 {
                     state = State.Attack;
+                    navMeshAgent.isStopped = true;
+                    navMeshAgent.SetDestination(transform.position);
+                    UpdateAnimationValue(0, 0);
                 }
                 else
                 {
                     navMeshAgent.speed = Stats.Speed;
                     navMeshAgent.SetDestination(player.transform.position);
                 }
-
-
                 UpdateAnimationValue(directionToPlayer.x, directionToPlayer.z);
                 break;
             case State.Attack:
-                navMeshAgent.isStopped = true;
-                UpdateAnimationValue(0, 0);
-                Attack();
-                m_Animator.SetBool("Attack", true);
+                if(attackAnimationsDone)
+                {
+                    attackSound.Play();
+                    attackAnimationsDone = false;
+                    Attack();
+                }
                 break;
             case State.BackingAway:
-                navMeshAgent.isStopped = false;
                 Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
+                navMeshAgent.isStopped = false;
 
                 if (distanceToPlayer > backAwayRange)
+                {
                     state = State.Attack;
+                    attackAnimationsDone = true;
+                }
                 else
                 {
                     navMeshAgent.speed = Stats.Speed;
@@ -102,26 +111,29 @@ public class MageAI : EnemyAI
 
     protected override void Attack()
     {
+        transform.LookAt(player.transform);
+        m_Animator.SetBool("Attack", true);
         Debug.Log("Mage attacks with damage: " + Stats.Damage);
+        
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer < backAwayRange)
         {
             state = State.BackingAway;
             lineRenderer.enabled = false;
         }
-        else if (distanceToPlayer > attackRange)
-        {
-            state = State.Approach;
-            lineRenderer.enabled = false;
-        }
         else
         {
-            //audioSource.Play(); // This is getting called every frame make it so that it loops and only plays once
             PlayerStats.Instance.Health -= Stats.Damage;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, player.transform.position);
         }
+    }
+
+    public void animationsDoneChange()
+    {
+        attackAnimationsDone = true;
+        state = State.Approach;
     }
 
     public override void TakeDamage(float damage)
@@ -153,6 +165,15 @@ public class MageAI : EnemyAI
         float clampedVertical = Mathf.Clamp(verticalValue, -1f, 1f);
         m_Animator.SetFloat(Horizontal, clampedHorizontal, time, Time.deltaTime);
         m_Animator.SetFloat(Vertical, clampedVertical, time, Time.deltaTime);
+    }
+
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, backAwayRange);
     }
 
 }

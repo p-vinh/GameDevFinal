@@ -10,7 +10,7 @@ public class RoomDetector : MonoBehaviour
     [SerializeField]
     private RoomType m_RoomType = RoomType.EntryPoint;
 
-    public static Action<RoomType, Bounds, Transform> PlayerEntered;
+    public static Action<RoomType, BoxCollider, Transform> PlayerEntered;
 
     [SerializeField]
     private BoxCollider m_BoxCollider = null;
@@ -42,7 +42,7 @@ public class RoomDetector : MonoBehaviour
                 GenerateNavMesh();
             Debug.Log("Player " + collision.gameObject.transform.position);
             Debug.Log("Room " + m_BoxCollider.gameObject.transform.position);
-            PlayerEntered?.Invoke(m_RoomType, m_BoxCollider.bounds, collision.gameObject.transform);
+            PlayerEntered?.Invoke(m_RoomType, m_BoxCollider, collision.gameObject.transform);
         }
     }
 

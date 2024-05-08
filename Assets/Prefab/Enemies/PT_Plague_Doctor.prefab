@@ -419,7 +419,7 @@ MonoBehaviour:
     m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
   attackRange: 7
-  backAwayRange: 4
+  backAwayRange: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 1048576
@@ -573,7 +573,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e32aa70ec385d44b1872e283f2ea6252, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.257
   m_Pitch: 1
   Loop: 0
   Mute: 0

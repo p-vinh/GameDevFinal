@@ -882,7 +882,7 @@ MonoBehaviour:
     m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
   attackSound: {fileID: 417811741940209046}
-  attackRange: 6
+  attackRange: 2
   canAttackAgain: 1
   healAmount: 10
   hit: 0

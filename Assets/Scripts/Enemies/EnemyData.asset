@@ -50,7 +50,7 @@ MonoBehaviour:
       m_EnemyType: 2
       m_EnemyPrefab: {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8,
         type: 3}
-    - m_Health: 50
+    - m_Health: 1000
       m_Damage: 10
       m_Speed: 3
       m_EnemyType: 6
