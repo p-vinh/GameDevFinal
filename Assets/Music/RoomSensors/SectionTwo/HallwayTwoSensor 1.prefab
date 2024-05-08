@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7571980871687262885}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -38.5, y: -30.262136, z: -29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -59,16 +59,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 7571980871687262880}
-  sightRange: 14.5
-  audioSource: {fileID: 6489233055212072562, guid: 7c396ea3be4de47c19b01b3613f26ddb,
-    type: 3}
-  audioLoopController: {fileID: 6489233055212072563, guid: 7c396ea3be4de47c19b01b3613f26ddb,
-    type: 3}
-  audioSource2: {fileID: 7154884162411728268, guid: 33f790cdf39fe434fb8ed42a6bc074cd,
-    type: 3}
-  audioLoopController2: {fileID: 7154884162411728269, guid: 33f790cdf39fe434fb8ed42a6bc074cd,
-    type: 3}
-  audioSource3: {fileID: 9138056286896604398, guid: 325da9aa541f24d7e86c64a7d9e3d2e2,
-    type: 3}
-  audioLoopController3: {fileID: 3912408702039529914, guid: 325da9aa541f24d7e86c64a7d9e3d2e2,
-    type: 3}
+  player: {fileID: 0}
+  sightRange: 15.1
+  audioSource: {fileID: 0}
+  audioLoopController: {fileID: 0}
+  audioSource2: {fileID: 0}
+  audioLoopController2: {fileID: 0}
+  audioSource3: {fileID: 0}
+  audioLoopController3: {fileID: 0}

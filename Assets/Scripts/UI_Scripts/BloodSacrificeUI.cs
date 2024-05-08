@@ -14,7 +14,6 @@ public class BloodSacrificeUI : MonoBehaviour
     public GameObject menuCanvas;
     private GameObject player;
     public TextMeshProUGUI buffText;
-    public AudioSource audioSource; // Code added by Abby (Sound Engineer)
     [SerializeField] ParticleSystem sacrificeEffect = null;
 
 
@@ -112,9 +111,6 @@ public class BloodSacrificeUI : MonoBehaviour
     {
         PlayerStats.Instance.Health -= 10f;
         sacrificeEffect.Play();
-        if (!audioSource.isPlaying) {
-            audioSource.Play(); // Code added by Abby (Sound Engineer)
-        }//end if
     }
 
     public void changeWeapons()
