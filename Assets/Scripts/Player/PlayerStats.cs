@@ -64,7 +64,7 @@ public class PlayerStats : MonoBehaviour
         MaxHealth = 100;
         MovementSpeed = 4;
         CurrentWeaponType = Constants.WeaponType.Sword;
-        CurrentWeapon = new Weapon("Gun", 100f, 2f, 0.2f);
+        CurrentWeapon = new Weapon("Sword", 10f, 2f, 0.2f);
     }
 
     void Update()
