@@ -8,10 +8,14 @@ public class MimicChestAI : EnemyAI
 {
     public NavMeshAgent enemy;
     public Transform playerTransform; 
+
     public AudioSource attackSound; // Code added by Abby (Sound Engineer)
 
-    public bool playerInAttackRange;
+    private bool playerInAttackRange;
+    private bool playerInChaseRange;
     public float attackRange;
+    public float chaseRange = 20f;
+
     public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;
@@ -21,7 +25,8 @@ public class MimicChestAI : EnemyAI
     public enum State
     {
         IdleResting, 
-        Attack 
+        Attack, 
+        Chasing 
     }
 
     protected override void Start()
@@ -40,16 +45,42 @@ public class MimicChestAI : EnemyAI
         }
 
         enemy = GetComponent<NavMeshAgent>();
-        state = State.IdleResting;
+        //state = State.IdleResting;
         animator = GetComponent<Animator>();
+        ChasePlayer();
     }
 
     protected override void Update() 
     {
-
         if (playerGameObject != null)
         {
+               //to check if the player is within chasing range
+            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            playerInChaseRange = distanceToPlayer <= chaseRange; 
             playerInAttackRange = Vector3.Distance(playerTransform.position, transform.position) < attackRange;
+
+
+            // if (distanceToPlayer <= chaseRange)
+            // {
+            // enemy.SetDestination(playerTransform.position);
+            
+            //     if(distanceToPlayer <= attackRange)
+            //     {
+            //         state = State.Attack;
+            //         if(finishedAttackAnim)
+            //         {
+            //             finishedAttackAnim = false;
+            //             Attack();
+            //         }
+            //     } else 
+            //     {
+            //         state = State.IdleResting;
+            //     }
+            // } else 
+            //     {
+            //         state = State.IdleResting;
+            //     }
+        
 
             switch(state)
             {
@@ -58,12 +89,22 @@ public class MimicChestAI : EnemyAI
                     {
                         state = State.Attack;
                     }
+                    if(playerInChaseRange)
+                    {
+                        state = State.Chasing;
+                    }
                     break;
                 case State.Attack:
                     if(finishedAttackAnim)
                     {
                         finishedAttackAnim = false;
                         Attack();
+                    }
+                    break;
+                case State.Chasing:
+                    if(playerInChaseRange)
+                    {
+                        ChasePlayer();
                     }
                     break;
             }
@@ -81,16 +122,28 @@ public class MimicChestAI : EnemyAI
 
         if (playerTransform != null)
         {
+            animator.SetBool("Chasing", false);
             animator.SetBool("Attacking",true);
             PlayerStats.Instance.Health -= Stats.Damage;
             print("Player took damage from chest:" + PlayerStats.Instance.Health);
         }
     }
 
+    private void ChasePlayer()
+    {
+        if(playerTransform != null)
+        {
+            //animator.
+            enemy.SetDestination(playerTransform.position);
+            animator.SetBool("Attacking",false);
+            animator.SetBool("Chasing", true);
+        }
+    }
     public void canAttackAgain()
     {
         finishedAttackAnim = true;
         animator.SetBool("Attacking",false);
+        animator.SetBool("Chasing", false);
         state = State.IdleResting;
     }
     
@@ -107,7 +160,7 @@ public class MimicChestAI : EnemyAI
     
     public override void Die()
     {
-        animator.SetTrigger("Died");
+        animator.SetTrigger("Dead");
         base.Die();
     }
 
@@ -120,14 +173,15 @@ public class MimicChestAI : EnemyAI
         }
     } 
 
-    private void SetAnimationState(string state){
-        //to ensure that no lerftover animations are happening
-        animator.ResetTrigger("IdleHostile");
-        animator.ResetTrigger("IdleResting");
-        animator.ResetTrigger("Attacking");
-        animator.ResetTrigger("Dead");
+    // private void SetAnimationState(string state){
+    //     //to ensure that no lerftover animations are happening
+    //     //animator.ResetTrigger("IdleHostile");
+    //     animator.ResetTrigger("IdleResting");
+    //     animator.ResetTrigger("Attacking");
+    //     animator.ResetTrigger("Chasing");
+    //     //animator.ResetTrigger("Dead");
 
-    }
+    // }
 
     void OnDrawGizmosSelected()
     {
