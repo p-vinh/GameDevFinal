@@ -10,10 +10,7 @@ public class MimicChestAI : EnemyAI
     public Transform playerTransform; 
     public AudioSource attackSound; // Code added by Abby (Sound Engineer)
 
-    public bool playerInSightRange, playerInAttackRange;
-    public SphereCollider sightRangeCollider;
-    public SphereCollider attackRangeCollider;
-    public LayerMask playerLayer;
+    public bool playerInAttackRange;
     public float attackRange;
     public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
@@ -111,9 +108,7 @@ public class MimicChestAI : EnemyAI
     public override void Die()
     {
         animator.SetTrigger("Died");
-        Debug.Log("Mimic dies");
         base.Die();
-        Destroy(gameObject);
     }
 
     protected override void OnTriggerEnter(Collider other) 

@@ -12,7 +12,7 @@ public class Sword : MonoBehaviour
         }
         if (other.CompareTag("Player"))
         {
-            PlayerStats.Instance.Health -= other.GetComponent<EnemyAI>().Stats.Damage;
+            PlayerStats.Instance.Health -= transform.parent.GetComponent<GeneralSoldierAI>().Stats.Damage;
         }
     }
 }

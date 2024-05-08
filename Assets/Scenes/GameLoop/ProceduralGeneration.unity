@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
-  - {fileID: 181946899169584853, guid: 147655876c07ccb4d9a02c9d06caf1ae, type: 3}
+  - {fileID: 5349713359915185351, guid: 99c6c3866f3f0fc47aa18be5d936f0a3, type: 3}
   deadEndRoomPrefabs:
   - {fileID: 8445831257014611122, guid: e4296749ae4de0b499b766508143ffd2, type: 3}
   - {fileID: 7871006637237047107, guid: d81e41f61e723e04391c48723e518bd1, type: 3}
@@ -1250,7 +1250,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709014489, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
       propertyPath: m_Drag
-      value: 15
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1799772552, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3918858020621784607, guid: 636ad359efebbbe44940facee3c4c50e,
         type: 3}
@@ -1312,7 +1316,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1799772552, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 636ad359efebbbe44940facee3c4c50e, type: 3}
 --- !u!4 &1384255235 stripped
 Transform:
@@ -1503,7 +1508,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1704962879}
   - component: {fileID: 1704962878}
-  - component: {fileID: 1704962877}
   - component: {fileID: 1704962876}
   m_Layer: 0
   m_Name: Camera
@@ -1545,14 +1549,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &1704962877
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704962875}
-  m_Enabled: 1
 --- !u!20 &1704962878
 Camera:
   m_ObjectHideFlags: 0

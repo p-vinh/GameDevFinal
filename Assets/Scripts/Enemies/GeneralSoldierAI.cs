@@ -129,7 +129,6 @@ public class GeneralSoldierAI : EnemyAI
         if (Stats.Health <= 0)
         {
             base.Die();
-            Destroy(gameObject);
         }
     }
 

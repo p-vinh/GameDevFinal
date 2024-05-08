@@ -17,18 +17,36 @@ public class Door : MonoBehaviour
     [SerializeField]
     private bool m_PlayerDetected = false;
 
+    [SerializeField]
+    private BoxCollider doNotEnterCollider;
     private float StartAngle = 0f;
     private float EndAngle = 360f;
     private int rayCount = 20;
+
+    private void OnEnable() {
+        EnemySpawner.lockAllDoors += LockUnlockDoors;
+    }
+
+    private void OnDisable() {
+        EnemySpawner.lockAllDoors -= LockUnlockDoors;
+    }
+
+    private void Start() {
+        doNotEnterCollider.enabled = false;
+    }
 
     private void Update()
     {
         if (m_PlayerDetected)
         {
-            DeactivateScript();
             return;
         }
         RaycastIn180DegreeRange();
+    }
+
+    private void LockUnlockDoors(bool lockDoors) {
+        doNotEnterCollider.enabled = lockDoors;
+        Debug.Log("Locking door " + gameObject.transform.parent.name + " | " + lockDoors);
     }
 
     public void RaycastIn180DegreeRange()
@@ -58,10 +76,5 @@ public class Door : MonoBehaviour
     private void PlayAnimation()
     {
         m_Animator.SetTrigger("DoorOpen");
-    }
-
-    private void DeactivateScript()
-    {
-        gameObject.GetComponent<Door>().enabled = false;
     }
 }
