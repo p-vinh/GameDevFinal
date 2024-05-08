@@ -641,13 +641,7 @@ MonoBehaviour:
   enemy: {fileID: 0}
   playerTransform: {fileID: 0}
   attackSound: {fileID: 6560124205067085257}
-  playerInSightRange: 0
   playerInAttackRange: 0
-  sightRangeCollider: {fileID: 7783597463792437570}
-  attackRangeCollider: {fileID: 2923404175916833631}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
   attackRange: 0
 --- !u!135 &7783597463792437570
 SphereCollider:
@@ -700,7 +694,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 56cb6266a2ec84901bf86c616da111e9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
