@@ -22,6 +22,7 @@ TagManager:
   - Spawner
   - FxTemporaire
   - Door
+  - ThemeSong
   layers:
   - Default
   - TransparentFX

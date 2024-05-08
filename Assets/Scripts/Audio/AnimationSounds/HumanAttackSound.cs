@@ -26,10 +26,11 @@ public class HumanAttackSound : StateMachineBehaviour {
     }//end OnStateUpdate()
 
     // OnStateExit is called before OnStateExit is called on any state inside this state machine
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (stateInfo.IsName("Attack")) {
+            animator.GetComponent<GeneralSoldierAI>().canAttackAgain = true;
+        }//end if
+    }//end OnStateExit()
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
