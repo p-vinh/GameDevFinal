@@ -15,7 +15,6 @@ public class MimicChestAI : EnemyAI
     public SphereCollider attackRangeCollider;
     public LayerMask playerLayer;
     public float attackRange;
-    public bool playerInAttackRange;
     public override Constants.EnemyType Type => Constants.EnemyType.Mimic;
     private Animator animator;
     private State state;

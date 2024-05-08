@@ -8,8 +8,8 @@ public class DoorOpenSound : StateMachineBehaviour {
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         if (stateInfo.IsName("OpenDoor")) {
-            animator.GetComponent<Door>().audioSource.GetComponent<DoorAudio>.audioSource.time = 0.0f;
-            animator.GetComponent<Door>().audioSource.GetComponent<DoorAudio>.play = true;
+            // animator.GetComponent<Door>().audioSource.GetComponent<DoorAudio>.audioSource.time = 0.0f;
+            // animator.GetComponent<Door>().audioSource.GetComponent<DoorAudio>.play = true;
             
             // if (animator.GetComponent<Door>().audioSource.time >= playTime) {
             //     animator.GetComponent<Door>().audioSource.Stop();
