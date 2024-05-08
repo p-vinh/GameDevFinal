@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using static BlankStudio.Constants.Constants;
 using DG.Tweening;
+using Unity.VisualScripting;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private EnemySpawnerData m_EnemySpawnerData;
@@ -58,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
 
         while (m_SpawnPoints.Count < spawnCount)
         {
-            Vector3 position = GetCoordinates(bounds);
+            Vector3 position = GetCoordinates(bounds, roomTransform);
             position.y = roomTransform.position.y;
 
             if (existingSpawnPoints.Add(position)) // Add returns false if the point already exists
@@ -71,13 +72,15 @@ public class EnemySpawner : MonoBehaviour
         GenerateEnemies();
     }
 
-    private Vector3 GetCoordinates(Bounds bounds)
+    private Vector3 GetCoordinates(Bounds bounds, Transform roomTransform)
     {
-        return new Vector3(
+        Vector3 localPosition = new Vector3(
             UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
             0,
             UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
         );
+
+        return roomTransform.TransformPoint(localPosition);
     }
         
     private void GenerateEnemies()

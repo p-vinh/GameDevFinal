@@ -8,7 +8,7 @@ public class RoomSpawner : MonoBehaviour
     public GameObject[] hallwayRoomPrefabs;
     public GameObject[] deadEndRoomPrefabs;
     public GameObject spawnRoomPrefab;
-    public GameObject bossRoomPrefab;
+    public GameObject[] bossRoomPrefab;
     public GameObject wallPrefab;
 
     public enum CardinalDir { NorthRoomConnection, EastRoomConnection, SouthRoomConnection, WestRoomConnection }
@@ -135,83 +135,67 @@ public class RoomSpawner : MonoBehaviour
 
     private void SpawnBossRoom()
     {
-        for (int i = 0; i < 1; i++)
+        int maxAttempts = 50;
+        int attempt = 0;
+
+        while (attempt < maxAttempts)
         {
-            // Select a random room prefab from the array
-            GameObject bRoomPrefab = bossRoomPrefab;
-
-            // Select a random connection point from the list and remove it from the list
-            if (availableConnectors.Count == 0)
-            {
-                Debug.Log("No available connectors");
-                break;
-            }
-
             GameObject oldRoomBossConnectionPoint = availableBossConnectors[Random.Range(0, availableBossConnectors.Count)];
+            string oppositeConnectorName = GetOppositeConnectorName(oldRoomBossConnectionPoint);
 
-            // Get the opposite connector
-            string oppositeConnectorName = GetOppositeConnectorName(oldRoomBossConnectionPoint); // Name of room
-            Transform bossRoomConnectPoints = bRoomPrefab.transform.Find("RoomConnectionPoints");
-            Transform bossRoomConnectionPoint = bossRoomConnectPoints.transform.Find(oppositeConnectorName); // The corresponding connection point child
-
-            if (bossRoomConnectionPoint == null)
+            for (int j = 0; j < bossRoomPrefab.Length; j++)
             {
-                Debug.Log("Opposite Connector Not Found");
-                // If the boss room fails to generate 50 times, skip it
-                if (roomFails > 50)
+                GameObject bRoomPrefab = bossRoomPrefab[j];
+                Transform bossRoomConnectPoints = bRoomPrefab.transform.Find("RoomConnectionPoints");
+                Transform bossRoomConnectionPoint = bossRoomConnectPoints.transform.Find(oppositeConnectorName);
+
+                if (availableConnectors.Count == 0)
                 {
-                    Debug.Log("ROOM FAILED TO GENERATE");
-                    roomFails = 0;
+                    Debug.Log("No available connectors");
+                    break;
+                }
+
+                if (bossRoomConnectionPoint == null)
+                {
+                    Debug.Log("Opposite Connector Not Found");
+
+                    if (attempt >= maxAttempts)
+                    {
+                        Debug.Log("ROOM FAILED TO GENERATE");
+                        return;
+                    }
+
+                    attempt++;
                     continue;
                 }
 
-                i--;
-                roomFails++;
-                continue;
-            }
+                GameObject bossRoomConnectionPointGO = bossRoomConnectionPoint.gameObject;
+                Vector3 connectionPointOffset = bossRoomConnectionPoint.position - bRoomPrefab.transform.position;
+                Vector3 oldRoomBossConnectionPointPosition = oldRoomBossConnectionPoint.transform.position;
+                Vector3 bossRoomPosition = oldRoomBossConnectionPointPosition - connectionPointOffset;
+                GameObject newBossRoom = Instantiate(bRoomPrefab, bossRoomPosition, bRoomPrefab.transform.rotation);
 
-            GameObject bossRoomConnectionPointGO = bossRoomConnectionPoint.gameObject;
+                bool overlap = CheckForOverlap(newBossRoom);
 
-            Vector3 connectionPointOffset = bossRoomConnectionPoint.position - bRoomPrefab.transform.position;
-
-            // Get the position of the old room connection point
-            Vector3 oldRoomBossConnectionPointPosition = oldRoomBossConnectionPoint.transform.position;
-
-            // Calculate the new room position by subtracting the connection point offset from the old room connection point position
-            Vector3 bossRoomPosition = oldRoomBossConnectionPointPosition - connectionPointOffset;
-            GameObject newBossRoom = Instantiate(bRoomPrefab, bossRoomPosition, bRoomPrefab.transform.rotation);
-
-            // Get the composite collider of the new boss room
-            bool overlap = CheckForOverlap(newBossRoom);
-
-            // If the rooms are overlapping, destroy the boss room and try again
-            if (overlap)
-            {
-                // If the boss room fails to generate 50 times, skip it
-                if (roomFails > 50)
+                if (overlap)
                 {
-                    Debug.Log("ROOM FAILED TO GENERATE");
+                    if (attempt >= maxAttempts)
+                    {
+                        Debug.Log("ROOM FAILED TO GENERATE");
+                        Destroy(newBossRoom);
+                        return;
+                    }
+
                     Destroy(newBossRoom);
-                    roomFails = 0;
+                    attempt++;
                     continue;
                 }
 
-                Destroy(newBossRoom);
-                i--;
-                roomFails++;
-                continue;
+                successfullySpawnedRooms.Add(newBossRoom);
+                availableConnectors.Remove(oldRoomBossConnectionPoint);
+                AddRoomConnectors(newBossRoom, bossRoomConnectionPointGO);
+                return;
             }
-
-            // Add the new boss room to the list of successfully spawned rooms and continue with the rest of the code
-            successfullySpawnedRooms.Add(newBossRoom);
-
-            // Remove the used connector
-            availableConnectors.Remove(oldRoomBossConnectionPoint);
-
-            // Add the new boss room's connectors to the available list, except for the one used for connection
-            AddRoomConnectors(newBossRoom, bossRoomConnectionPointGO);
-
-            roomFails = 0;
         }
     }
 

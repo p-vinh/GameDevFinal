@@ -171,8 +171,11 @@ MonoBehaviour:
   - {fileID: 7871006637237047107, guid: 179c58130663f8d4e9ba2a41605667e9, type: 3}
   spawnRoomPrefab: {fileID: 577431114855196775, guid: d7792056b9c06854bb712c30356a804f,
     type: 3}
-  bossRoomPrefab: {fileID: 1859474584167183714, guid: cfe8e3af932f8d64bb6f681d832ce324,
-    type: 3}
+  bossRoomPrefab:
+  - {fileID: 1859474584167183714, guid: b0867b5fc7c9e654c9509f55e6fa9d74, type: 3}
+  - {fileID: 1859474584167183714, guid: cfe8e3af932f8d64bb6f681d832ce324, type: 3}
+  - {fileID: 1859474584167183714, guid: 61897b2822f43114c9de030f1a58c478, type: 3}
+  - {fileID: 1859474584167183714, guid: 9161d25eb9274b14dba2b6fa8e76bd8f, type: 3}
   wallPrefab: {fileID: 7934366234293148779, guid: 744e7381ecaeaf24098acaf92d6e9f57,
     type: 3}
   numRooms: 10

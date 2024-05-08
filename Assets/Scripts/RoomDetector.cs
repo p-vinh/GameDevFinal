@@ -40,7 +40,8 @@ public class RoomDetector : MonoBehaviour
             m_VisitStatus = VisitStatus.Visited;
             if (roomNavMesh != null)
                 GenerateNavMesh();
-
+            Debug.Log("Player " + collision.gameObject.transform.position);
+            Debug.Log("Room " + m_BoxCollider.gameObject.transform.position);
             PlayerEntered?.Invoke(m_RoomType, m_BoxCollider.bounds, collision.gameObject.transform);
         }
     }
