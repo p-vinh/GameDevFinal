@@ -101,7 +101,9 @@ public class RangeAI : EnemyAI
 
             canFire = false;
             Invoke(nameof(ResetAttack), fireDelaySeconds);
-            attackSound2.Play(); // Code added by Abby (Sound Engineer)
+            if (!attackSound2.isPlaying) {
+                attackSound2.Play(); // Code added by Abby (Sound Engineer)
+            }//end if
         }
     }
 

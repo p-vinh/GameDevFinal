@@ -12,6 +12,7 @@ public class GeneralSoldierAI : EnemyAI {
     protected Animator animator;
     protected BoxCollider sword;
     public AudioSource attackSound;
+    public EnemyStats enemyStats;
 
     // State Variables
     private enum State {
@@ -33,6 +34,7 @@ public class GeneralSoldierAI : EnemyAI {
     protected override void Start() {
         // Set up the enemy stats
         base.Start();
+        enemyStats = base.Stats;
         // Set up the enemy AI
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
