@@ -44,7 +44,6 @@ public class PlayerStats : MonoBehaviour
     public float MovementSpeed { get; set; }
     public Weapon CurrentWeapon { get; set; }
     public Constants.WeaponType CurrentWeaponType { get; set; }
-    public Vector3 LastDoorEntered { get; set; }
 
     private void Awake()
     {

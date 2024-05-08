@@ -5,6 +5,7 @@ using System;
 using static BlankStudio.Constants.Constants;
 using DG.Tweening;
 using Unity.VisualScripting;
+using UnityEngine.AI;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private EnemySpawnerData m_EnemySpawnerData;
@@ -26,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        RoomDetector.PlayerEntered -= SpawnEnemies; 
+        RoomDetector.PlayerEntered -= SpawnEnemies;
         EnemyAI.EnemyDied -= EnemyDied;
     }
 
@@ -38,28 +39,29 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void SpawnEnemies(RoomType roomType, Bounds roomBounds, Transform roomTransform)
+    private void SpawnEnemies(RoomType roomType, BoxCollider roomBounds, Transform roomTransform)
     {
+        m_SpawnPoints.Clear();
         EnemyTypeData enemyData = m_EnemySpawnerData.GetEnemyProperties(roomType);
         if (enemyData == null)
         {
             Debug.LogWarning("No enemy data found for the current room type.");
             return;
-        } 
+        }
 
         m_Enemies = enemyData._EnemyPrefeb;
         m_SpawnerCount = enemyData._EnemyCount <= 0 ? 10 : enemyData._EnemyCount;
-        GenerateRandomCoordinates(m_SpawnerCount, roomBounds, roomTransform); 
+        GenerateRandomCoordinates(m_SpawnerCount, roomBounds, roomTransform);
     }
 
-    private void GenerateRandomCoordinates(int spawnCount, Bounds bounds, Transform roomTransform)
+    private void GenerateRandomCoordinates(int spawnCount, BoxCollider bounds, Transform roomTransform)
     {
         HashSet<Vector3> existingSpawnPoints = new HashSet<Vector3>(m_SpawnPoints);
         Debug.Log("Coordinates generated");
 
         while (m_SpawnPoints.Count < spawnCount)
         {
-            Vector3 position = GetCoordinates(bounds, roomTransform);
+            Vector3 position = GetCoordinates(bounds);
             position.y = roomTransform.position.y;
 
             if (existingSpawnPoints.Add(position)) // Add returns false if the point already exists
@@ -72,38 +74,41 @@ public class EnemySpawner : MonoBehaviour
         GenerateEnemies();
     }
 
-    private Vector3 GetCoordinates(Bounds bounds, Transform roomTransform)
+    public Vector3 GetCoordinates(BoxCollider boxCollider)
     {
-        Vector3 localPosition = new Vector3(
-            UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
-            0,
-            UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
+        Vector3 extents = boxCollider.size / 2f;
+        Vector3 point = new Vector3(
+            UnityEngine.Random.Range(-extents.x, extents.x),
+            UnityEngine.Random.Range(-extents.y, extents.y),
+            UnityEngine.Random.Range(-extents.z, extents.z)
         );
 
-        return roomTransform.TransformPoint(localPosition);
+        return boxCollider.transform.TransformPoint(point);
     }
-        
+
     private void GenerateEnemies()
     {
         for (int i = 0; i < m_SpawnerCount; i++)
         {
             GameObject enemyPrefab = m_Enemies[UnityEngine.Random.Range(0, m_Enemies.Count)];
-            StartCoroutine(AnimateEnemies(enemyPrefab, i));    
+            StartCoroutine(AnimateEnemies(enemyPrefab, i));
         }
 
         m_EnemyCount = m_SpawnerCount;
     }
 
-    private IEnumerator AnimateEnemies(GameObject enemy, int i) 
+    private IEnumerator AnimateEnemies(GameObject enemy, int i)
     {
         GameObject fx = Instantiate(m_EnemySpawnFX, m_SpawnPoints[i], m_EnemySpawnFX.transform.rotation);
         yield return new WaitForSeconds(0.2f);
         GameObject enemyClone = Instantiate(enemy, m_SpawnPoints[i], Quaternion.identity, RoomEnemies.transform); // TODO: Spawn enemies under parent object per room
         Vector3 originalScale = enemy.transform.localScale;
-        enemyClone.transform.localScale = Vector3.zero; 
+        enemyClone.transform.localScale = Vector3.zero;
         enemyClone.transform.DOScale(originalScale, 0.5f);
+
         yield return new WaitForEndOfFrame();
         Destroy(fx);
+
     }
 
     private void EnemyDied()
