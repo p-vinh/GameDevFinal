@@ -50,18 +50,6 @@ public class Door : MonoBehaviour
             return;
         }
         RaycastIn180DegreeRange();
-
-        Collider[] otherDoorCollider = Physics.OverlapBox(doNotEnterCollider.bounds.center, doNotEnterCollider.bounds.extents, doNotEnterCollider.transform.rotation, LayerMask.GetMask("Door"));
-        if (otherDoorCollider.Length > 1)
-        {
-            Door otherDoor = otherDoorCollider[1].GetComponent<Door>();
-
-            if (otherDoor != null && Timestamp > otherDoor.Timestamp)
-            {
-                Debug.Log("Door collision");
-                Destroy(gameObject);
-            }
-        }
     }
 
     private void LockUnlockDoors(bool lockDoors)
@@ -91,11 +79,6 @@ public class Door : MonoBehaviour
             angle += angleStep;
 
         }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-
     }
 
     private void PlayAnimation()

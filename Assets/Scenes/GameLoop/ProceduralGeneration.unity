@@ -453,6 +453,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1882436575}
     m_Modifications:
+    - target: {fileID: 2191518139805980599, guid: 5ff52f03f21648041845c570c179ef0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2191518140133434402, guid: 5ff52f03f21648041845c570c179ef0f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1991,7 +1996,7 @@ MonoBehaviour:
       m_EnemyCount: 3
       m_RoomType: 6
     - m_EnemyPrefeb:
-      - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
+      - {fileID: 6823891448661050348, guid: e0c2cbd60bdc8864cbc2774a7b00defa, type: 3}
       m_EnemyCount: 1
       m_RoomType: 7
   m_Enemies: []

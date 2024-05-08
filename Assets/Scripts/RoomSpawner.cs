@@ -20,6 +20,7 @@ public class RoomSpawner : MonoBehaviour
     public List<GameObject> successfullySpawnedRooms = new List<GameObject>();
     public List<GameObject> availableConnectors = new List<GameObject>();
     private List<GameObject> availableBossConnectors = new List<GameObject>();
+    private List<GameObject> doors = new List<GameObject>();
 
     void Start()
     {
@@ -317,11 +318,23 @@ public class RoomSpawner : MonoBehaviour
                     overlap = true;
                     break;
                 }
+
+                Collider[] overlappingColliders = Physics.OverlapBox(roomCollider.bounds.center, roomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("Door"));
+                foreach (Collider collider in overlappingColliders)
+                {
+                    Door door = collider.GetComponent<Door>();
+                    if (door != null)
+                    {
+                        Debug.Log("Destroying door " + door.gameObject.name + " because of overlap");
+                        Destroy(door.gameObject);
+                    }
+                }
+
             }
         }
-
         return overlap;
     }
+
 
     private string GetOppositeConnectorName(GameObject inputConnector)
     {
