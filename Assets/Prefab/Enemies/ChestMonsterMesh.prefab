@@ -574,6 +574,7 @@ GameObject:
   - component: {fileID: 2923404175916833631}
   - component: {fileID: 6560124205067085257}
   - component: {fileID: 1034307653140047455}
+  - component: {fileID: 2121062732}
   m_Layer: 0
   m_Name: ChestMonsterMesh
   m_TagString: Enemy
@@ -642,7 +643,7 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   attackSound: {fileID: 6560124205067085257}
   playerInAttackRange: 0
-  attackRange: 0
+  attackRange: 2
 --- !u!135 &7783597463792437570
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -694,7 +695,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 56cb6266a2ec84901bf86c616da111e9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.26
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -794,6 +795,28 @@ MonoBehaviour:
   playTime: 1
   startTime: 0
   play: 0
+--- !u!195 &2121062732
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8113310700314952862}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8113310700314952944
 GameObject:
   m_ObjectHideFlags: 0
