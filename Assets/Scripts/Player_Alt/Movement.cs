@@ -97,7 +97,7 @@ public class Movement : MonoBehaviour
             {
                 Vector3 pointToLook = cameraRay.GetPoint(rayLength);
 
-                transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
+                transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z + 0.8f));
             }
         }
 

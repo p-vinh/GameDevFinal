@@ -175,7 +175,7 @@ MonoBehaviour:
     type: 3}
   wallPrefab: {fileID: 7934366234293148779, guid: 744e7381ecaeaf24098acaf92d6e9f57,
     type: 3}
-  numRooms: 25
+  numRooms: 2
   roomFails: 50
   spawnRoomFinalPosition: {x: 0, y: 0, z: 0}
   successfullySpawnedRooms: []

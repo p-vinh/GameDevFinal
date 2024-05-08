@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    public float Timestamp { get; private set; }
     public AudioSource audioSource; // Code added by Abby (Sound Engineer)
     [SerializeField]
     private Animator m_Animator = null;
@@ -23,15 +24,22 @@ public class Door : MonoBehaviour
     private float EndAngle = 360f;
     private int rayCount = 20;
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         EnemySpawner.lockAllDoors += LockUnlockDoors;
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         EnemySpawner.lockAllDoors -= LockUnlockDoors;
     }
 
-    private void Start() {
+    private void Awake()
+    {
+        Timestamp = Time.time;
+    }
+    private void Start()
+    {
         doNotEnterCollider.enabled = false;
     }
 
@@ -42,11 +50,23 @@ public class Door : MonoBehaviour
             return;
         }
         RaycastIn180DegreeRange();
+
+        Collider[] otherDoorCollider = Physics.OverlapBox(doNotEnterCollider.bounds.center, doNotEnterCollider.bounds.extents, doNotEnterCollider.transform.rotation, LayerMask.GetMask("Door"));
+        if (otherDoorCollider.Length > 1)
+        {
+            Door otherDoor = otherDoorCollider[1].GetComponent<Door>();
+
+            if (otherDoor != null && Timestamp > otherDoor.Timestamp)
+            {
+                Debug.Log("Door collision");
+                Destroy(gameObject);
+            }
+        }
     }
 
-    private void LockUnlockDoors(bool lockDoors) {
+    private void LockUnlockDoors(bool lockDoors)
+    {
         doNotEnterCollider.enabled = lockDoors;
-        Debug.Log("Locking door " + gameObject.transform.parent.name + " | " + lockDoors);
     }
 
     public void RaycastIn180DegreeRange()
@@ -60,8 +80,8 @@ public class Door : MonoBehaviour
             Vector3 direction = rotation * transform.forward * -1;
 
             RaycastHit hit;
-            Debug.DrawRay(transform.position, direction, Color.blue, m_MaxDistance); 
-                // Debug.Log(Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask));
+            Debug.DrawRay(transform.position, direction, Color.blue, m_MaxDistance);
+            // Debug.Log(Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask));
 
             if (Physics.Raycast(transform.position, direction, out hit, m_MaxDistance, m_PlayerLayerMask))
             {
@@ -71,6 +91,11 @@ public class Door : MonoBehaviour
             angle += angleStep;
 
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+
     }
 
     private void PlayAnimation()
