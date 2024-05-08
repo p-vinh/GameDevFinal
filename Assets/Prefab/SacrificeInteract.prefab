@@ -251,6 +251,8 @@ MonoBehaviour:
   crossHair: {fileID: 0}
   menuCanvas: {fileID: 0}
   buffText: {fileID: 0}
+  audioSource: {fileID: 8807498255449743837, guid: af0989eb3c9cd4e41bc83a0ea2ab76cf,
+    type: 3}
   sacrificeEffect: {fileID: 683801478}
 --- !u!1001 &703587392
 PrefabInstance:

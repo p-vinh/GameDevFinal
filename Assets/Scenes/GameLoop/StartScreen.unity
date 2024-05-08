@@ -1012,6 +1012,11 @@ PrefabInstance:
       propertyPath: play
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6551820369210316024, guid: 20aeb78f77e09417088ab82e2e1c399b,
+        type: 3}
+      propertyPath: playTime
+      value: 59
+      objectReference: {fileID: 0}
     - target: {fileID: 9019062914463575731, guid: 20aeb78f77e09417088ab82e2e1c399b,
         type: 3}
       propertyPath: m_Name

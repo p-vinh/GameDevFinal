@@ -3,7 +3,15 @@ guid: bef582616ef11d646b19997b1bbc238b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mainCamera: {instanceID: 0}
+  - closeUpCamera: {instanceID: 0}
+  - crossHair: {instanceID: 0}
+  - menuCanvas: {instanceID: 0}
+  - buffText: {instanceID: 0}
+  - audioSource: {fileID: 8807498255449743837, guid: af0989eb3c9cd4e41bc83a0ea2ab76cf,
+      type: 3}
+  - sacrificeEffect: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
