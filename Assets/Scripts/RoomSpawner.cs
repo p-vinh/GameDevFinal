@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoomSpawner : MonoBehaviour
 {
     public GameObject[] roomPrefabs;
+    public GameObject[] hallwayRoomPrefabs;
     public GameObject[] deadEndRoomPrefabs;
     public GameObject spawnRoomPrefab;
     public GameObject bossRoomPrefab;
@@ -20,7 +21,6 @@ public class RoomSpawner : MonoBehaviour
     public List<GameObject> successfullySpawnedRooms = new List<GameObject>();
     public List<GameObject> availableConnectors = new List<GameObject>();
     private List<GameObject> availableBossConnectors = new List<GameObject>();
-    private List<GameObject> doors = new List<GameObject>();
 
     void Start()
     {
@@ -86,7 +86,7 @@ public class RoomSpawner : MonoBehaviour
             Vector3 newRoomPosition = oldRoomConnectionPointPosition - connectionPointOffset;
 
             GameObject newRoom = Instantiate(roomPrefab, newRoomPosition, roomPrefab.transform.rotation);
-
+            Debug.Log("Generated Room: " + newRoom.name);
             // ================COLLIDER OVERLAP CHECK================
 
             // Check if the new room's collider is overlapping with any of the successfully spawned rooms' colliders
@@ -99,13 +99,13 @@ public class RoomSpawner : MonoBehaviour
                 if (roomFails > 50)
                 {
                     Debug.Log("ROOM FAILED TO GENERATE");
-                    // yield return new WaitForSeconds(2f);
+                    yield return new WaitForEndOfFrame();
                     Destroy(newRoom);
                     roomFails = 0;
                     continue;
                 }
 
-                // yield return new WaitForSeconds(2f);
+                yield return new WaitForEndOfFrame();
                 Destroy(newRoom);
                 i--;
                 roomFails++;
@@ -119,7 +119,8 @@ public class RoomSpawner : MonoBehaviour
             availableBossConnectors.Remove(oldRoomConnectionPoint);
 
             // Add the new room's connectors to the available list, except for the one used for connection
-            AddRoomConnectors(newRoom, newRoomConnectionPointGO);
+            // Add hallways to the available connection points
+            GenerateHallwayConnectors(newRoom, newRoomConnectionPointGO);
 
             roomFails = 0;
         }
@@ -256,6 +257,7 @@ public class RoomSpawner : MonoBehaviour
         availableConnectors.Clear();
     }
 
+
     private void GenerateWall(Transform connectionPoint, GameObject connector)
     {
         string directionName = connector.name;
@@ -274,6 +276,49 @@ public class RoomSpawner : MonoBehaviour
         Instantiate(wallPrefab, connectionPoint.transform.position, connectionPoint.transform.rotation);
     }
 
+    private void GenerateHallwayConnectors(GameObject inputRoom, GameObject usedConnector)
+    {
+        GameObject roomConnectionPoints = inputRoom.transform.Find("RoomConnectionPoints").gameObject;
+        for (int i = 0; i < roomConnectionPoints.transform.childCount; i++)
+        {
+            Transform connector = roomConnectionPoints.transform.GetChild(i);
+            string oppositeConnectorName = GetOppositeConnectorName(connector.gameObject);
+
+            for (int j = 0; j < hallwayRoomPrefabs.Length; j++)
+            {
+                GameObject hallway = hallwayRoomPrefabs[j];
+                Transform hallwayConnectionPoints = hallway.transform.Find("RoomConnectionPoints");
+                Transform hallwayConnectionPoint = hallwayConnectionPoints.transform.Find(oppositeConnectorName);
+
+                if (hallwayConnectionPoint != null)
+                {
+                    GameObject hallwayConnectionPointGO = hallwayConnectionPoint.gameObject;
+                    Vector3 connectionPointOffset = hallwayConnectionPoint.position - hallway.transform.position;
+                    Vector3 connectorPosition = connector.position;
+                    Vector3 hallwayPosition = connectorPosition - connectionPointOffset;
+
+                    GameObject newHallway = Instantiate(hallway, hallwayPosition, hallway.transform.rotation);
+
+                    bool overlap = CheckForOverlap(newHallway);
+
+                    if (overlap)
+                    {
+                        Destroy(newHallway);
+                        continue;
+                    }
+
+                    successfullySpawnedRooms.Add(newHallway);
+
+                    // Remove used connector from the available list
+                    availableConnectors.Remove(connector.gameObject);
+                    availableBossConnectors.Remove(connector.gameObject);
+
+                    // Add the connection points from the hallways to the available list
+                    AddRoomConnectors(newHallway, hallwayConnectionPointGO);
+                }
+            }
+        }
+    }
     private void AddRoomConnectors(GameObject inputRoom, GameObject usedConnector)
     {
         GameObject roomConnectionPoints = inputRoom.transform.Find("RoomConnectionPoints").gameObject;
@@ -318,18 +363,6 @@ public class RoomSpawner : MonoBehaviour
                     overlap = true;
                     break;
                 }
-
-                Collider[] overlappingColliders = Physics.OverlapBox(roomCollider.bounds.center, roomCollider.bounds.extents, Quaternion.identity, LayerMask.GetMask("Door"));
-                foreach (Collider collider in overlappingColliders)
-                {
-                    Door door = collider.GetComponent<Door>();
-                    if (door != null)
-                    {
-                        Debug.Log("Destroying door " + door.gameObject.name + " because of overlap");
-                        Destroy(door.gameObject);
-                    }
-                }
-
             }
         }
         return overlap;
