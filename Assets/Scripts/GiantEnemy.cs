@@ -162,6 +162,7 @@ public class GiantEnemy : EnemyAI
     protected override void Attack()
     {
         base.Attack();  
+        PlayerStats.Instance.Health -= Stats.Damage;
     }
 
     private float SetAnimationTrigger(string animationName)
