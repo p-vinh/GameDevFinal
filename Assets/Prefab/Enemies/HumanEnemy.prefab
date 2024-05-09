@@ -1910,7 +1910,7 @@ MonoBehaviour:
     m_EnemyPrefab: {fileID: 0}
   bloodManager: {fileID: 0}
   attackSound: {fileID: 1479245794449545169}
-  attackRange: 6
+  attackRange: 2
   canAttackAgain: 1
 --- !u!1 &8457915705927901711
 GameObject:

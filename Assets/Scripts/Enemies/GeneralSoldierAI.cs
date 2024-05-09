@@ -22,7 +22,7 @@ public class GeneralSoldierAI : EnemyAI {
     private State state;
 
     // Public Variables
-    public float attackRange = 6.0f;
+    public float attackRange = 2.0f;
     public override Constants.EnemyType Type => Constants.EnemyType.GeneralSoldier;
     private float distanceToPlayer;
     private Vector3 playerCurrentPosition;
