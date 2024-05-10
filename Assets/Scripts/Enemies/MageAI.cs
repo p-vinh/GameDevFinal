@@ -125,8 +125,9 @@ public class MageAI : EnemyAI
         {
             PlayerStats.Instance.Health -= Stats.Damage;
             lineRenderer.enabled = true;
+            Debug.Log(lineRenderer.positionCount+" Position");
             lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, player.transform.position);
+            lineRenderer.SetPosition(1, player.transform.position);   
         }
     }
 

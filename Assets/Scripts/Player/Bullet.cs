@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float lifeTime = 3.0f;
+    [SerializeField]
+    private GameObject m_BloodSplashFX = null;
 
     private void Start()
     {
-        Invoke(nameof(DestroyProjectile), lifeTime);
+        StartCoroutine(DestroyProjectile(5f));
     }
 
 
@@ -18,19 +19,27 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.GetComponent<EnemyAI>().TakeDamage(PlayerStats.Instance.CurrentWeapon.Damage);
-            DestroyProjectile();
+            StartCoroutine(DestroyProjectile(2f));
+            StartCoroutine(BloodDriping());   
         }
 
         // Arrow
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerStats.Instance.Health -= 5f;
-            DestroyProjectile();
         }
     }
 
-    void DestroyProjectile()
+    private IEnumerator BloodDriping() 
     {
+        m_BloodSplashFX.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        m_BloodSplashFX.SetActive(false);
+    }
+
+    private IEnumerator DestroyProjectile(float lifeTime)
+    {
+        yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
     }
 }
