@@ -120,7 +120,7 @@ public class RoomSpawner : MonoBehaviour
 
             // Add the new room's connectors to the available list, except for the one used for connection
             // Add hallways to the available connection points
-            GenerateHallwayConnectors(newRoom);
+            GenerateHallwayConnectors(newRoom, newRoomConnectionPointGO);
 
             roomFails = 0;
         }
@@ -263,11 +263,14 @@ public class RoomSpawner : MonoBehaviour
         Instantiate(wallPrefab, connectionPoint.transform.position, connectionPoint.transform.rotation);
     }
 
-    private void GenerateHallwayConnectors(GameObject inputRoom)
+    private void GenerateHallwayConnectors(GameObject inputRoom, GameObject inputConnector)
     {
         GameObject roomConnectionPoints = inputRoom.transform.Find("RoomConnectionPoints").gameObject;
         for (int i = 0; i < roomConnectionPoints.transform.childCount; i++)
         {
+            if (inputConnector != null && roomConnectionPoints.transform.GetChild(i).gameObject == inputConnector)
+                continue;
+
             Transform connector = roomConnectionPoints.transform.GetChild(i);
             string oppositeConnectorName = GetOppositeConnectorName(connector.gameObject);
 
