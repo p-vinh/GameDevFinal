@@ -178,7 +178,7 @@ MonoBehaviour:
   - {fileID: 1859474584167183714, guid: 9161d25eb9274b14dba2b6fa8e76bd8f, type: 3}
   wallPrefab: {fileID: 7934366234293148779, guid: 744e7381ecaeaf24098acaf92d6e9f57,
     type: 3}
-  numRooms: 50
+  numRooms: 3
   roomFails: 50
   spawnRoomFinalPosition: {x: 0, y: 0, z: 0}
   successfullySpawnedRooms: []
@@ -1201,6 +1201,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1197620091}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1453660655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1453660656}
+  m_Layer: 0
+  m_Name: Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1453660656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453660655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.910046, y: 3.3707256, z: 27.908955}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1641398244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,7 +1301,7 @@ Transform:
   m_Children:
   - {fileID: 1021870334}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!1 &1655864739
 GameObject:
@@ -1819,6 +1850,7 @@ MonoBehaviour:
       - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
       - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
+      - {fileID: 5437998181454276144, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
       m_EnemyCount: 5
       m_RoomType: 1
     - m_EnemyPrefeb:
@@ -1827,7 +1859,8 @@ MonoBehaviour:
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
       - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
-      m_EnemyCount: 8
+      - {fileID: 5437998181454276144, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
+      m_EnemyCount: 4
       m_RoomType: 2
     - m_EnemyPrefeb:
       - {fileID: 3653015779968966805, guid: c8547635a2f784545b58a623c27525c8, type: 3}
@@ -1835,6 +1868,7 @@ MonoBehaviour:
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
       - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       - {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8, type: 3}
+      - {fileID: 5437998181454276144, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
       m_EnemyCount: 5
       m_RoomType: 3
     - m_EnemyPrefeb:
@@ -1843,7 +1877,8 @@ MonoBehaviour:
       - {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e, type: 3}
       - {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd, type: 3}
       - {fileID: 1077356408, guid: e2fe342fc2f57fa408154c4beeeca5e8, type: 3}
-      m_EnemyCount: 10
+      - {fileID: 5437998181454276144, guid: 93a7ee673dcb52d4e8d0ede26de72600, type: 3}
+      m_EnemyCount: 5
       m_RoomType: 4
     - m_EnemyPrefeb:
       - {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3, type: 3}
@@ -1864,7 +1899,7 @@ MonoBehaviour:
   m_EnemySpawnFX: {fileID: 187180, guid: 1ed56f4c486ff6141a344e5e5714e1b9, type: 3}
   m_CurrentRoomType: 0
   m_SpawnerCount: 1
-  RoomEnemies: {fileID: 0}
+  RoomEnemies: {fileID: 1453660655}
   m_EnemyCount: 0
 --- !u!1001 &418459963778136565
 PrefabInstance:

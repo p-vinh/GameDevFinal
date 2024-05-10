@@ -125,9 +125,12 @@ public class RoomSpawner : MonoBehaviour
             roomFails = 0;
         }
         Debug.Log("Successfully Spawned Rooms: " + successfullySpawnedRooms.Count);
-
+        yield return new WaitForEndOfFrame();
         SpawnBossRoom();
+
+        yield return new WaitForEndOfFrame();
         FillUnusedConnections();
+        
         enemySpawner.SetActive(true);
         yield return null;
     }
@@ -294,7 +297,7 @@ public class RoomSpawner : MonoBehaviour
                     // Remove used connector from the available list
                     availableConnectors.Remove(connector.gameObject);
                     availableBossConnectors.Remove(connector.gameObject);
-
+                    
                     // Add the connection points from the hallways to the available list
                     AddRoomConnectors(newHallway, hallwayConnectionPointGO);
                 }
