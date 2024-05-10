@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     private bool m_PlayerDetected = false;
 
     [SerializeField]
-    private BoxCollider doNotEnterCollider;
+   // private BoxCollider doNotEnterCollider;
     private float StartAngle = 0f;
     private float EndAngle = 360f;
     private int rayCount = 20;
@@ -39,8 +39,8 @@ public class Door : MonoBehaviour
         Timestamp = Time.time;
     }
     private void Start()
-    {
-        doNotEnterCollider.enabled = false;
+    { 
+       // doNotEnterCollider.enabled = false;
     }
 
     private void Update()
@@ -54,7 +54,7 @@ public class Door : MonoBehaviour
 
     private void LockUnlockDoors(bool lockDoors)
     {
-        doNotEnterCollider.enabled = lockDoors;
+       // doNotEnterCollider.enabled = lockDoors;
     }
 
     public void RaycastIn180DegreeRange()

@@ -7,10 +7,11 @@ public class Tutorial_Transition : MonoBehaviour
 {
     public string transitionSceneName;
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
+        Debug.Log("Here"); 
         if (other.gameObject.CompareTag("Player"))
-        {
+        { 
            Destroy(other.gameObject);
            SceneManager.LoadScene(transitionSceneName);
         }

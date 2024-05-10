@@ -30,7 +30,7 @@ public class BloodSacrificeUI : MonoBehaviour
 
         menuCanvas = GameObject.FindWithTag("MenuParent").transform.Find("SacrificeMenu").gameObject;
         buffText = GameObject.FindWithTag("MenuParent").transform.Find("RandomBuff").gameObject.GetComponent<TextMeshProUGUI>();
-
+         
 
         // Check if the TextMeshPro component is found
         if (buffText != null)
@@ -160,29 +160,31 @@ public class BloodSacrificeUI : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.tag == "Player")
+        Debug.Log(gameObject.name + "  ___________" + menuCanvas.name + " ++++++ " + buffText.name);
+
+        if (other.gameObject.tag == "Player")
         {
             mainCamera.SetActive(false);
             closeUpCamera.SetActive(true);
             crossHair.SetActive(false);
             menuCanvas.SetActive(true);
-            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.None;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
-        if (other.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             mainCamera.SetActive(true);
             closeUpCamera.SetActive(false);
             crossHair.SetActive(true);
             menuCanvas.SetActive(false);
-            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
             Cursor.lockState = CursorLockMode.Confined;
         }
     }

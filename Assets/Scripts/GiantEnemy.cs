@@ -110,7 +110,6 @@ public class GiantEnemy : EnemyAI
             Debug.DrawRay(newPosition, direction, Color.green); 
             if (Physics.Raycast(newPosition, direction, out hit, m_MinDistance, m_PlayerLayerMask))
             {
-                PlayerStats.Instance.Health -= Stats.Damage;
                 StartCoroutine(SetEnemyState(EnemyState.Attack));
             }
             else if (Physics.Raycast(newPosition, direction, out hit, m_MaxDistance, m_PlayerLayerMask))
@@ -162,6 +161,7 @@ public class GiantEnemy : EnemyAI
 
     protected override void Attack()
     {
+        PlayerStats.Instance.Health -= Stats.Damage;
         base.Attack();  
     }
 
