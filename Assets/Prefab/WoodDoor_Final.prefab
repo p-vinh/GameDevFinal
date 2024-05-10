@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2766496927374452572}
   - component: {fileID: 3733942712662233035}
   - component: {fileID: 4671423679020031737}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: Wooden_Door
   m_TagString: Interact
   m_Icon: {fileID: 0}
