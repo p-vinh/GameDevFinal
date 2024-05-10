@@ -93,12 +93,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RoomType: 1
   m_BoxCollider: {fileID: 7478036014741741845}
-  doorColliders:
-  - {fileID: 2370118178841116999}
-  - {fileID: 7445832581894524360}
   m_VisitStatus: 1
   roomNavMesh: {fileID: 8677945159637132334}
-  enemyCount: 0
 --- !u!1 &2838165565991893038
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +154,7 @@ GameObject:
   - component: {fileID: 2838165566634053094}
   m_Layer: 0
   m_Name: SEChamber2
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -927,12 +923,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53ce68310e2914d4f8b71e9ee08cb39a, type: 3}
---- !u!65 &2370118178841116999 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 172084931735426231, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2487965807994000880}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6719135609592946022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9203155886472415382, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
@@ -10095,12 +10085,6 @@ PrefabInstance:
 --- !u!4 &1913918349887672809 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9203155886472415382, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
-    type: 3}
-  m_PrefabInstance: {fileID: 7293499461019621759}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &7445832581894524360 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 172084931735426231, guid: 53ce68310e2914d4f8b71e9ee08cb39a,
     type: 3}
   m_PrefabInstance: {fileID: 7293499461019621759}
   m_PrefabAsset: {fileID: 0}

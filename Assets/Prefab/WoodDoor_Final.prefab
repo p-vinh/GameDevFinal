@@ -116,7 +116,7 @@ MonoBehaviour:
   m_PlayerLayerMask:
     serializedVersion: 2
     m_Bits: 1048576
-  m_MaxDistance: 2
+  m_MaxDistance: 3.5
   m_PlayerDetected: 0
   doNotEnterCollider: {fileID: 172084931735426231}
 --- !u!1 &8775660958813543059

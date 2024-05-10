@@ -485,6 +485,11 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 0.13
       objectReference: {fileID: 0}
+    - target: {fileID: 1037139028670761359, guid: ff616814ddcdd13449b4a8ebf5bb0737,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.067
+      objectReference: {fileID: 0}
     - target: {fileID: 4089711275610990829, guid: ff616814ddcdd13449b4a8ebf5bb0737,
         type: 3}
       propertyPath: m_Name
@@ -570,6 +575,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7871006637237047108}
     m_Modifications:
+    - target: {fileID: 4538501283779350636, guid: 4d42cffa73d044ee19d867b6db43d114,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4550388038098876493, guid: 4d42cffa73d044ee19d867b6db43d114,
         type: 3}
       propertyPath: player

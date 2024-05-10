@@ -23,6 +23,7 @@ TagManager:
   - FxTemporaire
   - Door
   - ThemeSong
+  - Room
   layers:
   - Default
   - TransparentFX

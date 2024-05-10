@@ -103,7 +103,7 @@ public class BloodSacrificeUI : MonoBehaviour
                 break;
         }
 
-        Invoke("resetBuffText", 2f);
+        Invoke("resetBuffText", 1f);
 
         playEffect();
     }

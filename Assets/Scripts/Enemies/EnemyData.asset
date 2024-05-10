@@ -27,18 +27,6 @@ MonoBehaviour:
       m_EnemyPrefab: {fileID: 2153424671892267527, guid: 08fe73c4cc054a74a8d07b311ee1ddb3,
         type: 3}
     - m_Health: 100
-      m_Damage: 5
-      m_Speed: 6
-      m_EnemyType: 1
-      m_EnemyPrefab: {fileID: 6398211205500841592, guid: 62473b593ddee470da1c3aeb78742c4a,
-        type: 3}
-    - m_Health: 100
-      m_Damage: 5
-      m_Speed: 4
-      m_EnemyType: 4
-      m_EnemyPrefab: {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e,
-        type: 3}
-    - m_Health: 100
       m_Damage: 2
       m_Speed: 4
       m_EnemyType: 3
@@ -55,4 +43,16 @@ MonoBehaviour:
       m_Speed: 7
       m_EnemyType: 6
       m_EnemyPrefab: {fileID: 6823891448661050348, guid: e0c2cbd60bdc8864cbc2774a7b00defa,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 4
+      m_Speed: 7
+      m_EnemyType: 1
+      m_EnemyPrefab: {fileID: 8222110153044993976, guid: eff14a0d21f0d45128d10c0365f2bdfd,
+        type: 3}
+    - m_Health: 100
+      m_Damage: 4
+      m_Speed: 7
+      m_EnemyType: 4
+      m_EnemyPrefab: {fileID: 8113310700314952862, guid: 041aa9636bbeb47d8912e1ad5800120e,
         type: 3}

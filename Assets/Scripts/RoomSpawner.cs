@@ -10,7 +10,8 @@ public class RoomSpawner : MonoBehaviour
     public GameObject spawnRoomPrefab;
     public GameObject[] bossRoomPrefab;
     public GameObject wallPrefab;
-
+    private string RoomTag = "Room";
+    private string SacrificeRoomTag = "SacrificeRoom";
     public enum CardinalDir { NorthRoomConnection, EastRoomConnection, SouthRoomConnection, WestRoomConnection }
     public int numRooms = 0;
     public int roomFails = 0;
@@ -125,6 +126,7 @@ public class RoomSpawner : MonoBehaviour
             roomFails = 0;
         }
         Debug.Log("Successfully Spawned Rooms: " + successfullySpawnedRooms.Count);
+     
         yield return new WaitForEndOfFrame();
         SpawnBossRoom();
 
