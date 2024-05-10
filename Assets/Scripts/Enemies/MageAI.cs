@@ -152,11 +152,6 @@ public class MageAI : EnemyAI
         base.OnCollisionEnter(other);
     }
 
-    public override void Die()
-    {
-        base.Die();
-    }
-
     private void UpdateAnimationValue(float horizontalValue, float verticalValue)
     {
         m_Animator.SetBool("Attack", false);

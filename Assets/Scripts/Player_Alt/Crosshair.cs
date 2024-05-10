@@ -15,7 +15,7 @@ public class Crosshair : MonoBehaviour
         m_InputsManager = GetComponent<InputsManager>();
     }
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         Ray cameraRay = Camera.main.ScreenPointToRay(m_InputsManager._MousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
